@@ -1,0 +1,137 @@
+body {
+    margin: 0px;
+}
+
+.container {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+}
+
+.container .header {
+    height: 60px;
+    line-height: 60px;
+    background: #20a0ff;
+    color: #fff;
+}
+
+.container .header .userinfo {
+    text-align: right;
+    padding-right: 35px;
+    float: right;
+}
+
+.container .header .userinfo .userinfo-inner {
+    cursor: pointer;
+    color: #fff;
+}
+
+.container .header .userinfo .userinfo-inner img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin: 10px 0px 10px 10px;
+    float: right;
+}
+
+.container .header .logo {
+    height: 60px;
+    font-size: 22px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-color: rgba(238, 241, 146, 0.3);
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+.container .header .logo img {
+    width: 40px;
+    float: left;
+    margin: 10px 10px 10px 18px;
+}
+
+.container .header .logo .txt {
+    color: #fff;
+}
+
+.container .header .logo-width {
+    width: 230px;
+}
+
+.container .header .logo-collapse-width {
+    width: 60px;
+}
+
+.container .header .tools {
+    padding: 0px 23px;
+    width: 14px;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+}
+
+.container .main {
+    display: flex;
+    /*position: absolute;*/
+    top: 60px;
+    bottom: 0px;
+    overflow: hidden;
+}
+
+.container .main aside {
+    flex: 0 0 230px;
+    width: 230px;
+}
+
+.container .main aside .el-menu {
+    height: 100%;
+}
+
+.container .main aside .collapsed {
+    width: 60px;
+}
+
+.container .main aside .collapsed .item {
+    position: relative;
+}
+
+.container .main aside .collapsed .submenu {
+    position: absolute;
+    top: 0px;
+    left: 60px;
+    z-index: 99999;
+    height: auto;
+    display: none;
+}
+
+.container .main .menu-collapsed {
+    flex: 0 0 60px;
+    width: 60px;
+}
+
+.container .main .menu-expanded {
+    flex: 0 0 230px;
+    width: 230px;
+}
+
+.container .main .content-container {
+    flex: 1;
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.container .main .content-container .breadcrumb-container .title {
+    width: 200px;
+    float: left;
+    color: #475669;
+}
+
+.container .main .content-container .breadcrumb-container .breadcrumb-inner {
+    float: right;
+}
+
+.container .main .content-container .content-wrapper {
+    background-color: #fff;
+    box-sizing: border-box;
+}
