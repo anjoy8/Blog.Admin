@@ -40,7 +40,7 @@ module.exports = {
     proxy: {
       // 配置多个代理
       "/api": {
-        target: "http://123.206.33.109:8081",
+        target: "http://localhost:8081",
         //target: "http://localhost:58427",
         //target: "http://api.douban.com",
         ws: true,

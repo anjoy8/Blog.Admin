@@ -8,12 +8,11 @@ import "element-ui/lib/theme-chalk/index.css";
 Vue.use(ElementUI);
 
 
-import Mock from './mock'
-Mock.bootstrap();
+// import Mock from './mock'
+// Mock.bootstrap();
 
+import 'font-awesome/css/font-awesome.min.css'
 
-import api from "./api/http.js";
-Vue.prototype.$api = api;
 
 Vue.config.productionTip = false
 
