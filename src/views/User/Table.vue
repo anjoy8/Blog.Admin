@@ -7,7 +7,7 @@
 					<el-input v-model="filters.name" placeholder="姓名"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" @click="getUsers">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
@@ -45,6 +45,12 @@
 		<!--编辑界面-->
 		<el-dialog title="编辑"  :visible.sync="editFormVisible"  v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+				<el-form-item label="昵称" prop="uRealName">
+					<el-input v-model="editForm.uRealName" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="登录名" prop="uLoginName">
+					<el-input v-model="editForm.uLoginName" auto-complete="off"></el-input>
+				</el-form-item>
 				<el-form-item label="姓名" prop="name">
 					<el-input v-model="editForm.name" auto-complete="off"></el-input>
 				</el-form-item>
@@ -73,6 +79,15 @@
 		<!--新增界面-->
 		<el-dialog title="新增"  :visible.sync="addFormVisible" v-model="addFormVisible" :close-on-click-modal="false">
 			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+				<el-form-item label="昵称" prop="uRealName">
+					<el-input v-model="addForm.uRealName" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="登录名" prop="uLoginName">
+					<el-input v-model="addForm.uLoginName" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="密码" prop="uLoginPWD">
+					<el-input v-model="addForm.uLoginPWD" auto-complete="off"></el-input>
+				</el-form-item>
 				<el-form-item label="姓名" prop="name">
 					<el-input v-model="addForm.name" auto-complete="off"></el-input>
 				</el-form-item>
@@ -120,14 +135,20 @@
                 editFormVisible: false,//编辑界面是否显示
 				editLoading: false,
 				editFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
+                    uLoginName: [
+						{ required: true, message: '请输入登录名', trigger: 'blur' }
+					],
+                    uRealName: [
+                        { required: true, message: '请输入昵称', trigger: 'blur' }
+                    ]
 				},
 				//编辑界面数据
 				editForm: {
-					id: 0,
-					name: '',
+                    id: 0,
+                    uID: 0,
+                    uLoginName: '',
+                    uRealName: '',
+                    name: '',
 					sex: -1,
 					age: 0,
 					birth: '',
@@ -137,13 +158,22 @@
 				addFormVisible: false,//新增界面是否显示
 				addLoading: false,
 				addFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
+                    uLoginName: [
+                        { required: true, message: '请输入登录名', trigger: 'blur' }
+                    ],
+                    uRealName: [
+                        { required: true, message: '请输入昵称', trigger: 'blur' }
+                    ],
+                    uLoginPWD: [
+                        { required: true, message: '请输入密码', trigger: 'blur' }
+                    ]
 				},
 				//新增界面数据
 				addForm: {
 					name: '',
+                    uLoginName: '',
+                    uRealName: '',
+                    uLoginPWD: '',
 					sex: -1,
 					age: 0,
 					birth: '',
@@ -185,14 +215,24 @@
 				}).then(() => {
 					this.listLoading = true;
 					//NProgress.start();
-					let para = { id: row.id };
+					let para = { id: row.uID };
 					removeUser(para).then((res) => {
+					    debugger
 						this.listLoading = false;
 						//NProgress.done();
-						this.$message({
-							message: '删除成功',
-							type: 'success'
-						});
+						if (res.data.success){
+                            this.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+
+						} else{
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+						}
+
 						this.getUsers();
 					});
 				}).catch(() => {
@@ -208,6 +248,9 @@
 			handleAdd() {
                 this.addFormVisible = true;
 				this.addForm = {
+                    uLoginName: '',
+                    uRealName: '',
+                    uLoginPWD: '',
 					name: '',
 					sex: -1,
 					age: 0,

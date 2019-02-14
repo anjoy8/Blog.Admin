@@ -1,4 +1,7 @@
 <template>
+    <div>
+    <div class="bg bg-blur"></div>
+        <div style="height: 180px;"></div>
     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px"
              class="demo-ruleForm login-container">
         <h3 class="title">系统登录</h3>
@@ -14,7 +17,7 @@
             </el-button>
             <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
         </el-form-item>
-    </el-form>
+    </el-form></div>
 </template>
 
 <script>
@@ -93,18 +96,33 @@
 </script>
 
 <style>
+    .bg {
+        margin: 0px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: url(http://pic31.photophoto.cn/20140514/0008020209635286_b.jpg) no-repeat top left;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+    }
+
     .login-container {
         -webkit-border-radius: 5px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background-clip: padding-box;
-        margin: 180px auto;
+        margin:  auto;
         width: 350px;
         padding: 35px 35px 15px 35px;
         background: #fff;
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
 
+        position: relative;
     }
 
     .login-container .title {

@@ -64,7 +64,7 @@ export const getUserListPage = params => {
 };
 
 export const removeUser = params => {
-    return axios.get(`${base}/user/remove`, {params: params});
+    return axios.delete(`${base}/api/user`, {params: params});
 };
 
 export const batchRemoveUser = params => {

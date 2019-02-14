@@ -1,5 +1,18 @@
 body {
     margin: 0px;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#app,.container {
+    height: 100%;
+}
+ .main{
+    height: calc(100% - 60px);
 }
 
 .container {
@@ -12,7 +25,7 @@ body {
 .container .header {
     height: 60px;
     line-height: 60px;
-    background: #20a0ff;
+    background: #2f3e52;
     color: #fff;
 }
 
@@ -134,4 +147,17 @@ body {
 .container .main .content-container .content-wrapper {
     background-color: #fff;
     box-sizing: border-box;
+}
+
+.fa {
+    vertical-align: baseline;
+    margin-right: 10px;
+}
+.tools.collapsed i {
+     -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transition: -webkit-transform .2s ease;
+    transition: -webkit-transform .2s ease;
+    transition: transform .2s ease;
+    transition: transform .2s ease,-webkit-transform .2s ease;
 }

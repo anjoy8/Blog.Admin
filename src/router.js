@@ -16,16 +16,27 @@ const router = new Router({
     base: process.env.BASE_URL,
     routes: [
         {
+            path: '/403',
+            component: NotFound,
+            name: '403',
+            iconCls: 'fa fa-universal-access',//图标样式class
+            // hidden: true
+        },
+        {
             path: '/login',
             component: Login,
-            name: '',
-            hidden: true
+            name: 'login',
+            iconCls: 'fa fa-address-card',//图标样式class
+            meta: {
+                requireHome: true // 添加该字段，表示进入这个路由是需要登录的
+            }
+            // hidden: true
         },
         {
             path: '/',
             component: Home,
             name: '导航一',
-            iconCls: 'el-icon-message',//图标样式class
+            iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
                     path: '/form', component: Form, name: 'Form',
@@ -34,7 +45,31 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/table', component: Table, name: '表格',
+                    path: '/table', component: Table, name: '用户',
+                    meta: {
+                        requireAuth: true
+                    }
+                },
+                {
+                    path: '/403',component: NotFound,name: '',
+                    hidden: true
+                },
+            ]
+        },
+        {
+            path: '/',
+            component: Home,
+            name: '导航二',
+            iconCls: 'fa fa-bar-chart',//图标样式class
+            children: [
+                {
+                    path: '/form1', component: Form, name: 'Form',
+                    meta: {
+                        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                    }
+                },
+                {
+                    path: '/table1', component: Table, name: '用户',
                     meta: {
                         requireAuth: true
                     }
