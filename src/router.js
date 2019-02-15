@@ -50,6 +50,7 @@ const router = new Router({
                 {
                     path: '', component: Table, name: '用户',
                     meta: {
+                        title:'用户页',
                         requireAuth: true
                     }
                 },
@@ -82,6 +83,7 @@ const router = new Router({
                 {
                     path: 'table1', component: Table, name: '用户',
                     meta: {
+                        title:'table1',
                         requireAuth: true
                     }
                 },
