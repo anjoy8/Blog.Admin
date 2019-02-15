@@ -7,6 +7,7 @@ import Login from './views/Login.vue'
 import NotFound from './views/403.vue'
 import Table from './views/User/Table.vue'
 import Form from './views/User/Form.vue'
+import Welcome from './views/Welcome'
 
 
 Vue.use(Router)
@@ -15,6 +16,13 @@ const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
+        {
+            path: '/', component: Welcome, name: 'Welcome',
+            meta: {
+                requireAuth: false
+            },
+            hidden: true
+        },
         {
             path: '/403',
             component: NotFound,
@@ -35,7 +43,7 @@ const router = new Router({
         {
             path: '/',
             component: Home,
-            name: '导航一',
+            name: '用户管理',
             iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
@@ -59,8 +67,8 @@ const router = new Router({
         {
             path: '/',
             component: Home,
-            name: '导航二',
-            iconCls: 'fa fa-bar-chart',//图标样式class
+            name: '权限管理',
+            iconCls: 'fa fa-stethoscope',//图标样式class
             children: [
                 {
                     path: '/form1', component: Form, name: 'Form',

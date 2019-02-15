@@ -58,7 +58,12 @@ export const requestLogin = params => {
 export const getUserList = params => {
     return axios.get(`${base}/user/list`, {params: params});
 };
-
+export  function testapi2() {
+    console.log('api is ok.')
+}
+export const  testapi =pa => {
+    console.log('api is ok.')
+}
 export const getUserListPage = params => {
     return axios.get(`${base}/api/user`, {params: params});
 };

@@ -117,7 +117,7 @@
 
 <script>
 	import util from '../../../util/date'
-	import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+	import { testapi,getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
 
 	export default {
 		data() {
@@ -198,7 +198,8 @@
 					key: this.filters.name
 				};
 				this.listLoading = true;
-
+				
+                testapi();
 				//NProgress.start();
 				getUserListPage(para).then((res) => {
 

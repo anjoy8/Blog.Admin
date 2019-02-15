@@ -69,7 +69,7 @@ body {
 }
 
 .container .header .logo-width {
-    width: 230px;
+    width: 210px;
 }
 
 .container .header .logo-collapse-width {
@@ -93,8 +93,8 @@ body {
 }
 
 .container .main aside {
-    flex: 0 0 230px;
-    width: 230px;
+    flex: 0 0 210px;
+    width: 210px;
 }
 
 .container .main aside .el-menu {
@@ -124,8 +124,8 @@ body {
 }
 
 .container .main .menu-expanded {
-    flex: 0 0 230px;
-    width: 230px;
+    flex: 0 0 210px;
+    width: 210px;
 }
 
 .container .main .content-container {
@@ -160,4 +160,15 @@ body {
     transition: -webkit-transform .2s ease;
     transition: transform .2s ease;
     transition: transform .2s ease,-webkit-transform .2s ease;
+}
+
+.menu-collapsed .title-name{
+    display: none !important;
+}
+.menu-collapsed i{
+    font-size:20px;
+}
+
+.logo{
+    cursor: pointer;
 }

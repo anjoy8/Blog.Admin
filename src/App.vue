@@ -7,12 +7,15 @@
 
                 <el-col :span="24" class="header">
                     <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-                        {{collapsed?sysNameShort:sysName}}
+                      <div @click="toindex" >  {{collapsed?sysNameShort:sysName}}</div>
                     </el-col>
                     <el-col :span="10">
-                        <div :class=" collapsed?'tools collapsed':'tools'" @click.prevent="collapse">
+                        <div :class=" collapsed?'tools collapsed':'tools'" @click="collapse">
                             <i class="fa fa-align-justify"></i>
                         </div>
+
+
+
                     </el-col>
                     <el-col :span="4" class="userinfo">
                         <el-dropdown trigger="hover">
@@ -31,7 +34,7 @@
                 <el-col :span="24" class="main">
                     <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 
-                        <el-menu show-timeout="200" hide-timeout="200" :default-active="$route.path"
+                        <el-menu  :default-active="$route.path"
                                  class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
                                  unique-opened router :collapse="isCollapse"
                                  background-color="#2f3e52"
@@ -45,9 +48,9 @@
                                     <el-submenu :index="index+''" v-if="!item.leaf">
                                         <template slot="title">
                                             <i :class="item.iconCls"></i>
-                                            <span slot="title">{{item.name}}</span>
+                                            <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
-                                        <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
+                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.path"
                                                       v-if="!child.hidden">{{child.name}}
                                         </el-menu-item>
                                     </el-submenu>
@@ -60,7 +63,7 @@
                                     <el-menu-item :index="item.path">
                                         <i :class="item.iconCls"></i>
                                         <template slot="title">
-                                            <span slot="title">{{item.name}}</span>
+                                            <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
 
                                     </el-menu-item>
@@ -125,6 +128,11 @@
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },
+            toindex() {
+                this.$router.replace({
+                    path: "/",
+                });
+            },
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
             },
@@ -182,5 +190,9 @@
 
 <style lang="css">
     @import "./style/home.css";
+
+    .el-menu-vertical-demo {
+        /*width: 230px;*/
+    }
 </style>
 
