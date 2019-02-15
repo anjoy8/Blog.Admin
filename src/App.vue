@@ -50,7 +50,7 @@
                                             <i :class="item.iconCls"></i>
                                             <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
-                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.path"
+                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="item.path+'/'+child.path" :key="item.path+'/'+child.path" :base-path="item.path"
                                                       v-if="!child.hidden">{{child.name}}
                                         </el-menu-item>
                                     </el-submenu>

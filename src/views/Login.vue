@@ -103,7 +103,7 @@
         top: 0;
         right: 0;
         bottom: 0;
-        background: url(http://pic31.photophoto.cn/20140514/0008020209635286_b.jpg) no-repeat top left;
+        background: url(../assets/loginbck.png) no-repeat top left;
         background-repeat: no-repeat;
         background-size: cover;
         width: 100%;

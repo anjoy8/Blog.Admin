@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Layout from './views/Layout/Layout.vue'
 import store from "./store";
 
 import Login from './views/Login.vue'
@@ -11,6 +11,7 @@ import Welcome from './views/Welcome'
 
 
 Vue.use(Router)
+
 
 const router = new Router({
     mode: 'history',
@@ -41,21 +42,21 @@ const router = new Router({
             // hidden: true
         },
         {
-            path: '/',
-            component: Home,
+            path: '/user',
+            component: Layout,
             name: '用户管理',
             iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
-                    path: '/form', component: Form, name: 'Form',
+                    path: '', component: Table, name: '用户',
                     meta: {
-                        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        requireAuth: true
                     }
                 },
                 {
-                    path: '/table', component: Table, name: '用户',
+                    path: 'form', component: Form, name: 'Form',
                     meta: {
-                        requireAuth: true
+                        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
@@ -65,19 +66,19 @@ const router = new Router({
             ]
         },
         {
-            path: '/',
-            component: Home,
+            path: '/Permission',
+            component: Layout,
             name: '权限管理',
             iconCls: 'fa fa-stethoscope',//图标样式class
             children: [
                 {
-                    path: '/form1', component: Form, name: 'Form',
+                    path: 'form1', component: Form, name: 'Form',
                     meta: {
                         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
-                    path: '/table1', component: Table, name: '用户',
+                    path: 'table1', component: Table, name: '用户',
                     meta: {
                         requireAuth: true
                     }
