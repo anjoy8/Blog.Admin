@@ -102,6 +102,7 @@
         overflow: hidden;
         background: #fff;
         border: 1px solid #ccc;
+        margin-bottom: 20px;
     }
 
     .tags ul {
