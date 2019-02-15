@@ -223,14 +223,16 @@
             },
             // 设置标签
             setTags(route) {
-                const isExist = this.tagsList.some(item => {
-                    return item.path === route.fullPath;
-                })
-                !isExist && this.tagsList.push({
-                    title: route.meta.title,
-                    path: route.fullPath,
-                    // name: route.matched[1].components.default.name
-                })
+                if(!route.meta.NoTabPage) {
+                    const isExist = this.tagsList.some(item => {
+                        return item.path === route.fullPath;
+                    })
+                    !isExist && this.tagsList.push({
+                        title: route.meta.title,
+                        path: route.fullPath,
+                        // name: route.matched[1].components.default.name
+                    })
+                }
             },
             // 当关闭所有页面时隐藏
             handleTags(command) {

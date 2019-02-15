@@ -43,6 +43,7 @@ const router = new Router({
             iconCls: 'fa fa-address-card',//图标样式class
             meta: {
                 title: '登录',
+                NoTabPage: true,
                 requireHome: true // 添加该字段，表示进入这个路由是需要登录的
             }
             // hidden: true
