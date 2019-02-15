@@ -49,7 +49,6 @@ npm run serve
 build for production and launch server
 ```js
 npm run build
-npm start
 ```
 
 
