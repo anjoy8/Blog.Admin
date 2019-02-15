@@ -1,27 +1,6 @@
 <template>
     <div>
-    <div class="tags" v-if="showTags">
-        <ul>
-            <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
-                <router-link :to="item.path" class="tags-li-title">
-                    {{item.title}}
-                </router-link>
-                <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
-            </li>
-        </ul>
-        <!-- 其他操作按钮 -->
-        <div class="tags-close-box">
-            <el-dropdown @command="handleTags">
-                <el-button size="mini">
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                </el-button>
-                <el-dropdown-menu size="small" slot="dropdown">
-                    <el-dropdown-item command="other">关闭其他</el-dropdown-item>
-                    <el-dropdown-item command="all">关闭所有</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-        </div>
-    </div>
+
     <router-view></router-view>
     </div>
 </template>

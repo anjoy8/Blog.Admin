@@ -20,6 +20,7 @@ const router = new Router({
         {
             path: '/', component: Welcome, name: 'Welcome',
             meta: {
+                title: '首页',
                 requireAuth: false
             },
             hidden: true
@@ -29,7 +30,11 @@ const router = new Router({
             component: NotFound,
             name: '403',
             iconCls: 'fa fa-universal-access',//图标样式class
-            // hidden: true
+            // hidden: true,
+            meta: {
+                title: '无权限',
+                requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+            }
         },
         {
             path: '/login',
@@ -37,6 +42,7 @@ const router = new Router({
             name: 'login',
             iconCls: 'fa fa-address-card',//图标样式class
             meta: {
+                title: '登录',
                 requireHome: true // 添加该字段，表示进入这个路由是需要登录的
             }
             // hidden: true
@@ -50,20 +56,16 @@ const router = new Router({
                 {
                     path: '', component: Table, name: '用户',
                     meta: {
-                        title:'用户页',
+                        title: '用户页',
                         requireAuth: true
                     }
                 },
                 {
                     path: 'form', component: Form, name: 'Form',
                     meta: {
-                        title:'form',
+                        title: 'form',
                         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
-                },
-                {
-                    path: '/403',component: NotFound,name: '',
-                    hidden: true
                 },
             ]
         },
@@ -76,20 +78,16 @@ const router = new Router({
                 {
                     path: 'form1', component: Form, name: 'Form',
                     meta: {
-                        title:'form1',
+                        title: 'form1',
                         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
                     path: 'table1', component: Table, name: '用户',
                     meta: {
-                        title:'table1',
+                        title: 'table1',
                         requireAuth: true
                     }
-                },
-                {
-                    path: '/403',component: NotFound,name: '',
-                    hidden: true
                 },
             ]
         },
