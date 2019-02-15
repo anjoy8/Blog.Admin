@@ -14,7 +14,11 @@
                             <i class="fa fa-align-justify"></i>
                         </div>
 
-
+                        <el-breadcrumb separator="/" class="breadcrumb-inner">
+                            <el-breadcrumb-item  v-for="item in $route.matched" :key="item.path">
+                               <span style=""> {{ item.name }}</span>
+                            </el-breadcrumb-item>
+                        </el-breadcrumb>
 
                     </el-col>
                     <el-col :span="4" class="userinfo">
@@ -193,6 +197,10 @@
 
     .el-menu-vertical-demo {
         /*width: 230px;*/
+    }
+
+    .el-breadcrumb{
+        line-height: 60px !important;
     }
 </style>
 

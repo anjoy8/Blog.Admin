@@ -56,6 +56,7 @@ const router = new Router({
                 {
                     path: 'form', component: Form, name: 'Form',
                     meta: {
+                        title:'form',
                         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
@@ -74,6 +75,7 @@ const router = new Router({
                 {
                     path: 'form1', component: Form, name: 'Form',
                     meta: {
+                        title:'form1',
                         requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },

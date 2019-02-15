@@ -82,6 +82,7 @@ body {
     height: 60px;
     line-height: 60px;
     cursor: pointer;
+    float:left;
 }
 
 .container .main {
@@ -133,7 +134,9 @@ body {
     overflow-y: scroll;
     padding: 20px;
 }
-
+.container .main .content-container .breadcrumb-container{
+    display: none;
+}
 .container .main .content-container .breadcrumb-container .title {
     width: 200px;
     float: left;
