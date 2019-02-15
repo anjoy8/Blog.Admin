@@ -72,14 +72,14 @@ export const removeUser = params => {
     return axios.delete(`${base}/api/user`, {params: params});
 };
 
+export const editUser = params => {
+    return axios.put(`${base}/api/user`, params);
+};
+
+export const addUser = params => {
+    return axios.post(`${base}/api/user`, params);
+};
 export const batchRemoveUser = params => {
     return axios.get(`${base}/user/batchremove`, {params: params});
 };
 
-export const editUser = params => {
-    return axios.get(`${base}/user/edit`, {params: params});
-};
-
-export const addUser = params => {
-    return axios.get(`${base}/user/add`, {params: params});
-};
