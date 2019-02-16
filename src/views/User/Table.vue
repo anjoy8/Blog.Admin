@@ -286,8 +286,8 @@
                             let para = Object.assign({}, this.editForm);
 
                             para.birth = (!para.birth || para.birth == '') ? '2019-01-01' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
-debugger
-                            editUser(this.editForm).then((res) => {
+
+                            editUser(para).then((res) => {
 
                                 if (res.data.success) {
                                     this.editLoading = false;

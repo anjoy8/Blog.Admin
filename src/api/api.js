@@ -73,11 +73,7 @@ export const removeUser = params => {
 };
 
 export const editUser = params => {
-    return axios({
-        url: `${base}/api/user`,
-        method: 'put',
-        data: params
-    });
+    return axios.put(`${base}/api/user`, params);
 };
 
 export const addUser = params => {
