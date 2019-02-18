@@ -27,7 +27,7 @@ npm install
 ```
 
 ## 运行
-运行发开环境
+运行开发环境
 ```js
 npm run serve
 ```
