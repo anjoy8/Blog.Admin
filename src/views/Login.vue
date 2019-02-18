@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import {requestLogin} from '../api/api';
+    import {requestLogin,getUserByToken} from '../api/api';
 
     export default {
         data() {
@@ -78,7 +78,9 @@
 
                                 var curTime = new Date();
                                 var expiredate=  new Date(curTime.setSeconds(curTime.getSeconds() + data.expires_in));
-                                window.localStorage.TokenExptire = expiredate
+                                _this.$store.commit("saveTokenExpire", expiredate);
+
+                                _this.getUserInfoByToken(token)
 
                                 _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
 
@@ -87,6 +89,29 @@
                     } else {
                         console.log('error submit!!');
                         return false;
+                    }
+                });
+            },
+            getUserInfoByToken(token) {
+                var _this = this;
+                var loginParams = {token: token};
+                getUserByToken(loginParams).then(data => {
+                    this.logining = false;
+
+                    if (!data.success) {
+                        _this.$message({
+                            message: data.message,
+                            type: 'error'
+                        });
+                    } else {
+
+                        _this.$notify({
+                            type: "success",
+                            message: `欢迎管理员：${data.response.uRealName} ！`,
+                            duration: 3000
+                        });
+
+                        window.localStorage.user=JSON.stringify(data.response)
                     }
                 });
             }

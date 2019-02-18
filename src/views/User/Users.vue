@@ -26,8 +26,8 @@
             </el-table-column>
             <el-table-column prop="uLoginName" label="登录名" width="" sortable>
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="" sortable>
-            </el-table-column>
+            <!--<el-table-column prop="name" label="姓名" width="" sortable>-->
+            <!--</el-table-column>-->
             <el-table-column prop="sex" label="性别" width="" :formatter="formatSex" sortable>
             </el-table-column>
             <el-table-column prop="birth" label="生日" :formatter="formatBirth" width="" sortable>
@@ -59,9 +59,16 @@
                 <el-form-item label="登录名" prop="uLoginName">
                     <el-input v-model="editForm.uLoginName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+                <!--<el-form-item label="姓名" prop="name">-->
+                    <!--<el-input v-model="editForm.name" auto-complete="off"></el-input>-->
+                <!--</el-form-item>-->
+
+                <el-form-item label="角色" prop="RID">
+                    <el-select v-model="editForm.RID" placeholder="请选择角色">
+                        <el-option v-for="role in roles" :key="role.Id" label="{{role.Name}}" value="{{role.Id}}"></el-option>
+                    </el-select>
                 </el-form-item>
+
                 <el-form-item label="性别">
                     <el-radio-group v-model="editForm.sex">
                         <el-radio class="radio" :label="1">男</el-radio>
@@ -96,9 +103,9 @@
                 <el-form-item label="密码" prop="uLoginPWD">
                     <el-input v-model="addForm.uLoginPWD" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="addForm.name" auto-complete="off"></el-input>
-                </el-form-item>
+                <!--<el-form-item label="姓名" prop="name">-->
+                    <!--<el-input v-model="addForm.name" auto-complete="off"></el-input>-->
+                <!--</el-form-item>-->
                 <el-form-item label="性别">
                     <el-radio-group v-model="addForm.sex">
                         <el-radio class="radio" :label="1">男</el-radio>
@@ -134,6 +141,7 @@
                     name: ''
                 },
                 users: [],
+                roles: [],
                 total: 0,
                 page: 1,
                 listLoading: false,
@@ -157,6 +165,7 @@
                 editForm: {
                     id: 0,
                     uID: 0,
+                    RID: 0,
                     uLoginName: '',
                     uRealName: '',
                     name: '',
@@ -261,6 +270,11 @@
             handleEdit: function (index, row) {
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
+
+                getRoleListPage(para).then((res) => {
+                    this.roles = res.data.response.data;
+                });
+
             },
             //显示新增界面
             handleAdd() {
@@ -285,7 +299,7 @@
                             //NProgress.start();
                             let para = Object.assign({}, this.editForm);
 
-                            para.birth = (!para.birth || para.birth == '') ? '2019-01-01' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
+                            para.birth = (!para.birth || para.birth == '') ? util.formatDate.format(new Date(), 'yyyy-MM-dd') : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
 
                             editUser(para).then((res) => {
 
@@ -319,7 +333,7 @@
                             this.addLoading = true;
                             //NProgress.start();
                             let para = Object.assign({}, this.addForm);
-                            para.birth = (!para.birth || para.birth == '') ? '2019-01-01' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
+                            para.birth = (!para.birth || para.birth == '') ? util.formatDate.format(new Date(), 'yyyy-MM-dd') : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
                             addUser(para).then((res) => {
                                 if (res.data.success) {
                                     this.addLoading = false;

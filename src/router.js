@@ -5,8 +5,9 @@ import store from "./store";
 
 import Login from './views/Login.vue'
 import NotFound from './views/403.vue'
-import Table from './views/User/Table.vue'
+import Table from './views/User/Users.vue'
 import Form from './views/User/Form.vue'
+import Roles from './views/User/Roles.vue'
 import Welcome from './views/Welcome'
 
 
@@ -33,6 +34,7 @@ const router = new Router({
             // hidden: true,
             meta: {
                 title: '无权限',
+                NoTabPage: true,
                 requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
             }
         },
@@ -62,10 +64,10 @@ const router = new Router({
                     }
                 },
                 {
-                    path: 'form', component: Form, name: 'Form',
+                    path: 'Roles', component: Roles, name: 'Roles',
                     meta: {
-                        title: 'form',
-                        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        title: '角色页',
+                        requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
             ]
@@ -106,12 +108,16 @@ router.beforeEach((to, from, next) => {
     if (!storeTemp.state.token) {
         storeTemp.commit("saveToken", window.localStorage.Token)
     }
+    if (!storeTemp.state.tokenExpire) {
+        storeTemp.commit("saveTokenExpire", window.localStorage.TokenExpire)
+    }
     if (to.meta.requireAuth) {
         // 判断该路由是否需要登录权限
         var curTime = new Date()
-        var expiretime = new Date(Date.parse(window.localStorage.TokenExptire))
+        var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
 
-        if (storeTemp.state.token && storeTemp.state.token != "undefined" && (curTime < expiretime && window.localStorage.TokenExptire)) {
+        if (storeTemp.state.token && storeTemp.state.token != "undefined" && (curTime < expiretime && window.localStorage.TokenExpire)) {
+
             // 通过vuex state获取当前的token是否存在
             next();
         } else {

@@ -188,7 +188,9 @@
                 this.$confirm('确认退出吗?', '提示', {
                     //type: 'warning'
                 }).then(() => {
-                    sessionStorage.removeItem('user');
+                    window.localStorage.removeItem('user');
+                    window.localStorage.removeItem('Token');
+                    window.localStorage.removeItem('TokenExpire');
                     _this.$router.push('/login');
                 }).catch(() => {
 
@@ -250,16 +252,15 @@
         },
         mounted() {
             console.log(this.$route)
-            var user = sessionStorage.getItem('user');
+
+            var user = JSON.parse( window.localStorage.user);
             if (user) {
-                user = JSON.parse(user);
-                this.sysUserName = user.name || '老张的哲学';
+                this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
             } else {
                 this.sysUserName = '老张的哲学';
                 this.sysUserAvatar = '../assets/user.png';
             }
-
             var tags =JSON.parse( sessionStorage.getItem('Tags'));
             if (tags.length>0) {
                 this.tagsList = tags;
