@@ -15,6 +15,7 @@
 
                         <el-breadcrumb separator="/" class="breadcrumb-inner">
                             <el-breadcrumb-item  v-for="item in $route.matched" :key="item.path">
+
                                <span style=""> {{ item.name }}</span>
                             </el-breadcrumb-item>
                         </el-breadcrumb>
@@ -78,6 +79,34 @@
 
 
                     </aside>
+                    <el-col :span="24" class="content-wrapper">
+                        <div class="tags" v-if="showTags">
+                            <ul>
+                                <li @click="gotappath(item.path)" class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
+                                    <span class="tag-dot-inner"></span>
+                                    <router-link :to="item.path" class="tags-li-title">
+                                        {{item.title}}
+                                    </router-link>
+                                    <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
+                                </li>
+                            </ul>
+                            <!-- 其他操作按钮 -->
+                            <div class="tags-close-box">
+                                <el-dropdown @command="handleTags">
+                                    <el-button size="mini">
+                                        <i class="el-icon-arrow-down el-icon--right"></i>
+                                    </el-button>
+                                    <el-dropdown-menu size="small" slot="dropdown">
+                                        <el-dropdown-item command="other">关闭其他</el-dropdown-item>
+                                        <el-dropdown-item command="all">关闭所有</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </div>
+                        </div>
+                        <transition name="fade" mode="out-in">
+                            <router-view></router-view>
+                        </transition>
+                    </el-col>
                     <section class="content-container">
                         <div class="grid-content bg-purple-light">
                             <el-col :span="24" class="breadcrumb-container">
@@ -88,33 +117,7 @@
                                     </el-breadcrumb-item>
                                 </el-breadcrumb>
                             </el-col>
-                            <el-col :span="24" class="content-wrapper">
-                                <div class="tags" v-if="showTags">
-                                    <ul>
-                                        <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
-                                            <router-link :to="item.path" class="tags-li-title">
-                                                {{item.title}}
-                                            </router-link>
-                                            <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
-                                        </li>
-                                    </ul>
-                                    <!-- 其他操作按钮 -->
-                                    <div class="tags-close-box">
-                                        <el-dropdown @command="handleTags">
-                                            <el-button size="mini">
-                                                <i class="el-icon-arrow-down el-icon--right"></i>
-                                            </el-button>
-                                            <el-dropdown-menu size="small" slot="dropdown">
-                                                <el-dropdown-item command="other">关闭其他</el-dropdown-item>
-                                                <el-dropdown-item command="all">关闭所有</el-dropdown-item>
-                                            </el-dropdown-menu>
-                                        </el-dropdown>
-                                    </div>
-                                </div>
-                                <transition name="fade" mode="out-in">
-                                    <router-view></router-view>
-                                </transition>
-                            </el-col>
+
                         </div>
                     </section>
                 </el-col>
@@ -151,6 +154,12 @@
             }
         },
         methods: {
+            gotappath(Path) {
+                console.log(Path);
+                this.$router.replace({
+                    path: Path,
+                });
+            },
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },
@@ -286,11 +295,10 @@
 <style>
     .tags {
         position: relative;
-        /*height: 30px;*/
         overflow: hidden;
-        background: #fff;
-        border: 1px solid #ccc;
+        border: 1px solid #f0f0f0;
         margin-bottom: 20px;
+        background: #f0f0f0;
     }
 
     .tags ul {
@@ -305,18 +313,17 @@
         float: left;
         margin: 3px 5px 2px 3px;
         border-radius: 3px;
-        font-size: 12px;
+        font-size: 13px;
         overflow: hidden;
         cursor: pointer;
         height: 23px;
         line-height: 23px;
         border: 1px solid #e9eaec;
         background: #fff;
-        padding: 0 5px 0 12px;
+        padding: 3px 5px 4px 12px;
         vertical-align: middle;
         color: #666;
         -webkit-transition: all .3s ease-in;
-        -moz-transition: all .3s ease-in;
         transition: all .3s ease-in;
     }
 
@@ -336,13 +343,13 @@
     }
 
     .tags-li.active {
-        color: #fff;
-        border: 1px solid #10B9D3;
-        background-color: #10B9D3;
+        /*color: #fff;*/
+        /*border: 1px solid #10B9D3;*/
+        /*background-color: #10B9D3;*/
     }
 
     .tags-li.active .tags-li-title {
-        color: #fff;
+        /*color: #fff;*/
     }
 
     .tags-close-box {
@@ -351,7 +358,7 @@
         z-index: 10;
         float: right;
         margin-right: 1px;
-        margin-top: 1px;
+        line-height: 2;
     }
 
 </style>

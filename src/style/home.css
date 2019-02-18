@@ -175,3 +175,22 @@ body {
 .logo{
     cursor: pointer;
 }
+.tag-dot-inner{
+    background: #ccc;
+    float: left;
+    border-radius: 50%;
+    display: inline-block;
+    height: 12px;
+    margin-right: 8px;
+    position: relative;
+    top: 6px;
+    width: 12px;
+    transition: background .2s ease;
+}
+.active .tag-dot-inner{
+    background: #2d8cf0;
+}
+.content-az{
+    border: 1px solid #f0f0f0;
+    margin: 10px 5px;
+}
