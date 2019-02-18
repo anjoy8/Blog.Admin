@@ -26,6 +26,8 @@
             </el-table-column>
             <el-table-column prop="uLoginName" label="登录名" width="" sortable>
             </el-table-column>
+            <el-table-column prop="RoleName" label="角色" width="" sortable>
+            </el-table-column>
             <!--<el-table-column prop="name" label="姓名" width="" sortable>-->
             <!--</el-table-column>-->
             <el-table-column prop="sex" label="性别" width="" :formatter="formatSex" sortable>
@@ -65,7 +67,8 @@
 
                 <el-form-item label="角色" prop="RID">
                     <el-select v-model="editForm.RID" placeholder="请选择角色">
-                        <el-option v-for="role in roles" :key="role.Id" label="{{role.Name}}" value="{{role.Id}}"></el-option>
+                        <el-option  :key="0" :label="'未选择角色'" :value="0"></el-option>
+                        <el-option v-for="item in roles" :key="item.Id" :label="item.Name" :value="item.Id"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -132,7 +135,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {testapi, getUserListPage, removeUser, batchRemoveUser, editUser, addUser} from '../../api/api';
+    import {testapi, getUserListPage,getRoleListPage , removeUser, batchRemoveUser, editUser, addUser} from '../../api/api';
 
     export default {
         data() {
@@ -271,7 +274,7 @@
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
 
-                getRoleListPage(para).then((res) => {
+                getRoleListPage().then((res) => {
                     this.roles = res.data.response.data;
                 });
 

@@ -60,8 +60,8 @@
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="editForm.Enabled" placeholder="请选择角色状态">
-                        <el-option label="激活" value="true"></el-option>
-                        <el-option label="禁用" value="false"></el-option>
+                        <el-option v-for="item in statusList" :key="item.value" :label="item.name" :value="item.value"></el-option>
+
                     </el-select>
                 </el-form-item>
 
@@ -105,6 +105,7 @@
                     name: ''
                 },
                 users: [],
+                statusList:[{name:'激活',value:true},{name:'禁用',value:false}],
                 total: 0,
                 page: 1,
                 listLoading: false,
