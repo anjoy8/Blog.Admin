@@ -260,9 +260,17 @@
                 this.sysUserAvatar = '../assets/user.png';
             }
 
+            var tags =JSON.parse( sessionStorage.getItem('Tags'));
+            if (tags.length>0) {
+                this.tagsList = tags;
+            }
         },
         computed: {
             showTags() {
+
+                if (this.tagsList.length>1) {
+                    this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
+                }
                 return this.tagsList.length > 0;
             }
         },
