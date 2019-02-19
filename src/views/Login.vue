@@ -82,7 +82,7 @@
 
                                 _this.getUserInfoByToken(token)
 
-                                _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
+
 
                             }
                         });
@@ -112,6 +112,7 @@
                         });
 
                         window.localStorage.user=JSON.stringify(data.response)
+                        _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }
                 });
             }

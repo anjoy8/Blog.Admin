@@ -82,7 +82,7 @@
                     <el-col :span="24" class="content-wrapper">
                         <div class="tags" v-if="showTags">
                             <ul>
-                                <li @click="gotappath(item.path)" class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
+                                <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
                                     <span class="tag-dot-inner"></span>
                                     <router-link :to="item.path" class="tags-li-title">
                                         {{item.title}}
@@ -131,6 +131,7 @@
     </div>
 </template>
 <script>
+    import {getUserByToken} from './api/api';
     export default {
         data() {
             return {
@@ -212,10 +213,13 @@
             },
             // 关闭单个标签
             closeTags(index) {
+
                 const delItem = this.tagsList.splice(index, 1)[0];
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
+
+                    this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
                 } else {
                     this.$router.push('/');
                 }
@@ -248,22 +252,45 @@
             // 当关闭所有页面时隐藏
             handleTags(command) {
                 command === 'other' ? this.closeOther() : this.closeAll();
+            },
+            getUserInfoByToken(token) {
+                var _this = this;
+                var loginParams = {token: token};
+                getUserByToken(loginParams).then(data => {
+                    this.logining = false;
+                    if (!data.success) {
+                        _this.$message({
+                            message: data.message,
+                            type: 'error'
+                        });
+                    } else {
+
+                        _this.$notify({
+                            type: "success",
+                            message: `欢迎管理员：${data.response.uRealName} ！`,
+                            duration: 3000
+                        });
+
+                        _this.sysUserName = data.response.uRealName ;
+                        window.localStorage.user=JSON.stringify(data.response)
+                    }
+                });
             }
         },
         mounted() {
             console.log(this.$route)
 
-            var user = JSON.parse( window.localStorage.user);
+            var tags =JSON.parse( sessionStorage.getItem('Tags'));
+
+            if (tags.length>0) {
+                this.tagsList = tags;
+            }
+        },
+        updated(){
+            var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
             if (user) {
                 this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
-            } else {
-                this.sysUserName = '老张的哲学';
-                this.sysUserAvatar = '../assets/user.png';
-            }
-            var tags =JSON.parse( sessionStorage.getItem('Tags'));
-            if (tags.length>0) {
-                this.tagsList = tags;
             }
         },
         computed: {
@@ -324,7 +351,6 @@
         border-radius: 3px;
         font-size: 13px;
         overflow: hidden;
-        cursor: pointer;
         height: 23px;
         line-height: 23px;
         border: 1px solid #e9eaec;
@@ -334,6 +360,9 @@
         color: #666;
         -webkit-transition: all .3s ease-in;
         transition: all .3s ease-in;
+    }
+    .tags-li-icon{
+        cursor: pointer;
     }
 
     .tags-li:not(.active):hover {

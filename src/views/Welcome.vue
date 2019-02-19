@@ -1,6 +1,6 @@
 <template>
     <div style="margin-top: 30px;">
-          <div style="margin-bottom: 20px;"> 欢迎来到 BlogAdmin!</div>
+          <div style="margin: 20px;"> 欢迎来到 BlogAdmin 后台管理系统!</div>
 
 <el-card>
     <el-aside>快来加入我们吧：</el-aside>

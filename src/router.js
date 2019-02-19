@@ -19,22 +19,22 @@ const router = new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/', component: Welcome, name: 'Welcome',
+            path: '/403', component: NotFound, name: 'NotFound',
             meta: {
                 title: '首页',
+                NoTabPage: true,
                 requireAuth: false
             },
             hidden: true
         },
         {
-            path: '/403',
-            component: NotFound,
-            name: '403',
-            iconCls: 'fa fa-universal-access',//图标样式class
+            path: '/',
+            component: Welcome,
+            name: 'QQ欢迎页',
+            iconCls: 'fa fa-qq',//图标样式class
             // hidden: true,
             meta: {
-                title: '无权限',
-                NoTabPage: true,
+                title: 'QQ欢迎页',
                 requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
             }
         },
@@ -47,26 +47,26 @@ const router = new Router({
                 title: '登录',
                 NoTabPage: true,
                 requireHome: true // 添加该字段，表示进入这个路由是需要登录的
-            }
-            // hidden: true
+            },
+            hidden: true
         },
         {
             path: '/user',
             component: Layout,
-            name: '用户管理',
+            name: '用户角色管理',
             iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
-                    path: '', component: Table, name: '用户',
+                    path: '', component: Table, name: '用户管理',
                     meta: {
-                        title: '用户页',
+                        title: '用户管理',
                         requireAuth: true
                     }
                 },
                 {
-                    path: 'Roles', component: Roles, name: 'Roles',
+                    path: 'Roles', component: Roles, name: '角色管理',
                     meta: {
-                        title: '角色页',
+                        title: '角色管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
@@ -75,7 +75,7 @@ const router = new Router({
         {
             path: '/Permission',
             component: Layout,
-            name: '权限管理',
+            name: '菜单权限管理',
             iconCls: 'fa fa-stethoscope',//图标样式class
             children: [
                 {

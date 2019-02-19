@@ -4,7 +4,7 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
                 <el-form-item>
-                    <el-input v-model="filters.name" placeholder="角色名"></el-input>
+                    <el-input v-model="filters.LinkUrl" placeholder="接口名"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="getRoles">查询</el-button>
@@ -22,7 +22,7 @@
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column prop="Name" label="角色名" width="" sortable>
+            <el-table-column prop="LinkUrl" label="接口地址" width="" sortable>
             </el-table-column>
             <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="" sortable>
             </el-table-column>
@@ -55,12 +55,12 @@
         <!--编辑界面-->
         <el-dialog title="编辑" :visible.sync="editFormVisible" v-model="editFormVisible" :close-on-click-modal="false">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                <el-form-item label="角色名" prop="Name">
-                    <el-input v-model="editForm.Name" auto-complete="off"></el-input>
+                <el-form-item label="接口地址" prop="LinkUrl">
+                    <el-input v-model="editForm.LinkUrl" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="editForm.Enabled" placeholder="请选择角色状态">
-                        <el-option v-for="item in statusList" :key="item.value" :label="item.name" :value="item.value"></el-option>
+                        <el-option v-for="item in statusList" :key="item.value" :label="item.LinkUrl" :value="item.value"></el-option>
 
                     </el-select>
                 </el-form-item>
@@ -75,8 +75,8 @@
         <!--新增界面-->
         <el-dialog title="新增" :visible.sync="addFormVisible" v-model="addFormVisible" :close-on-click-modal="false">
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-                <el-form-item label="角色名" prop="Name">
-                    <el-input v-model="addForm.Name" auto-complete="off"></el-input>
+                <el-form-item label="接口地址" prop="LinkUrl">
+                    <el-input v-model="addForm.LinkUrl" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="addForm.Enabled" placeholder="请选择角色状态">
@@ -102,10 +102,10 @@
         data() {
             return {
                 filters: {
-                    name: ''
+                    LinkUrl: ''
                 },
                 users: [],
-                statusList:[{name:'激活',value:true},{name:'禁用',value:false}],
+                statusList:[{LinkUrl:'激活',value:true},{LinkUrl:'禁用',value:false}],
                 total: 0,
                 page: 1,
                 listLoading: false,
@@ -116,8 +116,8 @@
                 editLoading: false,
                 editFormRules: {
 
-                    Name: [
-                        {required: true, message: '请输入角色名', trigger: 'blur'}
+                    LinkUrl: [
+                        {required: true, message: '请输入接口地址', trigger: 'blur'}
                     ],
 
                 },
@@ -125,7 +125,7 @@
                 editForm: {
                     Id: 0,
                     CreateBy: '',
-                    Name: '',
+                    LinkUrl: '',
                     Enabled: false,
                 },
 
@@ -133,8 +133,8 @@
                 addLoading: false,
                 addFormRules: {
 
-                    Name: [
-                        {required: true, message: '请输入角色名', trigger: 'blur'}
+                    LinkUrl: [
+                        {required: true, message: '请输入接口地址', trigger: 'blur'}
                     ],
 
                 },
@@ -142,7 +142,7 @@
                 addForm: {
                     CreateBy: '',
                     CreateId: '',
-                    Name: '',
+                    LinkUrl: '',
                     Enabled: '',
                 }
 
@@ -164,7 +164,7 @@
             getRoles() {
                 let para = {
                     page: this.page,
-                    key: this.filters.name
+                    key: this.filters.LinkUrl
                 };
                 this.listLoading = true;
 
@@ -218,7 +218,7 @@
                 this.addFormVisible = true;
                 this.addForm = {
                     CreateBy: '',
-                    Name: '',
+                    LinkUrl: '',
                     Enabled: '',
                 };
             },
@@ -272,7 +272,7 @@
 
                             if(user&&user.uID>0){
                                 para.CreateId=user.uID;
-                                para.CreateBy=user.uRealName;
+                                para.CreateBy=user.uRealLinkUrl;
                             }else{
                                 this.$message({
                                     message: '用户信息为空，先登录',
