@@ -5,11 +5,13 @@ import store from "./store";
 
 import Login from './views/Login.vue'
 import NotFound from './views/403.vue'
-import Table from './views/User/Users.vue'
-import Form from './views/User/Form.vue'
-import Roles from './views/User/Roles.vue'
 import Welcome from './views/Welcome'
 
+import Table from './views/User/Users.vue'
+import Roles from './views/User/Roles.vue'
+
+import Module from './views/Permission/Module.vue'
+import Permission from './views/Permission/Permission.vue'
 
 Vue.use(Router)
 
@@ -51,13 +53,13 @@ const router = new Router({
             hidden: true
         },
         {
-            path: '/user',
+            path: '/Admin',
             component: Layout,
             name: '用户角色管理',
             iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
-                    path: '', component: Table, name: '用户管理',
+                    path: 'Users', component: Table, name: '用户管理',
                     meta: {
                         title: '用户管理',
                         requireAuth: true
@@ -76,20 +78,20 @@ const router = new Router({
             path: '/Permission',
             component: Layout,
             name: '菜单权限管理',
-            iconCls: 'fa fa-stethoscope',//图标样式class
+            iconCls: 'fa fa-sitemap',//图标样式class
             children: [
                 {
-                    path: 'form1', component: Form, name: 'Form',
+                    path: 'Modules', component: Module, name: '接口管理',
                     meta: {
-                        title: 'form1',
-                        requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        title: '接口管理',
+                        requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
-                    path: 'table1', component: Table, name: '用户',
+                    path: 'Menu', component: Permission, name: '菜单管理',
                     meta: {
-                        title: 'table1',
-                        requireAuth: true
+                        title: '菜单管理',
+                        requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
             ]

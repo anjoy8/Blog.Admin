@@ -1,6 +1,7 @@
 import axios from 'axios';
 import router from '../router'
 import store from "../store";
+import Vue from 'vue';
 
 let base = '';
 
@@ -40,6 +41,10 @@ axios.interceptors.response.use(
                         query: {redirect: router.currentRoute.fullPath}
                     });
                 case 403:
+                    Vue.prototype.$message({
+                        message: '无权限',
+                        type: 'error'
+                    });
                     // 返回 403 无权限
                     router.replace({
                         path: "/403",
@@ -97,4 +102,33 @@ export const editRole = params => {
 };
 export const addRole = params => {
     return axios.post(`${base}/api/role`, params);
+};
+
+// 接口模块管理
+export const getModuleListPage = params => {
+    return axios.get(`${base}/api/module`, {params: params});
+};
+export const removeModule = params => {
+    return axios.delete(`${base}/api/module`, {params: params});
+};
+export const editModule = params => {
+    return axios.put(`${base}/api/module`, params);
+};
+export const addModule = params => {
+    return axios.post(`${base}/api/module`, params);
+};
+
+
+// 菜单模块管理
+export const getPermissionListPage = params => {
+    return axios.get(`${base}/api/permission`, {params: params});
+};
+export const removePermission = params => {
+    return axios.delete(`${base}/api/permission`, {params: params});
+};
+export const editPermission = params => {
+    return axios.put(`${base}/api/permission`, params);
+};
+export const addPermission = params => {
+    return axios.post(`${base}/api/permission`, params);
 };

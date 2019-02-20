@@ -4,10 +4,10 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
                 <el-form-item>
-                    <el-input v-model="filters.LinkUrl" placeholder="接口名"></el-input>
+                    <el-input v-model="filters.Name" placeholder="菜单名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="getRoles">查询</el-button>
+                    <el-button type="primary" @click="getPermissions">查询</el-button>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="handleAdd">新增</el-button>
@@ -22,9 +22,9 @@
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column prop="LinkUrl" label="接口地址" width="" sortable>
+            <el-table-column prop="Name" label="菜单名称" width="" sortable>
             </el-table-column>
-            <el-table-column prop="Name" label="描述" width="300" sortable>
+            <el-table-column prop="Description" label="描述" width="300" sortable>
             </el-table-column>
             <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="" sortable>
             </el-table-column>
@@ -35,6 +35,14 @@
                     <el-tag
                             :type="scope.row.Enabled  ? 'success' : 'danger'"
                             disable-transitions>{{scope.row.Enabled ? "正常":"禁用"}}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column prop="IsButton" label="是否按钮" width="" sortable>
+                <template slot-scope="scope">
+                    <el-tag
+                            :type="scope.row.IsButton  ? 'success' : 'danger'"
+                            disable-transitions>{{scope.row.IsButton ? "否":"是"}}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -57,20 +65,24 @@
         <!--编辑界面-->
         <el-dialog title="编辑" :visible.sync="editFormVisible" v-model="editFormVisible" :close-on-click-modal="false">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                <el-form-item label="接口地址" prop="LinkUrl">
-                    <el-input v-model="editForm.LinkUrl" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="接口描述" prop="Name">
+                <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="editForm.Name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="描述" prop="Description">
+                    <el-input v-model="editForm.Description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="editForm.Enabled" placeholder="请选择状态">
-                        <el-option v-for="item in statusList" :key="item.value" :label="item.LinkUrl"
+                        <el-option v-for="item in statusList" :key="item.value" :label="item.Name"
                                    :value="item.value"></el-option>
 
                     </el-select>
                 </el-form-item>
 
+                <el-table-column prop="IsButton" label="是否按钮" width="" sortable>
+                    <el-switch v-model="editForm.IsButton" >
+                    </el-switch>
+                </el-table-column>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="editFormVisible = false">取消</el-button>
@@ -81,17 +93,27 @@
         <!--新增界面-->
         <el-dialog title="新增" :visible.sync="addFormVisible" v-model="addFormVisible" :close-on-click-modal="false">
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-                <el-form-item label="接口地址" prop="LinkUrl">
-                    <el-input v-model="addForm.LinkUrl" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="接口描述" prop="Name">
+                <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="addForm.Name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="描述" prop="Description">
+                    <el-input v-model="addForm.Description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="addForm.Enabled" placeholder="请选择状态">
-                        <el-option label="激活" value="true"></el-option>
-                        <el-option label="禁用" value="false"></el-option>
+                        <el-option v-for="item in statusList" :key="item.value" :label="item.Name"
+                                   :value="item.value"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
+                    <el-switch v-model="addForm.IsButton" >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item prop="Pid" label="父级菜单" width="" sortable>
+                    <el-cascader
+                            :options="options"
+                            change-on-select
+                    ></el-cascader>
                 </el-form-item>
 
             </el-form>
@@ -105,16 +127,211 @@
 
 <script>
     import util from '../../../util/date'
-    import {getModuleListPage, removeModule, editModule, addModule} from '../../api/api';
+    import {getPermissionListPage, removePermission, editPermission, addPermission} from '../../api/api';
 
     export default {
         data() {
             return {
+                options: [{
+                    value: 'zhinan',
+                    label: '指南',
+                    children: [{
+                        value: 'shejiyuanze',
+                        label: '设计原则',
+                        children: [{
+                            value: 'yizhi',
+                            label: '一致'
+                        }, {
+                            value: 'fankui',
+                            label: '反馈'
+                        }, {
+                            value: 'xiaolv',
+                            label: '效率'
+                        }, {
+                            value: 'kekong',
+                            label: '可控'
+                        }]
+                    }, {
+                        value: 'daohang',
+                        label: '导航',
+                        children: [{
+                            value: 'cexiangdaohang',
+                            label: '侧向导航'
+                        }, {
+                            value: 'dingbudaohang',
+                            label: '顶部导航'
+                        }]
+                    }]
+                }, {
+                    value: 'zujian',
+                    label: '组件',
+                    children: [{
+                        value: 'basic',
+                        label: 'Basic',
+                        children: [{
+                            value: 'layout',
+                            label: 'Layout 布局'
+                        }, {
+                            value: 'color',
+                            label: 'Color 色彩'
+                        }, {
+                            value: 'typography',
+                            label: 'Typography 字体'
+                        }, {
+                            value: 'icon',
+                            label: 'Icon 图标'
+                        }, {
+                            value: 'button',
+                            label: 'Button 按钮'
+                        }]
+                    }, {
+                        value: 'form',
+                        label: 'Form',
+                        children: [{
+                            value: 'radio',
+                            label: 'Radio 单选框'
+                        }, {
+                            value: 'checkbox',
+                            label: 'Checkbox 多选框'
+                        }, {
+                            value: 'input',
+                            label: 'Input 输入框'
+                        }, {
+                            value: 'input-number',
+                            label: 'InputNumber 计数器'
+                        }, {
+                            value: 'select',
+                            label: 'Select 选择器'
+                        }, {
+                            value: 'cascader',
+                            label: 'Cascader 级联选择器'
+                        }, {
+                            value: 'switch',
+                            label: 'Switch 开关'
+                        }, {
+                            value: 'slider',
+                            label: 'Slider 滑块'
+                        }, {
+                            value: 'time-picker',
+                            label: 'TimePicker 时间选择器'
+                        }, {
+                            value: 'date-picker',
+                            label: 'DatePicker 日期选择器'
+                        }, {
+                            value: 'datetime-picker',
+                            label: 'DateTimePicker 日期时间选择器'
+                        }, {
+                            value: 'upload',
+                            label: 'Upload 上传'
+                        }, {
+                            value: 'rate',
+                            label: 'Rate 评分'
+                        }, {
+                            value: 'form',
+                            label: 'Form 表单'
+                        }]
+                    }, {
+                        value: 'data',
+                        label: 'Data',
+                        children: [{
+                            value: 'table',
+                            label: 'Table 表格'
+                        }, {
+                            value: 'tag',
+                            label: 'Tag 标签'
+                        }, {
+                            value: 'progress',
+                            label: 'Progress 进度条'
+                        }, {
+                            value: 'tree',
+                            label: 'Tree 树形控件'
+                        }, {
+                            value: 'pagination',
+                            label: 'Pagination 分页'
+                        }, {
+                            value: 'badge',
+                            label: 'Badge 标记'
+                        }]
+                    }, {
+                        value: 'notice',
+                        label: 'Notice',
+                        children: [{
+                            value: 'alert',
+                            label: 'Alert 警告'
+                        }, {
+                            value: 'loading',
+                            label: 'Loading 加载'
+                        }, {
+                            value: 'message',
+                            label: 'Message 消息提示'
+                        }, {
+                            value: 'message-box',
+                            label: 'MessageBox 弹框'
+                        }, {
+                            value: 'notification',
+                            label: 'Notification 通知'
+                        }]
+                    }, {
+                        value: 'navigation',
+                        label: 'Navigation',
+                        children: [{
+                            value: 'menu',
+                            label: 'NavMenu 导航菜单'
+                        }, {
+                            value: 'tabs',
+                            label: 'Tabs 标签页'
+                        }, {
+                            value: 'breadcrumb',
+                            label: 'Breadcrumb 面包屑'
+                        }, {
+                            value: 'dropdown',
+                            label: 'Dropdown 下拉菜单'
+                        }, {
+                            value: 'steps',
+                            label: 'Steps 步骤条'
+                        }]
+                    }, {
+                        value: 'others',
+                        label: 'Others',
+                        children: [{
+                            value: 'dialog',
+                            label: 'Dialog 对话框'
+                        }, {
+                            value: 'tooltip',
+                            label: 'Tooltip 文字提示'
+                        }, {
+                            value: 'popover',
+                            label: 'Popover 弹出框'
+                        }, {
+                            value: 'card',
+                            label: 'Card 卡片'
+                        }, {
+                            value: 'carousel',
+                            label: 'Carousel 走马灯'
+                        }, {
+                            value: 'collapse',
+                            label: 'Collapse 折叠面板'
+                        }]
+                    }]
+                }, {
+                    value: 'ziyuan',
+                    label: '资源',
+                    children: [{
+                        value: 'axure',
+                        label: 'Axure Components'
+                    }, {
+                        value: 'sketch',
+                        label: 'Sketch Templates'
+                    }, {
+                        value: 'jiaohu',
+                        label: '组件交互文档'
+                    }]
+                }],
                 filters: {
-                    LinkUrl: ''
+                    Name: ''
                 },
                 users: [],
-                statusList: [{LinkUrl: '激活', value: true}, {LinkUrl: '禁用', value: false}],
+                statusList: [{Name: '激活', value: true}, {Name: '禁用', value: false}],
                 total: 0,
                 page: 1,
                 listLoading: false,
@@ -125,8 +342,8 @@
                 editLoading: false,
                 editFormRules: {
 
-                    LinkUrl: [
-                        {required: true, message: '请输入接口地址', trigger: 'blur'}
+                    Name: [
+                        {required: true, message: '请输入菜单名称', trigger: 'blur'}
                     ],
 
                 },
@@ -134,17 +351,18 @@
                 editForm: {
                     Id: 0,
                     CreateBy: '',
-                    LinkUrl: '',
                     Name: '',
-                    Enabled: false,
+                    Description: '',
+                    Enabled: true,
+                    IsButton: false,
                 },
 
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
                 addFormRules: {
 
-                    LinkUrl: [
-                        {required: true, message: '请输入接口地址', trigger: 'blur'}
+                    Name: [
+                        {required: true, message: '请输入菜单名称', trigger: 'blur'}
                     ],
 
                 },
@@ -152,9 +370,10 @@
                 addForm: {
                     CreateBy: '',
                     CreateId: '',
-                    LinkUrl: '',
                     Name: '',
-                    Enabled: '',
+                    Description: '',
+                    Enabled: true,
+                    IsButton: false,
                 }
 
             }
@@ -169,18 +388,18 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getRoles();
+                this.getPermissions();
             },
             //获取用户列表
-            getRoles() {
+            getPermissions() {
                 let para = {
                     page: this.page,
-                    key: this.filters.LinkUrl
+                    key: this.filters.Name
                 };
                 this.listLoading = true;
 
                 //NProgress.start();
-                getModuleListPage(para).then((res) => {
+                getPermissionListPage(para).then((res) => {
                     this.total = res.data.response.dataCount;
                     this.users = res.data.response.data;
                     this.listLoading = false;
@@ -195,7 +414,7 @@
                     this.listLoading = true;
                     //NProgress.start();
                     let para = {id: row.Id};
-                    removeModule(para).then((res) => {
+                    removePermission(para).then((res) => {
 
                         this.listLoading = false;
                         //NProgress.done();
@@ -212,7 +431,7 @@
                             });
                         }
 
-                        this.getRoles();
+                        this.getPermissions();
                     });
                 }).catch(() => {
 
@@ -228,9 +447,11 @@
                 this.addFormVisible = true;
                 this.addForm = {
                     CreateBy: '',
-                    LinkUrl: '',
+                    CreateId: '',
                     Name: '',
-                    Enabled: '',
+                    Description: '',
+                    Enabled: true,
+                    IsButton: false,
                 };
             },
             //编辑
@@ -244,7 +465,7 @@
 
                             para.ModifyTime = util.formatDate.format(new Date(), 'yyyy-MM-dd');
 
-                            editModule(para).then((res) => {
+                            editPermission(para).then((res) => {
 
                                 if (res.data.success) {
                                     this.editLoading = false;
@@ -255,7 +476,7 @@
                                     });
                                     this.$refs['editForm'].resetFields();
                                     this.editFormVisible = false;
-                                    this.getRoles();
+                                    this.getPermissions();
                                 } else {
                                     this.$message({
                                         message: res.data.msg,
@@ -296,7 +517,7 @@
                             }
 
 
-                            addModule(para).then((res) => {
+                            addPermission(para).then((res) => {
 
                                 if (res.data.success) {
                                     this.addLoading = false;
@@ -307,7 +528,7 @@
                                     });
                                     this.$refs['addForm'].resetFields();
                                     this.addFormVisible = false;
-                                    this.getRoles();
+                                    this.getPermissions();
                                 }
                                 else {
                                     this.$message({
@@ -335,7 +556,7 @@
             }
         },
         mounted() {
-            this.getRoles();
+            this.getPermissions();
         }
     }
 
