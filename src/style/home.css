@@ -121,7 +121,7 @@ body {
 
 .container .main .menu-collapsed {
     flex: 0 0 60px;
-    width: 60px;
+    /*width: 60px;*/
 }
 
 .container .main .menu-expanded {
