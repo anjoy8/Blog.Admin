@@ -282,7 +282,7 @@
 
             var tags =JSON.parse( sessionStorage.getItem('Tags'));
 
-            if (tags.length>0) {
+            if (tags&&tags.length>0) {
                 this.tagsList = tags;
             }
         },
