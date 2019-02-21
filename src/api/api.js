@@ -132,3 +132,6 @@ export const editPermission = params => {
 export const addPermission = params => {
     return axios.post(`${base}/api/permission`, params);
 };
+export const getPermissionTree = params => {
+    return axios.get(`${base}/api/permission/getpermissiontree`, {params: params});
+};
