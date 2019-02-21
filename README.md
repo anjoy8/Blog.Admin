@@ -19,7 +19,7 @@
 ## 安装
 
 ```
- git clone git@github.com:anjoy8/Blog.Admin.git
+ git clone https://github.com/anjoy8/Blog.Admin.git
 ```
 安装包依赖
 ```
