@@ -107,19 +107,7 @@
                             <router-view></router-view>
                         </transition>
                     </el-col>
-                    <section class="content-container">
-                        <div class="grid-content bg-purple-light">
-                            <el-col :span="24" class="breadcrumb-container">
-                                <strong class="title">{{$route.name}}</strong>
-                                <el-breadcrumb separator="/" class="breadcrumb-inner">
-                                    <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-                                        {{ item.name }}
-                                    </el-breadcrumb-item>
-                                </el-breadcrumb>
-                            </el-col>
 
-                        </div>
-                    </section>
                 </el-col>
             </el-row>
 

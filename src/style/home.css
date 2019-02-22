@@ -9,7 +9,7 @@ body {
 }
 
 #app,.container {
-    /*height: 100%;*/
+    height: 100%;
 }
  .main{
     height: calc(100% - 60px);
@@ -22,7 +22,7 @@ body {
     width: 100%;
 }
 .content-wrapper{
-    margin-bottom: 25px;
+    margin-bottom: 60px;
 }
 
 .container .header {
@@ -34,7 +34,7 @@ body {
 
 .container .header .userinfo {
     text-align: right;
-    padding-right: 35px;
+    padding-right: 5px;
     float: right;
 }
 
@@ -195,5 +195,16 @@ body {
 }
 .content-az{
     border: 1px solid #f0f0f0;
-    margin: 10px 5px;
+    /*margin: 10px 15px;*/
+    /*overflow: auto;*/
+    margin-right: 10px;
+    height: 100%;
+    padding: 5px;
+}
+.content-wrapper .tags{
+    margin-right: 20px;
+}
+.content-az section{
+    overflow: auto;
+    height: 100%;
 }
