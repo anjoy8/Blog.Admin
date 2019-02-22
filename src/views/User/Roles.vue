@@ -24,11 +24,13 @@
             </el-table-column>
             <el-table-column prop="Name" label="角色名" width="" sortable>
             </el-table-column>
+            <el-table-column prop="Description" label="说明" width="" sortable>
+            </el-table-column>
             <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="" sortable>
             </el-table-column>
-            <el-table-column prop="CreateBy" label="创建者" width="" sortable>
-            </el-table-column>
-            <el-table-column prop="Enabled" label="状态"  width="" sortable>
+            <!--<el-table-column prop="CreateBy" label="创建者" width="" sortable>-->
+            <!--</el-table-column>-->
+            <el-table-column prop="Enabled" label="状态"  width="200" sortable>
                 <template slot-scope="scope">
                     <el-tag
                             :type="scope.row.Enabled  ? 'success' : 'danger'"
@@ -47,7 +49,7 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar">
             <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20"
+            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="50"
                            :total="total" style="float:right;">
             </el-pagination>
         </el-col>
@@ -57,6 +59,9 @@
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="角色名" prop="Name">
                     <el-input v-model="editForm.Name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="说明" prop="Description">
+                    <el-input v-model="editForm.Description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="editForm.Enabled" placeholder="请选择角色状态">
@@ -77,6 +82,9 @@
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
                 <el-form-item label="角色名" prop="Name">
                     <el-input v-model="addForm.Name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="说明" prop="Description">
+                    <el-input v-model="addForm.Description" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="addForm.Enabled" placeholder="请选择角色状态">

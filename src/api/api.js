@@ -75,16 +75,16 @@ export const testapi = pa => {
 
 // 用户管理
 export const getUserListPage = params => {
-    return axios.get(`${base}/api/user`, {params: params});
+    return axios.get(`${base}/api/user/get`, {params: params});
 };
 export const removeUser = params => {
-    return axios.delete(`${base}/api/user`, {params: params});
+    return axios.delete(`${base}/api/user/delete`, {params: params});
 };
 export const editUser = params => {
-    return axios.put(`${base}/api/user`, params);
+    return axios.put(`${base}/api/user/put`, params);
 };
 export const addUser = params => {
-    return axios.post(`${base}/api/user`, params);
+    return axios.post(`${base}/api/user/post`, params);
 };
 export const batchRemoveUser = params => {
     return axios.get(`${base}/user/batchremove`, {params: params});
@@ -92,45 +92,45 @@ export const batchRemoveUser = params => {
 
 // 角色管理
 export const getRoleListPage = params => {
-    return axios.get(`${base}/api/role`, {params: params});
+    return axios.get(`${base}/api/role/get`, {params: params});
 };
 export const removeRole = params => {
-    return axios.delete(`${base}/api/role`, {params: params});
+    return axios.delete(`${base}/api/role/delete`, {params: params});
 };
 export const editRole = params => {
-    return axios.put(`${base}/api/role`, params);
+    return axios.put(`${base}/api/role/put`, params);
 };
 export const addRole = params => {
-    return axios.post(`${base}/api/role`, params);
+    return axios.post(`${base}/api/role/post`, params);
 };
 
 // 接口模块管理
 export const getModuleListPage = params => {
-    return axios.get(`${base}/api/module`, {params: params});
+    return axios.get(`${base}/api/module/get`, {params: params});
 };
 export const removeModule = params => {
-    return axios.delete(`${base}/api/module`, {params: params});
+    return axios.delete(`${base}/api/module/delete`, {params: params});
 };
 export const editModule = params => {
-    return axios.put(`${base}/api/module`, params);
+    return axios.put(`${base}/api/module/put`, params);
 };
 export const addModule = params => {
-    return axios.post(`${base}/api/module`, params);
+    return axios.post(`${base}/api/module/post`, params);
 };
 
 
 // 菜单模块管理
 export const getPermissionListPage = params => {
-    return axios.get(`${base}/api/permission`, {params: params});
+    return axios.get(`${base}/api/permission/get`, {params: params});
 };
 export const removePermission = params => {
-    return axios.delete(`${base}/api/permission`, {params: params});
+    return axios.delete(`${base}/api/permission/delete`, {params: params});
 };
 export const editPermission = params => {
-    return axios.put(`${base}/api/permission`, params);
+    return axios.put(`${base}/api/permission/put`, params);
 };
 export const addPermission = params => {
-    return axios.post(`${base}/api/permission`, params);
+    return axios.post(`${base}/api/permission/post`, params);
 };
 export const getPermissionTree = params => {
     return axios.get(`${base}/api/permission/getpermissiontree`, {params: params});

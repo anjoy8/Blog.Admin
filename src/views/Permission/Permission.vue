@@ -4,7 +4,7 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
                 <el-form-item>
-                    <el-input v-model="filters.Name" placeholder="菜单名"></el-input>
+                    <el-input v-model="filters.Name" placeholder="菜单/按钮名"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="getPermissions">查询</el-button>
@@ -22,15 +22,15 @@
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column prop="Name" label="菜单名称" width="" sortable>
+            <el-table-column prop="Name" label="菜单/按钮" width="" sortable>
             </el-table-column>
             <el-table-column prop="PnameArr" label="父节点" width="" sortable>
             </el-table-column>
-            <el-table-column prop="Code" label="Code" width="" sortable>
+            <el-table-column prop="Code" label="路由地址" width="" sortable>
             </el-table-column>
-            <el-table-column prop="PCodeArr" label="路径" width="" sortable>
+            <el-table-column prop="MName" label="API接口" width="" sortable>
             </el-table-column>
-            <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="" sortable>
+            <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="150" sortable>
             </el-table-column>
             <el-table-column prop="Enabled" label="状态" width="100" sortable>
                 <template slot-scope="scope">
@@ -59,7 +59,7 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar">
             <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20"
+            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="50"
                            :total="total" style="float:right;">
             </el-pagination>
         </el-col>
@@ -70,7 +70,7 @@
                 <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="editForm.Name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Code" prop="Name">
+                <el-form-item label="路由地址" prop="Code">
                     <el-input v-model="editForm.Code" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="描述" prop="Description">
@@ -89,11 +89,21 @@
                     </el-switch>
                 </el-form-item>
                 <el-form-item prop="PidArr" label="父级菜单" width="" sortable>
-                    <el-cascader  style="width: 400px"  v-model="editForm.PidArr"
-                                  :options="options"
-                                  filterable
-                                  change-on-select
+                    <el-cascader placeholder="请选择，支持搜索功能" style="width: 400px"  v-model="editForm.PidArr"
+                                 :options="options"
+                                 filterable
+                                 change-on-select
                     ></el-cascader>
+                </el-form-item>
+                <el-form-item prop="Mid" label="API接口" width="" sortable>
+                    <el-select style="width: 100%;" v-model="editForm.Mid" placeholder="请选择API">
+                        <el-option  :key="0"  :value="0" :label="'无需api'">
+                        </el-option>
+                        <el-option v-for="item in modules" :key="item.Id" :value="item.Id" :label="item.LinkUrl">
+                            <span style="float: left">{{ item.LinkUrl }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.Name }}</span>
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -108,7 +118,7 @@
                 <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="addForm.Name" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="Code" prop="Name">
+                <el-form-item label="路由地址" prop="Code">
                     <el-input v-model="addForm.Code" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="描述" prop="Description">
@@ -133,6 +143,18 @@
 
                 </el-form-item>
 
+
+                <el-form-item prop="Mid" label="API接口" width="" sortable>
+                    <el-select style="width: 100%;" v-model="addForm.Mid" placeholder="请选择API">
+                        <el-option  :key="0"  :value="0" :label="'无需api'">
+                        </el-option>
+                        <el-option v-for="item in modules" :key="item.Id" :value="item.Id" :label="item.LinkUrl">
+                            <span style="float: left">{{ item.LinkUrl }}</span>
+                            <span style="float: right; color: #8492a6; font-size: 13px">{{ item.Name }}</span>
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="addFormVisible = false">取消</el-button>
@@ -144,7 +166,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getPermissionListPage, removePermission, editPermission, addPermission,getPermissionTree} from '../../api/api';
+    import {getPermissionListPage, removePermission, editPermission, addPermission,getPermissionTree,getModuleListPage} from '../../api/api';
 
     export default {
         data() {
@@ -154,6 +176,7 @@
                     Name: ''
                 },
                 users: [],
+                modules:[],//接口api列表
                 statusList: [{Name: '激活', value: true}, {Name: '禁用', value: false}],
                 total: 0,
                 page: 1,
@@ -164,15 +187,18 @@
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
                 editFormRules: {
-
                     Name: [
                         {required: true, message: '请输入菜单名称', trigger: 'blur'}
+                    ],
+                    Code: [
+                        {required: true, message: '请输入路由地址', trigger: 'blur'}
                     ],
 
                 },
                 //编辑界面数据
                 editForm: {
                     Id: 0,
+                    Mid: 0,
                     PidArr: [],
                     CreateBy: '',
                     Name: '',
@@ -185,9 +211,11 @@
                 addFormVisible: false,//新增界面是否显示
                 addLoading: false,
                 addFormRules: {
-
                     Name: [
                         {required: true, message: '请输入菜单名称', trigger: 'blur'}
+                    ],
+                    Code: [
+                        {required: true, message: '请输入路由地址', trigger: 'blur'}
                     ],
 
                 },
@@ -196,6 +224,7 @@
                     CreateBy: '',
                     CreateId: '',
                     PidArr: [],
+                    Mid: 0,
                     Name: '',
                     Code: '',
                     Description: '',
@@ -311,8 +340,21 @@
 
                             para.Pid = para.PidArr.pop();
 
+                            if(para.Id==para.Pid){
+
+                                this.$message({
+                                    message: "警告，父节点不能是自己！",
+                                    type: 'error'
+                                });
+
+                                this.editLoading = false;
+                                return;
+                            }
+
+
                             editPermission(para).then((res) => {
 
+                                this.editLoading = false;
                                 if (res.data.success) {
                                     this.editLoading = false;
                                     //NProgress.done();
@@ -367,6 +409,7 @@
 
                             addPermission(para).then((res) => {
 
+                                this.addLoading = false;
                                 if (res.data.success) {
                                     this.addLoading = false;
                                     //NProgress.done();
@@ -405,6 +448,10 @@
         },
         mounted() {
             this.getPermissions();
+
+            getModuleListPage().then((res) => {
+                this.modules = res.data.response.data;
+            });
         }
     }
 

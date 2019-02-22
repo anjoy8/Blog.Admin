@@ -12,6 +12,14 @@ import Roles from './views/User/Roles.vue'
 
 import Module from './views/Permission/Module.vue'
 import Permission from './views/Permission/Permission.vue'
+import Assign from './views/Permission/Assign.vue'
+
+import Form from './views/Form/Form.vue'
+import Charts from './views/Form/Charts.vue'
+
+
+import Blogs from './views/Blog/Blogs.vue'
+import Bugs from './views/Tibug/Bugs.vue'
 
 Vue.use(Router)
 
@@ -48,25 +56,25 @@ const router = new Router({
             meta: {
                 title: '登录',
                 NoTabPage: true,
-                requireHome: true // 添加该字段，表示进入这个路由是需要登录的
+                NoNeedHome: true // 添加该字段，表示不需要home模板
             },
             hidden: true
         },
         {
-            path: '/Admin',
+            path: '/',
             component: Layout,
             name: '用户角色管理',
             iconCls: 'fa fa-users',//图标样式class
             children: [
                 {
-                    path: 'Users', component: Table, name: '用户管理',
+                    path: '/Admin/Users', component: Table, name: '用户管理',
                     meta: {
                         title: '用户管理',
                         requireAuth: true
                     }
                 },
                 {
-                    path: 'Roles', component: Roles, name: '角色管理',
+                    path: '/Admin/Roles', component: Roles, name: '角色管理',
                     meta: {
                         title: '角色管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
@@ -75,26 +83,77 @@ const router = new Router({
             ]
         },
         {
-            path: '/Permission',
+            path: '/',
             component: Layout,
             name: '菜单权限管理',
             iconCls: 'fa fa-sitemap',//图标样式class
             children: [
                 {
-                    path: 'Modules', component: Module, name: '接口管理',
+                    path: '/Permission/Modules', component: Module, name: '接口管理',
                     meta: {
                         title: '接口管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
-                    path: 'Menu', component: Permission, name: '菜单管理',
+                    path: '/Permission/Menu', component: Permission, name: '菜单管理',
                     meta: {
                         title: '菜单管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
+                {
+                    path: '/Permission/Assign', component: Assign, name: '权限分配',
+                    meta: {
+                        title: '权限分配',
+                        requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    }
+                },
             ]
+        },
+        {
+            path: '/',
+            component: Layout,
+            name: '报表管理',
+            iconCls: 'fa fa-line-chart ',//图标样式class
+            children: [
+                {
+                    path: '/Chart/From', component: Form, name: '表单Form',
+                    meta: {
+                        title: '表单Form',
+                        requireAuth: true
+                    }
+                },
+                {
+                    path: '/Chart/Charts', component: Charts, name: '图表Chart',
+                    meta: {
+                        title: '图表Chart',
+                        requireAuth: true
+                    }
+                },
+            ]
+        },
+        {
+            path: '/Tibug',
+            component: Bugs,
+            name: '问题管理',
+            iconCls: 'fa fa-bug',//图标样式class
+            // hidden: true,
+            meta: {
+                title: '问题管理',
+                requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+            }
+        },
+        {
+            path: '/Blogs',
+            component: Blogs,
+            name: '博客管理',
+            iconCls: 'fa fa-file-word-o',//图标样式class
+            // hidden: true,
+            meta: {
+                title: '博客管理',
+                requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+            }
         },
         {
             path: '*',

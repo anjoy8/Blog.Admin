@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "echarts": "^3.3.2",
+    "echarts": "^3.8.5",
     "element-ui": "^2.4.11",
-    "vue": "^2.5.21",
     "font-awesome": "^4.7.0",
+    "v-charts": "^1.19.0",
+    "vue": "^2.5.21",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

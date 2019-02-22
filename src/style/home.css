@@ -22,7 +22,15 @@ body {
     width: 100%;
 }
 .content-wrapper{
-    margin-bottom: 60px;
+    margin-bottom: 80px;
+}
+
+.content-expanded{
+    max-width: calc(100% - 210px);
+}
+.content-collapsed{
+    max-width: 100%;
+
 }
 
 .container .header {

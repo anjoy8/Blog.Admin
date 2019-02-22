@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <transition v-if="!$route.meta.requireHome" name="fade"
+        <transition v-if="!$route.meta.NoNeedHome" name="fade"
                     mode="out-in">
 
             <el-row class="container">
@@ -44,7 +44,7 @@
                                  background-color="#2f3e52"
                                  text-color="#fff"
                                  active-text-color="#ffd04b">
-                            <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                            <template v-for="(item,index) in routes" v-if="!item.hidden">
 
                                 <template v-if="item.children">
 
@@ -54,7 +54,7 @@
                                             <i :class="item.iconCls"></i>
                                             <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
-                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="item.path+'/'+child.path" :key="item.path+'/'+child.path" :base-path="item.path"
+                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.path" :base-path="item.path"
                                                       v-if="!child.hidden">{{child.name}}
                                         </el-menu-item>
                                     </el-submenu>
@@ -79,7 +79,7 @@
 
 
                     </aside>
-                    <el-col :span="24" class="content-wrapper">
+                    <el-col :span="24" class="content-wrapper" :class="collapsed?'content-collapsed':'content-expanded'">
                         <div class="tags" v-if="showTags">
                             <ul>
                                 <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
@@ -104,7 +104,9 @@
                             </div>
                         </div>
                         <transition name="fade" mode="out-in">
-                            <router-view></router-view>
+                            <div class="content-az">
+                                <router-view></router-view>
+                            </div>
                         </transition>
                     </el-col>
 
@@ -114,7 +116,9 @@
         </transition>
 
         <transition v-else name="fade" mode="out-in">
-            <router-view></router-view>
+            <div class="content-az">
+                <router-view></router-view>
+            </div>
         </transition>
     </div>
 </template>
@@ -139,7 +143,130 @@
                     type: [],
                     resource: '',
                     desc: ''
-                }
+                },
+                routes: [
+                    {
+                        path: '/403',  name: 'NotFound',
+                        meta: {
+                            title: '首页',
+                            NoTabPage: true,
+                            requireAuth: false
+                        },
+                        hidden: true
+                    },
+                    {
+                        path: '/',
+                        name: 'QQ欢迎页',
+                        iconCls: 'fa fa-qq',//图标样式class
+                        // hidden: true,
+                        meta: {
+                            title: 'QQ欢迎页',
+                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        }
+                    },
+                    {
+                        path: '/login',
+                        name: 'login',
+                        iconCls: 'fa fa-address-card',//图标样式class
+                        meta: {
+                            title: '登录',
+                            NoTabPage: true,
+                            NoNeedHome: true // 添加该字段，表示不需要home模板
+                        },
+                        hidden: true
+                    },
+                    {
+                        path: '/',
+                        name: '用户角色管理',
+                        iconCls: 'fa fa-users',//图标样式class
+                        children: [
+                            {
+                                path: '/Admin/Users',  name: '用户管理',
+                                meta: {
+                                    title: '用户管理',
+                                    requireAuth: true
+                                }
+                            },
+                            {
+                                path: '/Admin/Roles', name: '角色管理',
+                                meta: {
+                                    title: '角色管理',
+                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        path: '/',
+                        name: '菜单权限管理',
+                        iconCls: 'fa fa-sitemap',//图标样式class
+                        children: [
+                            {
+                                path: '/Permission/Modules',  name: '接口管理',
+                                meta: {
+                                    title: '接口管理',
+                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                                }
+                            },
+                            {
+                                path: '/Permission/Menu', name: '菜单管理',
+                                meta: {
+                                    title: '菜单管理',
+                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                                }
+                            },
+                            {
+                                path: '/Permission/Assign',  name: '权限分配',
+                                meta: {
+                                    title: '权限分配',
+                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        path: '/',
+                        name: '报表管理',
+                        iconCls: 'fa fa-line-chart ',//图标样式class
+                        children: [
+                            {
+                                path: '/Chart/From', name: '表单Form',
+                                meta: {
+                                    title: '表单Form',
+                                    requireAuth: true
+                                }
+                            },
+                            {
+                                path: '/Chart/Charts', name: '图表Chart',
+                                meta: {
+                                    title: '图表Chart',
+                                    requireAuth: true
+                                }
+                            },
+                        ]
+                    },
+                    {
+                        path: '/Tibug',
+                        name: '问题管理',
+                        iconCls: 'fa fa-bug',//图标样式class
+                        // hidden: true,
+                        meta: {
+                            title: '问题管理',
+                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        }
+                    },
+                    {
+                        path: '/Blogs',
+                        name: '博客管理',
+                        iconCls: 'fa fa-file-word-o',//图标样式class
+                        // hidden: true,
+                        meta: {
+                            title: '博客管理',
+                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                        }
+                    },
+
+                ]
             }
         },
         methods: {
