@@ -28,8 +28,8 @@
             return {
                 logining: false,
                 ruleForm2: {
-                    account: 'tibug',
-                    checkPass: 'tibugn'
+                    account: 'blogadmin',
+                    checkPass: 'blogadmin'
                 },
                 rules2: {
                     account: [

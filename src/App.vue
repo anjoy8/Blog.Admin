@@ -307,6 +307,9 @@
                     window.localStorage.removeItem('user');
                     window.localStorage.removeItem('Token');
                     window.localStorage.removeItem('TokenExpire');
+                    sessionStorage.removeItem("Tags")
+                    this.tagsList = [];
+                    this.$store.commit("saveTagsData","");
                     _this.$router.push('/login');
                 }).catch(() => {
 
@@ -395,7 +398,7 @@
         mounted() {
             console.log(this.$route)
 
-            var tags =JSON.parse( sessionStorage.getItem('Tags'));
+            var tags =sessionStorage.getItem('Tags') ?  JSON.parse( sessionStorage.getItem('Tags')):[];
 
             if (tags&&tags.length>0) {
                 this.tagsList = tags;
@@ -407,6 +410,7 @@
                 this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
             }
+
         },
         computed: {
             showTags() {

@@ -135,3 +135,10 @@ export const addPermission = params => {
 export const getPermissionTree = params => {
     return axios.get(`${base}/api/permission/getpermissiontree`, {params: params});
 };
+export const getPermissionIds = params => {
+    return axios.get(`${base}/api/permission/GetPermissionIdByRoleId`, {params: params});
+};
+
+export const addRolePermission = params => {
+    return axios.post(`${base}/api/permission/Assign`, params);
+};
