@@ -21,6 +21,12 @@
                     <el-button @click="saveAssign" style="float: right; padding: 3px 0" type="text">保存</el-button>
                 </div>
                 <div class="block">
+                    <!--<el-tree :data="data5" size="mini" show-checkbox node-key="value" :props="defaultProps"-->
+                             <!--style="width: 100%;pading-top:20px;" default-expand-all ref="menuTree" :render-content="renderContent"-->
+                              <!--element-loading-text="拼命加载中" :check-strictly="true"-->
+                             <!--@check-change="handleMenuCheckChange">-->
+                    <!--</el-tree>-->
+
 
                     <el-tree
                             :data="data5"
@@ -29,7 +35,7 @@
                             ref="tree"
                             default-expand-all
                             :expand-on-click-node="true"
-
+                            :check-strictly="true"
                     >
                         <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span>{{ node.label }}</span>
@@ -88,6 +94,15 @@
                     type: "default",
                     size: "small"
                 }
+
+                ,
+                selectRole: {},
+                menuData: [],
+                menuSelections: [],
+                menuLoading: false,
+                authLoading: false,
+                checkAll: false,
+                currentRoleMenus: [],
             }
         },
         methods: {
@@ -194,6 +209,88 @@
                 const index = children.findIndex(d => d.id === data.id);
                 children.splice(index, 1);
             },
+            // 获取数据
+            findTreeData: function () {
+                this.menuLoading = true
+                this.$api.menu.findMenuTree().then((res) => {
+                    this.menuData = res.data
+                    this.menuLoading = false
+                })
+            },
+            // 角色选择改变监听
+            handleRoleSelectChange(val) {
+                if(val == null || val.val == null) {
+                    return
+                }
+                this.selectRole = val.val
+                this.$api.role.findRoleMenus({'roleId':val.val.id}).then((res) => {
+                    this.currentRoleMenus = res.data
+                    this.$refs.menuTree.setCheckedNodes(res.data)
+                })
+            },
+            // 树节点选择监听
+            handleMenuCheckChange(data, check, subCheck) {
+                if(check) {
+                    // 节点选中时同步选中父节点
+                    let parentId = data.parentId
+                    this.$refs.menuTree.setChecked(parentId, true, false)
+                } else {
+                    // 节点取消选中时同步取消选中子节点
+                    if(data.children != null) {
+                        data.children.forEach(element => {
+                            this.$refs.menuTree.setChecked(element.id, false, false)
+                        });
+                    }
+                }
+            },
+        // 递归全选
+        checkAllMenu(menuData, allMenus) {
+            menuData.forEach(menu => {
+                allMenus.push(menu)
+                if(menu.children) {
+                    this.checkAllMenu(menu.children, allMenus)
+                }
+            });
+        },
+        // 角色菜单授权提交
+        submitAuthForm() {
+            let roleId = this.selectRole.id
+            if('admin' == this.selectRole.name) {
+                this.$message({message: '超级管理员拥有所有菜单权限，不允许修改！', type: 'error'})
+                return
+            }
+            this.authLoading = true
+            let checkedNodes = this.$refs.menuTree.getCheckedNodes(false, true)
+            let roleMenus = []
+            for(let i=0, len=checkedNodes.length; i<len; i++) {
+                let roleMenu = { roleId:roleId, menuId:checkedNodes[i].id }
+                roleMenus.push(roleMenu)
+            }
+            this.$api.role.saveRoleMenus(roleMenus).then((res) => {
+                if(res.code == 200) {
+                    this.$message({ message: '操作成功', type: 'success' })
+                } else {
+                    this.$message({message: '操作失败, ' + res.msg, type: 'error'})
+                }
+                this.authLoading = false
+            })
+        },
+        renderContent(h, { node, data, store }) {
+            return (
+                <div class="column-container">
+                <span style="text-algin:center;margin-right:80px;">{data.label}</span>
+            <span style="text-algin:center;margin-right:80px;">
+                <el-tag type={data.isbtn ?'success':'info'} size="small">
+            {!data.isbtn ?'菜单':'按钮'}
+        </el-tag>
+            </span>
+
+            </div>);
+        },
+        // 时间格式化
+        dateFormat: function (row, column, cellValue, index){
+            return format(row[column.property])
+        }
 
 
         },
