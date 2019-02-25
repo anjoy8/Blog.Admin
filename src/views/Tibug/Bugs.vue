@@ -192,6 +192,10 @@
                     let para = {id: row.Id};
                     removeBug(para).then((res) => {
 
+                        if (util.isEmt.format(res)) {
+                            this.listLoading = false;
+                            return;
+                        }
                         this.listLoading = false;
                         //NProgress.done();
                         if (res.data.success) {
@@ -241,6 +245,10 @@
 
                             editBug(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.editLoading = false;
+                                    return;
+                                }
                                 if (res.data.success) {
                                     this.editLoading = false;
                                     //NProgress.done();
@@ -293,6 +301,10 @@
 
                             addBug(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.addLoading = false;
+                                    return;
+                                }
                                 if (res.data.success) {
                                     this.addLoading = false;
                                     //NProgress.done();

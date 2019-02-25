@@ -194,7 +194,10 @@
                     //NProgress.start();
                     let para = {id: row.Id};
                     removeRole(para).then((res) => {
-
+                        if (util.isEmt.format(res)) {
+                            this.listLoading = false;
+                            return;
+                        }
                         this.listLoading = false;
                         //NProgress.done();
                         if (res.data.success) {
@@ -242,6 +245,11 @@
                             para.birth = (!para.birth || para.birth == '') ? util.formatDate.format(new Date(), 'yyyy-MM-dd') : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
 
                             editRole(para).then((res) => {
+
+                                if (util.isEmt.format(res)) {
+                                    this.editLoading = false;
+                                    return;
+                                }
 
                                 if (res.data.success) {
                                     this.editLoading = false;
@@ -292,6 +300,10 @@
 
                             addRole(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.addLoading = false;
+                                    return;
+                                }
                                 if (res.data.success) {
                                     this.addLoading = false;
                                     //NProgress.done();

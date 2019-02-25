@@ -292,6 +292,10 @@
                     let para = {id: row.Id};
                     removePermission(para).then((res) => {
 
+                        if (util.isEmt.format(res)) {
+                            this.listLoading = false;
+                            return;
+                        }
                         this.listLoading = false;
                         //NProgress.done();
                         if (res.data.success) {
@@ -376,6 +380,10 @@
 
                             editPermission(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.editLoading = false;
+                                    return;
+                                }
                                 this.editLoading = false;
                                 if (res.data.success) {
                                     this.editLoading = false;
@@ -431,6 +439,10 @@
 
                             addPermission(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.addLoading = false;
+                                    return;
+                                }
                                 this.addLoading = false;
                                 if (res.data.success) {
                                     this.addLoading = false;

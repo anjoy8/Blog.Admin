@@ -49,9 +49,11 @@ axios.interceptors.response.use(
                     // router.replace({
                     //     path: "/403",
                     // });
+
+                    return null;
             }
         }
-        return Promise.reject(error.response.data); // 返回接口返回的错误信息
+        return ""; // 返回接口返回的错误信息
     }
 );
 

@@ -56,6 +56,15 @@ export default {
             return null;
         }
 
+    },
+    isEmt:{
+        format: function (date) {
+            if(typeof obj == "undefined" || obj == null || obj == ""){
+                return true;
+            }else{
+                return false;
+            }
+        },
     }
 
 };

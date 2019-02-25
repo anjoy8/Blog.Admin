@@ -194,7 +194,10 @@
                     //NProgress.start();
                     let para = {id: row.Id};
                     removeModule(para).then((res) => {
-
+                        if (util.isEmt.format(res)) {
+                            this.listLoading = false;
+                            return;
+                        }
                         this.listLoading = false;
                         //NProgress.done();
                         if (res.data.success) {
@@ -243,7 +246,10 @@
                             para.ModifyTime = util.formatDate.format(new Date(), 'yyyy-MM-dd');
 
                             editModule(para).then((res) => {
-
+                                if (util.isEmt.format(res)) {
+                                    this.editLoading = false;
+                                    return;
+                                }
                                 if (res.data.success) {
                                     this.editLoading = false;
                                     //NProgress.done();
@@ -296,6 +302,10 @@
 
                             addModule(para).then((res) => {
 
+                                if (util.isEmt.format(res)) {
+                                    this.addLoading = false;
+                                    return;
+                                }
                                 if (res.data.success) {
                                     this.addLoading = false;
                                     //NProgress.done();

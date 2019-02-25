@@ -147,6 +147,7 @@
                 let para = {pids: pids, rid: this.roleid}
                 if (para.rid > 0 && para.pids.length > 0) {
                     addRolePermission(para).then((res) => {
+
                         if (res.data.success) {
 
                             this.$message({
@@ -193,84 +194,7 @@
                 const index = children.findIndex(d => d.id === data.id);
                 children.splice(index, 1);
             },
-            renderContent(h, {node, data, store}) {
-                return h(
-                    "span",
-                    {
-                        style: {
-                            display: "inline-block",
-                            width: "100%"
-                        },
-                        class: "permission-tree-node"
-                    },
-                    [
-                        h("span", [
 
-                            h("span", data.label)
-                        ]),
-                        h(
-                            "span",
-                            {
-                                style: {
-                                    display: "inline-block",
-                                    float: "right",
-                                    marginRight: "32px"
-                                }
-                            },
-                            [
-                                h(
-                                    "div",
-                                    {
-                                        style: {
-                                            display: "inline-block",
-                                            marginRight: "10px"
-                                        }
-                                    },
-                                    [
-                                        h(
-                                            "div",
-                                            {
-                                                props: {
-                                                    style: {},
-                                                },
-                                                on: {}
-                                            },
-                                            (data.btns || []).map(obj => {
-                                                return h(
-                                                    "el-checkbox",
-                                                    {
-                                                        props: {
-                                                            label: obj.value
-                                                        },
-                                                        on: {
-                                                            change: (event) => {
-                                                                console.log(obj)
-                                                                let currentIndex = this.assignBtns.indexOf(obj.value);
-                                                                if (currentIndex >= 0) {
-                                                                    this.assignBtns.splice(currentIndex, 1);
-                                                                } else {
-                                                                    this.assignBtns.push(obj.value);
-                                                                }
-                                                                console.log(this.assignBtns);
-                                                            },
-                                                            click: () => {
-                                                                console.log(2)
-                                                            },
-
-                                                        }
-                                                    },
-                                                    obj.label
-                                                );
-                                            })
-                                        )
-                                    ]
-                                ),
-
-                            ]
-                        )
-                    ]
-                );
-            }
 
         },
         mounted() {
