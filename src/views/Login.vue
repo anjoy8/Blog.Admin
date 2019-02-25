@@ -21,15 +21,15 @@
 </template>
 
 <script>
-    import {requestLogin,getUserByToken} from '../api/api';
+    import {requestLogin,getUserByToken,getNavigationBar} from '../api/api';
 
     export default {
         data() {
             return {
                 logining: false,
                 ruleForm2: {
-                    account: 'blogadmin',
-                    checkPass: 'blogadmin'
+                    account: 'test',
+                    checkPass: 'test'
                 },
                 rules2: {
                     account: [
@@ -112,6 +112,33 @@
                         });
 
                         window.localStorage.user=JSON.stringify(data.response)
+                        if(data.response.uID>0){
+                            _this.GetNavigationBar(data.response.uID)
+                        }
+                    }
+                });
+            },
+            GetNavigationBar(uid) {
+                var _this = this;
+                var loginParams = {uid: uid};
+
+                getNavigationBar(loginParams).then(data => {
+                    this.logining = false;
+
+
+                    if (!data.success) {
+                        _this.$message({
+                            message: data.message,
+                            type: 'error'
+                        });
+                    } else {
+
+                        _this.$message({
+                            message: "后台初始化成功",
+                            type: 'success'
+                        });
+
+                        window.localStorage.NavigationBar=JSON.stringify(data.response)
                         _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }
                 });

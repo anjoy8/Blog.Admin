@@ -321,4 +321,8 @@
     .box-card {
         width: 90%;
     }
+
+    .el-checkbox+.el-checkbox{
+        margin-left: 5px !important;
+    }
 </style>

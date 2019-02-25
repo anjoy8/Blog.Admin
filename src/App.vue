@@ -51,10 +51,10 @@
 
                                     <el-submenu :index="index+''" v-if="!item.leaf">
                                         <template slot="title">
-                                            <i :class="item.iconCls"></i>
+                                            <i class="fa" :class="item.iconCls"></i>
                                             <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
-                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.path" :base-path="item.path"
+                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.id" :base-path="item.path"
                                                       v-if="!child.hidden">{{child.name}}
                                         </el-menu-item>
                                     </el-submenu>
@@ -65,7 +65,7 @@
                                 <template v-else>
 
                                     <el-menu-item :index="item.path">
-                                        <i :class="item.iconCls"></i>
+                                        <i class="fa" :class="item.iconCls"></i>
                                         <template slot="title">
                                             <span class="title-name" slot="title">{{item.name}}</span>
                                         </template>
@@ -144,129 +144,8 @@
                     resource: '',
                     desc: ''
                 },
-                routes: [
-                    {
-                        path: '/403',  name: 'NotFound',
-                        meta: {
-                            title: '首页',
-                            NoTabPage: true,
-                            requireAuth: false
-                        },
-                        hidden: true
-                    },
-                    {
-                        path: '/',
-                        name: 'QQ欢迎页',
-                        iconCls: 'fa fa-qq',//图标样式class
-                        // hidden: true,
-                        meta: {
-                            title: 'QQ欢迎页',
-                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
-                        }
-                    },
-                    {
-                        path: '/login',
-                        name: 'login',
-                        iconCls: 'fa fa-address-card',//图标样式class
-                        meta: {
-                            title: '登录',
-                            NoTabPage: true,
-                            NoNeedHome: true // 添加该字段，表示不需要home模板
-                        },
-                        hidden: true
-                    },
-                    {
-                        path: '/',
-                        name: '用户角色管理',
-                        iconCls: 'fa fa-users',//图标样式class
-                        children: [
-                            {
-                                path: '/Admin/Users',  name: '用户管理',
-                                meta: {
-                                    title: '用户管理',
-                                    requireAuth: true
-                                }
-                            },
-                            {
-                                path: '/Admin/Roles', name: '角色管理',
-                                meta: {
-                                    title: '角色管理',
-                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        path: '/',
-                        name: '菜单权限管理',
-                        iconCls: 'fa fa-sitemap',//图标样式class
-                        children: [
-                            {
-                                path: '/Permission/Modules',  name: '接口管理',
-                                meta: {
-                                    title: '接口管理',
-                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-                                }
-                            },
-                            {
-                                path: '/Permission/Menu', name: '菜单管理',
-                                meta: {
-                                    title: '菜单管理',
-                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-                                }
-                            },
-                            {
-                                path: '/Permission/Assign',  name: '权限分配',
-                                meta: {
-                                    title: '权限分配',
-                                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        path: '/',
-                        name: '报表管理',
-                        iconCls: 'fa fa-line-chart ',//图标样式class
-                        children: [
-                            {
-                                path: '/Chart/From', name: '表单Form',
-                                meta: {
-                                    title: '表单Form',
-                                    requireAuth: true
-                                }
-                            },
-                            {
-                                path: '/Chart/Charts', name: '图表Chart',
-                                meta: {
-                                    title: '图表Chart',
-                                    requireAuth: true
-                                }
-                            },
-                        ]
-                    },
-                    {
-                        path: '/Tibug',
-                        name: '问题管理',
-                        iconCls: 'fa fa-bug',//图标样式class
-                        // hidden: true,
-                        meta: {
-                            title: '问题管理',
-                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
-                        }
-                    },
-                    {
-                        path: '/Blogs',
-                        name: '博客管理',
-                        iconCls: 'fa fa-file-word-o',//图标样式class
-                        // hidden: true,
-                        meta: {
-                            title: '博客管理',
-                            requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
-                        }
-                    },
-
-                ]
+                routes:[]
+                ,
             }
         },
         methods: {
@@ -307,8 +186,10 @@
                     window.localStorage.removeItem('user');
                     window.localStorage.removeItem('Token');
                     window.localStorage.removeItem('TokenExpire');
+                    window.localStorage.removeItem('NavigationBar');
                     sessionStorage.removeItem("Tags")
                     this.tagsList = [];
+                    this.routes = [];
                     this.$store.commit("saveTagsData","");
                     _this.$router.push('/login');
                 }).catch(() => {
@@ -403,12 +284,27 @@
             if (tags&&tags.length>0) {
                 this.tagsList = tags;
             }
+
+
+            var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
+
+            if (this.routes.length<=0&&NavigationBar&&NavigationBar.children.length>=0) {
+                this.routes=NavigationBar.children;
+            }
+
         },
         updated(){
             var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
             if (user) {
                 this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
+            }
+
+            var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
+
+            if (this.routes.length<=0&&NavigationBar&&NavigationBar.children.length>=0) {
+
+                this.routes=NavigationBar.children;
             }
 
         },

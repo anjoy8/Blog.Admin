@@ -22,7 +22,12 @@
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column prop="Name" label="菜单/按钮" width="" sortable>
+            <el-table-column label="菜单/按钮" width="" sortable>
+                <template slot-scope="scope">
+                    <i class="fa" :class="scope.row.Icon"></i>
+                    {{scope.row.Name}}
+
+                </template>
             </el-table-column>
             <el-table-column prop="PnameArr" label="父节点" width="" sortable>
             </el-table-column>
@@ -39,6 +44,8 @@
                             disable-transitions>{{scope.row.Enabled ? "正常":"禁用"}}
                     </el-tag>
                 </template>
+            </el-table-column>
+            <el-table-column prop="OrderSort" label="Sort" width="" sortable>
             </el-table-column>
             <el-table-column prop="IsButton" label="是否按钮" width="100" sortable>
                 <template slot-scope="scope">
@@ -76,6 +83,9 @@
                 <el-form-item label="描述" prop="Description">
                     <el-input v-model="editForm.Description" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="Icon" prop="Icon">
+                    <el-input v-model="editForm.Icon" auto-complete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="状态" prop="Enabled">
                     <el-select v-model="editForm.Enabled" placeholder="请选择状态">
                         <el-option v-for="item in statusList" :key="item.value" :label="item.Name"
@@ -84,6 +94,9 @@
                     </el-select>
                 </el-form-item>
 
+                <el-form-item label="排序" prop="OrderSort">
+                    <el-input type="number" v-model="editForm.OrderSort" auto-complete="off"></el-input>
+                </el-form-item>
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="editForm.IsButton" >
                     </el-switch>
@@ -129,6 +142,9 @@
                         <el-option v-for="item in statusList" :key="item.value" :label="item.Name"
                                    :value="item.value"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="排序" prop="OrderSort">
+                    <el-input v-model="addForm.OrderSort" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="addForm.IsButton" >
@@ -199,11 +215,13 @@
                 editForm: {
                     Id: 0,
                     Mid: 0,
+                    OrderSort:0,
                     PidArr: [],
                     CreateBy: '',
                     Name: '',
                     Code: '',
                     Description: '',
+                    Icon: '',
                     Enabled: true,
                     IsButton: false,
                 },
@@ -225,9 +243,11 @@
                     CreateId: '',
                     PidArr: [],
                     Mid: 0,
+                    OrderSort:0,
                     Name: '',
                     Code: '',
                     Description: '',
+                    Icon: '',
                     Enabled: true,
                     IsButton: false,
                 }
@@ -314,8 +334,10 @@
                     PidArr: [],
                     Name: '',
                     Code: '',
+                    OrderSort:0,
                     Description: '',
                     Enabled: true,
+                    Icon: '',
                     IsButton: false,
                 };
 

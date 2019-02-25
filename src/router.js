@@ -21,6 +21,9 @@ import Charts from './views/Form/Charts.vue'
 import Blogs from './views/Blog/Blogs.vue'
 import Bugs from './views/Tibug/Bugs.vue'
 
+import Thanks from './views/Thanks'
+
+
 Vue.use(Router)
 
 
@@ -38,21 +41,29 @@ const router = new Router({
             hidden: true
         },
         {
+            path: '/Thanks', component: Thanks, name: 'Thanks',
+            meta: {
+                title: 'Thanks',
+                requireAuth: false
+            },
+            hidden: true
+        },
+        {
             path: '/',
             component: Welcome,
             name: 'QQ欢迎页',
-            iconCls: 'fa fa-qq',//图标样式class
+            iconCls: 'fa-qq',//图标样式class
             // hidden: true,
             meta: {
                 title: 'QQ欢迎页',
-                requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
+                requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
             }
         },
         {
             path: '/login',
             component: Login,
             name: 'login',
-            iconCls: 'fa fa-address-card',//图标样式class
+            iconCls: 'fa-address-card',//图标样式class
             meta: {
                 title: '登录',
                 NoTabPage: true,
@@ -64,7 +75,7 @@ const router = new Router({
             path: '/',
             component: Layout,
             name: '用户角色管理',
-            iconCls: 'fa fa-users',//图标样式class
+            iconCls: 'fa-users',//图标样式class
             children: [
                 {
                     path: '/Admin/Users', component: Table, name: '用户管理',
@@ -86,7 +97,7 @@ const router = new Router({
             path: '/',
             component: Layout,
             name: '菜单权限管理',
-            iconCls: 'fa fa-sitemap',//图标样式class
+            iconCls: 'fa-sitemap',//图标样式class
             children: [
                 {
                     path: '/Permission/Modules', component: Module, name: '接口管理',
@@ -115,7 +126,7 @@ const router = new Router({
             path: '/',
             component: Layout,
             name: '报表管理',
-            iconCls: 'fa fa-line-chart ',//图标样式class
+            iconCls: 'fa-line-chart ',//图标样式class
             children: [
                 {
                     path: '/Chart/From', component: Form, name: '表单Form',
@@ -137,7 +148,7 @@ const router = new Router({
             path: '/Tibug',
             component: Bugs,
             name: '问题管理',
-            iconCls: 'fa fa-bug',//图标样式class
+            iconCls: ' fa-bug',//图标样式class
             // hidden: true,
             meta: {
                 title: '问题管理',
@@ -148,7 +159,7 @@ const router = new Router({
             path: '/Blogs',
             component: Blogs,
             name: '博客管理',
-            iconCls: 'fa fa-file-word-o',//图标样式class
+            iconCls: ' fa-file-word-o',//图标样式class
             // hidden: true,
             meta: {
                 title: '博客管理',

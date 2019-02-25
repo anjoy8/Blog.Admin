@@ -9,9 +9,9 @@
                 <el-form-item>
                     <el-button type="primary" @click="getRoles">查询</el-button>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="handleAdd">新增</el-button>
-                </el-form-item>
+                <!--<el-form-item>-->
+                    <!--<el-button type="primary" @click="handleAdd">新增</el-button>-->
+                <!--</el-form-item>-->
             </el-form>
         </el-col>
 
@@ -22,34 +22,31 @@
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column prop="LinkUrl" label="接口地址" width="" sortable>
+            <el-table-column prop="bID" label="ID" width="100" sortable>
             </el-table-column>
-            <el-table-column prop="Name" label="描述" width="300" sortable>
+            <el-table-column prop="btitle" label="标题" width="300" sortable>
             </el-table-column>
-            <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="" sortable>
-            </el-table-column>
-            <el-table-column prop="CreateBy" label="创建者" width="" sortable>
-            </el-table-column>
-            <el-table-column prop="Enabled" label="状态" width="" sortable>
+            <el-table-column prop="bcontent" label="内容"   width="" sortable>
                 <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.Enabled  ? 'success' : 'danger'"
-                            disable-transitions>{{scope.row.Enabled ? "正常":"禁用"}}
-                    </el-tag>
+
+<span v-html="scope.row.bcontent.substring(0,100)"></span>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="150">
-                <template scope="scope">
-                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
-                </template>
+            <el-table-column prop="bCreateTime" label="创建时间" :formatter="formatCreateTime" width="250" sortable>
             </el-table-column>
+
+            <!--<el-table-column label="操作" width="150">-->
+                <!--<template scope="scope">-->
+                    <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+                    <!--<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>-->
+                <!--</template>-->
+            <!--</el-table-column>-->
         </el-table>
 
         <!--工具条-->
         <el-col :span="24" class="toolbar">
             <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="50"
+            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="6"
                            :total="total" style="float:right;">
             </el-pagination>
         </el-col>
@@ -105,7 +102,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getModuleListPage, removeModule, editModule, addModule} from '../../api/api';
+    import {getBlogListPage} from '../../api/api';
 
     export default {
         data() {
@@ -161,11 +158,11 @@
         },
         methods: {
             //性别显示转换
-            formatEnabled: function (row, column) {
-                return row.Enabled ? '正常' : '未知';
+            formatbcontent: function (row, column) {
+                return row.bcontent ? row.bcontent.substring(20) : 'N/A';
             },
             formatCreateTime: function (row, column) {
-                return (!row.CreateTime || row.CreateTime == '') ? '' : util.formatDate.format(new Date(row.CreateTime), 'yyyy-MM-dd');
+                return (!row.bCreateTime || row.bCreateTime == '') ? '' : util.formatDate.format(new Date(row.bCreateTime), 'yyyy-MM-dd');
             },
             handleCurrentChange(val) {
                 this.page = val;
@@ -180,9 +177,10 @@
                 this.listLoading = true;
 
                 //NProgress.start();
-                getModuleListPage(para).then((res) => {
-                    this.total = res.data.response.dataCount;
-                    this.users = res.data.response.data;
+                getBlogListPage(para).then((res) => {
+
+                    this.total = res.data.total;
+                    this.users = res.data.data;
                     this.listLoading = false;
                     //NProgress.done();
                 });
