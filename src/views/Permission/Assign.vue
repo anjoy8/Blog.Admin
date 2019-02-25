@@ -346,4 +346,8 @@
     .el-checkbox+.el-checkbox{
         margin-left: 5px !important;
     }
+
+    .el-checkbox{
+        margin-right: 5px !important;
+    }
 </style>
