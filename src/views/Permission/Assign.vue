@@ -21,23 +21,26 @@
                     <el-button @click="saveAssign" style="float: right; padding: 3px 0" type="text">保存</el-button>
                 </div>
                 <div class="block">
+
                     <el-tree
                             :data="data5"
                             show-checkbox
                             node-key="value"
                             ref="tree"
                             default-expand-all
-                            :expand-on-click-node="false"
-                            :props="defaultProps">
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span>{{ node.label }}</span>
-        <span>
-            <el-checkbox-group>
-				<el-checkbox v-for="btn in node.btns" :label="btn.label" :name="btn.Pid"></el-checkbox>
-			</el-checkbox-group>
+                            :expand-on-click-node="true"
 
-        </span>
-      </span>
+                    >
+                        <span class="custom-tree-node" slot-scope="{ node, data }">
+                        <span>{{ node.label }}</span>
+                        <span>
+                        <el-checkbox-group v-model="assignBtns">
+                        <el-checkbox v-for="btn in data.btns" :key="btn.value"
+                                     :label="btn.label+'_'+btn.value"></el-checkbox>
+                        </el-checkbox-group>
+
+                        </span>
+                        </span>
                     </el-tree>
                 </div>
             </el-card>
@@ -50,7 +53,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getRoleListPage, getPermissionTree, getPermissionIds,addRolePermission} from '../../api/api';
+    import {getRoleListPage, getPermissionTree, getPermissionIds, addRolePermission} from '../../api/api';
 
     let id = 1000;
 
@@ -64,11 +67,27 @@
                 data5: [],
                 btns: [],
                 assigns: [],
+                checked1: false,
+                assignBtns: [],
                 defaultProps: {
-                children: 'children',
+                    children: 'children',
                     label: 'label',
                     btns: 'btns',
-            }
+                },
+                selectedPermissions: [],
+                currentRoleCode: "",
+                stores: {
+                    role: {
+                        data: []
+                    },
+                    permissionTree: {
+                        data: []
+                    }
+                },
+                buttonProps: {
+                    type: "default",
+                    size: "small"
+                }
             }
         },
         methods: {
@@ -87,7 +106,7 @@
             },
             //获取菜单树
             getPermissions() {
-                let para = {needbtn: true}
+                let para = {needbtn: false}
                 getPermissionTree(para).then((res) => {
                     this.data = res.data.response.children;
                     this.data5 = JSON.parse(JSON.stringify(this.data));
@@ -96,39 +115,63 @@
             //获取菜单Id，通过角色id
             getPermissionIds(rid) {
                 this.assigns = [];
+                this.assignBtns = [];
                 let para = {rid: rid}
                 getPermissionIds(para).then((res) => {
-                    this.$refs.tree.setCheckedKeys(res.data.response);
+
+                    this.$refs.tree.setCheckedKeys(res.data.response.permissionids);
+                    this.assignBtns = res.data.response.assignbtns;
+
                 });
             },
             operate(id) {
                 this.roleid = id;
                 this.getPermissionIds(id);
             },
-            saveAssign(){
+            saveAssign() {
                 console.log(this.$refs.tree.getCheckedKeys());
-                let para = {pids: this.$refs.tree.getCheckedKeys(),rid: this.roleid}
-                if(para.rid>0 && para.pids.length>0) {
+                console.log(this.assignBtns)
+                let pids = this.$refs.tree.getCheckedKeys();
+                try {
+                    if (this.assignBtns.length > 0) {
+                        for (let i = 0; i < this.assignBtns.length; i++) {
+                            let assginbtn = this.assignBtns[i].split("_")[1];
+                            if (assginbtn > 0) {
+                                pids.push(assginbtn);
+                            }
+                        }
+                    }
+                } catch (e) {
+
+                }
+                let para = {pids: pids, rid: this.roleid}
+                if (para.rid > 0 && para.pids.length > 0) {
                     addRolePermission(para).then((res) => {
-                       if(res.data.success){
+                        if (res.data.success) {
 
-                           this.$message({
-                               message: res.data.msg,
-                               type: 'success'
-                           });
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'success'
+                            });
 
-                           let para = {rid: this.roleid}
-                           getPermissionIds(para).then((res) => {
-                               this.$refs.tree.setCheckedKeys(res.data.response);
-                           });
-                       }else{
-                           this.$message({
-                               message: res.data.msg,
-                               type: 'error'
-                           });
-                       }
+                            let para = {rid: this.roleid}
+                            getPermissionIds(para).then((res) => {
+
+                                this.$refs.tree.setCheckedKeys(res.data.response.permissionids);
+                                this.assignBtns = res.data.response.assignbtns;
+                                this.$message({
+                                    message: "数据更新成功",
+                                    type: 'success'
+                                });
+                            });
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            });
+                        }
                     });
-                }else {
+                } else {
 
                     this.$message({
                         message: "参数错误",
@@ -151,14 +194,81 @@
                 children.splice(index, 1);
             },
             renderContent(h, {node, data, store}) {
-                return (`
-                    <span class="custom-tree-node">
-                    <span>{node.label}</span>
-                <span>
-                <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
-                <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
-                </span>
-                </span> `
+                return h(
+                    "span",
+                    {
+                        style: {
+                            display: "inline-block",
+                            width: "100%"
+                        },
+                        class: "permission-tree-node"
+                    },
+                    [
+                        h("span", [
+
+                            h("span", data.label)
+                        ]),
+                        h(
+                            "span",
+                            {
+                                style: {
+                                    display: "inline-block",
+                                    float: "right",
+                                    marginRight: "32px"
+                                }
+                            },
+                            [
+                                h(
+                                    "div",
+                                    {
+                                        style: {
+                                            display: "inline-block",
+                                            marginRight: "10px"
+                                        }
+                                    },
+                                    [
+                                        h(
+                                            "div",
+                                            {
+                                                props: {
+                                                    style: {},
+                                                },
+                                                on: {}
+                                            },
+                                            (data.btns || []).map(obj => {
+                                                return h(
+                                                    "el-checkbox",
+                                                    {
+                                                        props: {
+                                                            label: obj.value
+                                                        },
+                                                        on: {
+                                                            change: (event) => {
+                                                                console.log(obj)
+                                                                let currentIndex = this.assignBtns.indexOf(obj.value);
+                                                                if (currentIndex >= 0) {
+                                                                    this.assignBtns.splice(currentIndex, 1);
+                                                                } else {
+                                                                    this.assignBtns.push(obj.value);
+                                                                }
+                                                                console.log(this.assignBtns);
+                                                            },
+                                                            click: () => {
+                                                                console.log(2)
+                                                            },
+
+                                                        }
+                                                    },
+                                                    obj.label
+                                                );
+                                            })
+                                        )
+                                    ]
+                                ),
+
+                            ]
+                        )
+                    ]
                 );
             }
 
