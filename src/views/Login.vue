@@ -17,6 +17,7 @@
                 <el-radio-group @change="loginAccount" v-model="account3">
                     <el-radio-button label="测试账号1"></el-radio-button>
                     <el-radio-button label="测试账号2"></el-radio-button>
+                    <el-radio-button label="超级管理员" disabled ></el-radio-button>
                 </el-radio-group>
             </div>
             <el-form-item style="width:100%;">
@@ -59,7 +60,7 @@
                 this.$refs.ruleForm2.resetFields();
             },
             loginAccount() {
-                
+
                 if (this.account3 == "测试账号1") {
                     this.ruleForm2.account = "test";
                     this.ruleForm2.checkPass = "test";
