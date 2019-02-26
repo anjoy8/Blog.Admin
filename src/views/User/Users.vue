@@ -382,6 +382,12 @@
             },
             //批量删除
             batchRemove: function () {
+                this.$message({
+                    message: '该功能未开放',
+                    type: 'warning'
+                });
+                return;
+
                 var ids = this.sels.map(item => item.id).toString();
                 this.$confirm('确认删除选中记录吗？', '提示', {
                     type: 'warning'
