@@ -58,7 +58,7 @@ export default {
 
     },
     isEmt:{
-        format: function (date) {
+        format: function (obj) {
             if(typeof obj == "undefined" || obj == null || obj == ""){
                 return true;
             }else{

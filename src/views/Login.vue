@@ -1,30 +1,36 @@
 <template>
     <div>
-    <div class="bg bg-blur"></div>
+        <div class="bg bg-blur"></div>
         <div style="height: 180px;"></div>
-    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px"
-             class="demo-ruleForm login-container">
-        <h3 class="title">系统登录</h3>
-        <el-form-item prop="account">
-            <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
-        </el-form-item>
-        <el-form-item prop="checkPass">
-            <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
-        </el-form-item>
-        <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
-        <div style="margin-bottom: 20px;color: #505458;">
-            账号：test  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  密码：test
-        </div>
-        <el-form-item style="width:100%;">
-            <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录
-            </el-button>
-            <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
-        </el-form-item>
-    </el-form></div>
+        <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px"
+                 class="demo-ruleForm login-container">
+            <h3 class="title">系统登录</h3>
+            <el-form-item prop="account">
+                <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
+            </el-form-item>
+            <el-form-item prop="checkPass">
+                <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
+            </el-form-item>
+            <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+
+            <div style="margin-bottom: 20px;">
+                <el-radio-group @change="loginAccount" v-model="account3">
+                    <el-radio-button label="测试账号1"></el-radio-button>
+                    <el-radio-button label="测试账号2"></el-radio-button>
+                </el-radio-group>
+            </div>
+            <el-form-item style="width:100%;">
+                <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">
+                    登录
+                </el-button>
+                <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
+            </el-form-item>
+        </el-form>
+    </div>
 </template>
 
 <script>
-    import {requestLogin,getUserByToken,getNavigationBar} from '../api/api';
+    import {requestLogin, getUserByToken, getNavigationBar} from '../api/api';
 
     export default {
         data() {
@@ -34,6 +40,7 @@
                     account: 'test',
                     checkPass: 'test'
                 },
+                account3: '测试账号1',
                 rules2: {
                     account: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
@@ -50,6 +57,16 @@
         methods: {
             handleReset2() {
                 this.$refs.ruleForm2.resetFields();
+            },
+            loginAccount() {
+                
+                if (this.account3 == "测试账号1") {
+                    this.ruleForm2.account = "test";
+                    this.ruleForm2.checkPass = "test";
+                } else {
+                    this.ruleForm2.account = "test2";
+                    this.ruleForm2.checkPass = "test2";
+                }
             },
             handleSubmit2(ev) {
                 var _this = this;
@@ -80,11 +97,10 @@
                                 _this.$store.commit("saveToken", token);
 
                                 var curTime = new Date();
-                                var expiredate=  new Date(curTime.setSeconds(curTime.getSeconds() + data.expires_in));
+                                var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + data.expires_in));
                                 _this.$store.commit("saveTokenExpire", expiredate);
 
                                 _this.getUserInfoByToken(token)
-
 
 
                             }
@@ -114,8 +130,8 @@
                             duration: 3000
                         });
 
-                        window.localStorage.user=JSON.stringify(data.response)
-                        if(data.response.uID>0){
+                        window.localStorage.user = JSON.stringify(data.response)
+                        if (data.response.uID > 0) {
                             _this.GetNavigationBar(data.response.uID)
                         }
                     }
@@ -141,7 +157,7 @@
                             type: 'success'
                         });
 
-                        window.localStorage.NavigationBar=JSON.stringify(data.response)
+                        window.localStorage.NavigationBar = JSON.stringify(data.response)
                         _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }
                 });
@@ -171,7 +187,7 @@
         border-radius: 5px;
         -moz-border-radius: 5px;
         background-clip: padding-box;
-        margin:  auto;
+        margin: auto;
         width: 350px;
         padding: 35px 35px 15px 35px;
         background: #fff;
@@ -188,6 +204,6 @@
     }
 
     .login-container .remember {
-        margin: 0px 0px 35px 0px;
+        margin: 0px 0px 25px 0px;
     }
 </style>

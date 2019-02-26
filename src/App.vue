@@ -22,6 +22,7 @@
 
                     </el-col>
                     <el-col :span="4" class="userinfo">
+
                         <el-dropdown trigger="hover">
                     <span class="el-dropdown-link userinfo-inner">
                         {{sysUserName}}

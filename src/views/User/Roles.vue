@@ -297,7 +297,6 @@
                                 _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                             }
 
-
                             addRole(para).then((res) => {
 
                                 if (util.isEmt.format(res)) {
