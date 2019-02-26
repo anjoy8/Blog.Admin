@@ -295,12 +295,6 @@
 
         },
         updated(){
-            var tags =sessionStorage.getItem('Tags') ?  JSON.parse( sessionStorage.getItem('Tags')):[];
-            if (tags.length!=this.tagsList.length&&(tags.length>0)) {
-                debugger
-                this.tagsList = tags;
-            }
-
 
             var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
             if (user) {
@@ -323,6 +317,7 @@
                 if (this.tagsList.length>1) {
                     this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
                 }
+               
                 return this.tagsList.length > 0;
             }
         },
