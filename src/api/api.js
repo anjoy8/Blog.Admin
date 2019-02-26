@@ -36,6 +36,11 @@ axios.interceptors.response.use(
                     // 返回 401 清除token信息并跳转到登录页面
                     store.commit("saveToken", "");
                     store.commit("saveTokenExpire", "");
+                    store.commit("saveTagsData", "");
+                    window.localStorage.removeItem('user');
+                    window.localStorage.removeItem('NavigationBar');
+
+
                     router.replace({
                         path: "/login",
                         query: {redirect: router.currentRoute.fullPath}

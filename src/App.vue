@@ -295,17 +295,25 @@
 
         },
         updated(){
+            var tags =sessionStorage.getItem('Tags') ?  JSON.parse( sessionStorage.getItem('Tags')):[];
+            if (tags.length!=this.tagsList.length&&(tags.length>0)) {
+                debugger
+                this.tagsList = tags;
+            }
+
+
             var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
             if (user) {
                 this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
             }
 
+
             var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
-
-            if (this.routes.length<=0&&NavigationBar&&NavigationBar.children.length>=0) {
-
+            if (NavigationBar&&NavigationBar.children.length>=0) {
+                if (this.routes.length<=0||(JSON.stringify(this.routes)!=JSON.stringify((NavigationBar.children)))) {
                 this.routes=NavigationBar.children;
+                }
             }
 
         },
