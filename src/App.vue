@@ -317,7 +317,7 @@
                 if (this.tagsList.length>1) {
                     this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
                 }
-               
+
                 return this.tagsList.length > 0;
             }
         },
