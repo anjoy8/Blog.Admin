@@ -101,8 +101,8 @@
                                 var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + data.expires_in));
                                 _this.$store.commit("saveTokenExpire", expiredate);
 
-                                var nowtime = new Date();
-                                nowtime.setMinutes(nowtime.getMinutes() + 1);
+                                var nowtime = expiredate;
+                                nowtime.setMinutes(nowtime.getMinutes() + 20);
                                 window.localStorage.refreshtime = nowtime;
 
 
