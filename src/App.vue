@@ -188,6 +188,7 @@
                     window.localStorage.removeItem('Token');
                     window.localStorage.removeItem('TokenExpire');
                     window.localStorage.removeItem('NavigationBar');
+                    window.localStorage.removeItem('refreshtime');
                     sessionStorage.removeItem("Tags")
                     this.tagsList = [];
                     this.routes = [];

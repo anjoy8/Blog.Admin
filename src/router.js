@@ -183,12 +183,26 @@ router.beforeEach((to, from, next) => {
     if (!storeTemp.state.tokenExpire) {
         storeTemp.commit("saveTokenExpire", window.localStorage.TokenExpire)
     }
+
+    var nowtime = new Date();
+    var lastRefreshtime = window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime) : new Date(-1);
+    if (lastRefreshtime >= nowtime) {
+        nowtime.setMinutes(nowtime.getMinutes() + 2);//滑动
+        window.localStorage.refreshtime = nowtime;
+    }else {
+
+        window.localStorage.refreshtime = new Date(-1);
+    }
+
+    var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
+
     if (to.meta.requireAuth) {
         // 判断该路由是否需要登录权限
         var curTime = new Date()
         var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
 
-        if (storeTemp.state.token && storeTemp.state.token != "undefined" && (curTime < expiretime && window.localStorage.TokenExpire)) {
+
+        if (storeTemp.state.token && storeTemp.state.token != "undefined") {
 
             // 通过vuex state获取当前的token是否存在
             next();

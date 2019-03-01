@@ -15,6 +15,16 @@ axios.interceptors.request.use(
             // 判断是否存在token，如果存在的话，则每个http header都加上token
             config.headers.Authorization = "Bearer " + storeTemp.state.token;
         }
+
+        var nowtime =new Date();
+        var lastRefreshtime =window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime):new Date(-1);
+        if(lastRefreshtime>=nowtime){
+            nowtime.setMinutes(nowtime.getMinutes () + 2);//滑动
+            window.localStorage.refreshtime=nowtime;
+        }else {
+            window.localStorage.refreshtime = new Date(-1);
+        }
+
         return config;
     },
     err => {
@@ -31,8 +41,44 @@ axios.interceptors.response.use(
 
         if (error.response) {
 
-            switch (error.response.status) {
-                case 401:
+            if (error.response.status == 401) {
+                var curTime = new Date()
+                var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
+
+                if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
+                    return  refreshToken({token: window.localStorage.Token}).then((res) => {
+                        if (res.success) {
+                            Vue.prototype.$message({
+                                message: 'refreshToken success! loading data...',
+                                type: 'success'
+                            });
+
+                            store.commit("saveToken", res.token);
+
+                            var curTime = new Date();
+                            var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.expires_in));
+                            store.commit("saveTokenExpire", expiredate);
+
+                            error.config.__isRetryRequest = true;
+                            error.config.headers.Authorization = 'Bearer ' + res.token;
+                            return axios(error.config);
+                        } else {
+
+                            // 刷新token失败 清除token信息并跳转到登录页面
+                            store.commit("saveToken", "");
+                            store.commit("saveTokenExpire", "");
+                            store.commit("saveTagsData", "");
+                            window.localStorage.removeItem('user');
+                            window.localStorage.removeItem('NavigationBar');
+
+                            router.replace({
+                                path: "/login",
+                                query: {redirect: router.currentRoute.fullPath}
+                            });
+                        }
+                    });
+                } else {
+
                     // 返回 401 清除token信息并跳转到登录页面
                     store.commit("saveToken", "");
                     store.commit("saveTokenExpire", "");
@@ -40,22 +86,34 @@ axios.interceptors.response.use(
                     window.localStorage.removeItem('user');
                     window.localStorage.removeItem('NavigationBar');
 
-
                     router.replace({
                         path: "/login",
                         query: {redirect: router.currentRoute.fullPath}
                     });
-                case 403:
-                    Vue.prototype.$message({
-                        message: '失败！该操作无权限',
-                        type: 'error'
-                    });
-                    // 返回 403 无权限
-                    // router.replace({
-                    //     path: "/403",
-                    // });
+                }
 
-                    return null;
+            }
+
+            if (error.response.status == 403) {
+
+                Vue.prototype.$message({
+                    message: '失败！该操作无权限',
+                    type: 'error'
+                });
+                // 返回 403 无权限
+                // router.replace({
+                //     path: "/403",
+                // });
+
+                return null;
+
+            }
+            switch (error.response.status) {
+                case 401:
+
+
+                case 403:
+
             }
         }
         return ""; // 返回接口返回的错误信息
@@ -65,6 +123,9 @@ axios.interceptors.response.use(
 // 登录
 export const requestLogin = params => {
     return axios.get(`${base}/api/login/jwttoken3.0`, {params: params}).then(res => res.data);
+};
+export const refreshToken = params => {
+    return axios.get(`${base}/api/login/RefreshToken`, {params: params}).then(res => res.data);
 };
 
 export const getUserByToken = params => {
