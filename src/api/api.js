@@ -19,7 +19,7 @@ axios.interceptors.request.use(
         var nowtime =new Date();
         var lastRefreshtime =window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime):new Date(-1);
         if(lastRefreshtime>=nowtime){
-            nowtime.setMinutes(nowtime.getMinutes () + 2);//滑动
+            nowtime.setMinutes(nowtime.getMinutes () + 50);//滑动
             window.localStorage.refreshtime=nowtime;
         }else {
             window.localStorage.refreshtime = new Date(-1);
