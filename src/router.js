@@ -22,6 +22,8 @@ import Blogs from './views/Blog/Blogs.vue'
 import Bugs from './views/Tibug/Bugs.vue'
 
 import Thanks from './views/Thanks'
+import {saveRefreshtime} from "./api/api";
+
 
 
 Vue.use(Router)
@@ -184,17 +186,7 @@ router.beforeEach((to, from, next) => {
         storeTemp.commit("saveTokenExpire", window.localStorage.TokenExpire)
     }
 
-    var nowtime = new Date();
-    var lastRefreshtime = window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime) : new Date(-1);
-    if (lastRefreshtime >= nowtime) {
-        nowtime.setMinutes(nowtime.getMinutes() + 20);//滑动
-        window.localStorage.refreshtime = nowtime;
-    }else {
-
-        window.localStorage.refreshtime = new Date(-1);
-    }
-
-    var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
+    saveRefreshtime();
 
     if (to.meta.requireAuth) {
         // 判断该路由是否需要登录权限

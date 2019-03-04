@@ -16,14 +16,7 @@ axios.interceptors.request.use(
             config.headers.Authorization = "Bearer " + storeTemp.state.token;
         }
 
-        var nowtime =new Date();
-        var lastRefreshtime =window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime):new Date(-1);
-        if(lastRefreshtime>=nowtime){
-            nowtime.setMinutes(nowtime.getMinutes () + 20);//滑动
-            window.localStorage.refreshtime=nowtime;
-        }else {
-            window.localStorage.refreshtime = new Date(-1);
-        }
+        saveRefreshtime();
 
         return config;
     },
@@ -38,13 +31,11 @@ axios.interceptors.response.use(
         return response;
     },
     error => {
-
         if (error.response) {
-
             if (error.response.status == 401) {
                 var curTime = new Date()
                 var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
-
+                // 在用户操作的活跃期内
                 if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
                     return  refreshToken({token: window.localStorage.Token}).then((res) => {
                         if (res.success) {
@@ -63,57 +54,23 @@ axios.interceptors.response.use(
                             error.config.headers.Authorization = 'Bearer ' + res.token;
                             return axios(error.config);
                         } else {
-
                             // 刷新token失败 清除token信息并跳转到登录页面
-                            store.commit("saveToken", "");
-                            store.commit("saveTokenExpire", "");
-                            store.commit("saveTagsData", "");
-                            window.localStorage.removeItem('user');
-                            window.localStorage.removeItem('NavigationBar');
-
-                            router.replace({
-                                path: "/login",
-                                query: {redirect: router.currentRoute.fullPath}
-                            });
+                            ToLogin()
                         }
                     });
                 } else {
-
-                    // 返回 401 清除token信息并跳转到登录页面
-                    store.commit("saveToken", "");
-                    store.commit("saveTokenExpire", "");
-                    store.commit("saveTagsData", "");
-                    window.localStorage.removeItem('user');
-                    window.localStorage.removeItem('NavigationBar');
-
-                    router.replace({
-                        path: "/login",
-                        query: {redirect: router.currentRoute.fullPath}
-                    });
+                    // 返回 401，并且不知用户操作活跃期内 清除token信息并跳转到登录页面
+                    ToLogin()
                 }
 
             }
-
+            // 403 无权限
             if (error.response.status == 403) {
-
                 Vue.prototype.$message({
                     message: '失败！该操作无权限',
                     type: 'error'
                 });
-                // 返回 403 无权限
-                // router.replace({
-                //     path: "/403",
-                // });
-
                 return null;
-
-            }
-            switch (error.response.status) {
-                case 401:
-
-
-                case 403:
-
             }
         }
         return ""; // 返回接口返回的错误信息
@@ -126,6 +83,34 @@ export const requestLogin = params => {
 };
 export const refreshToken = params => {
     return axios.get(`${base}/api/login/RefreshToken`, {params: params}).then(res => res.data);
+};
+
+export const saveRefreshtime = params => {
+
+    let nowtime = new Date();
+    let lastRefreshtime = window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime) : new Date(-1);
+    let expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
+
+    let refreshCount=1;//滑动系数
+    if (lastRefreshtime >= nowtime) {
+        lastRefreshtime=nowtime>expiretime ? nowtime:expiretime;
+        lastRefreshtime.setMinutes(lastRefreshtime.getMinutes() + refreshCount);
+        window.localStorage.refreshtime = lastRefreshtime;
+    }else {
+        window.localStorage.refreshtime = new Date(-1);
+    }
+};
+ const ToLogin = params => {
+     store.commit("saveToken", "");
+     store.commit("saveTokenExpire", "");
+     store.commit("saveTagsData", "");
+     window.localStorage.removeItem('user');
+     window.localStorage.removeItem('NavigationBar');
+
+     router.replace({
+         path: "/login",
+         query: {redirect: router.currentRoute.fullPath}
+     });
 };
 
 export const getUserByToken = params => {
