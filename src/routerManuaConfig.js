@@ -176,44 +176,4 @@ const router = new Router({
     ]
 })
 
-var storeTemp = store;
-router.beforeEach((to, from, next) => {
-
-    if (!storeTemp.state.token) {
-        storeTemp.commit("saveToken", window.localStorage.Token)
-    }
-    if (!storeTemp.state.tokenExpire) {
-        storeTemp.commit("saveTokenExpire", window.localStorage.TokenExpire)
-    }
-
-    saveRefreshtime();
-
-    if (to.meta.requireAuth) {
-        // 判断该路由是否需要登录权限
-        var curTime = new Date()
-        var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
-
-
-        if (storeTemp.state.token && storeTemp.state.token != "undefined") {
-
-            // 通过vuex state获取当前的token是否存在
-            next();
-        } else {
-
-            store.commit("saveToken", "");
-            store.commit("saveTokenExpire", "");
-            store.commit("saveTagsData", "");
-            window.localStorage.removeItem('user');
-            window.localStorage.removeItem('NavigationBar');
-
-            next({
-                path: "/login",
-                query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
-            });
-        }
-    } else {
-        next();
-    }
-});
-
 export default router;

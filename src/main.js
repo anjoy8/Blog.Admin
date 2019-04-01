@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+// import router from './routerManuaConfig'
 import store from './store'
+import router from './router/index'
+import '../util/global'//全局
+import './promission'//这里进行路由后台获取的模拟
 
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -15,7 +18,6 @@ import 'font-awesome/css/font-awesome.min.css'
 
 
 Vue.config.productionTip = false
-
 
 new Vue({
   router,
