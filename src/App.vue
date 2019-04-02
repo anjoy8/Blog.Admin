@@ -289,10 +289,15 @@
             }
 
 
-            var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
+            // var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
+            var NavigationBar = global.antRouter;
 
-            if (this.routes.length<=0&&NavigationBar&&NavigationBar.children.length>=0) {
-                this.routes=NavigationBar.children;
+            if (this.routes.length<=0&&NavigationBar&&NavigationBar.length>=0) {
+                this.$message({
+                    message: "后台初始化成功",
+                    type: 'success'
+                });
+                this.routes=NavigationBar;
             }
 
         },
@@ -305,10 +310,12 @@
             }
 
 
-            var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
-            if (NavigationBar&&NavigationBar.children.length>=0) {
+            // var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
+            var NavigationBar = global.antRouter;
+
+            if (NavigationBar&&NavigationBar.length>=0) {
                 if (this.routes.length<=0||(JSON.stringify(this.routes)!=JSON.stringify((NavigationBar.children)))) {
-                this.routes=NavigationBar.children;
+                this.routes=NavigationBar;
                 }
             }
 

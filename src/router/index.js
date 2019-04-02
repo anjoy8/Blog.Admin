@@ -1,13 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Login from '../views/Login.vue'
 import Welcome from '../views/Welcome'
-import NotFound from "../views/403";
 import Thanks from '../views/Thanks'
-import Layout from "../views/Layout/Layout";
-import store from "../store";
-import {saveRefreshtime} from "../api/api";
+import NoPage from '../views/404'
 
 Vue.use(Router)
 
@@ -15,6 +11,15 @@ const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
+        {
+            path: '/404', component: NoPage, name: 'NoPage',
+            meta: {
+                title: 'NoPage',
+                requireAuth: false,
+                NoNeedHome: true // 添加该字段，表示不需要home模板
+            },
+            hidden: true
+        },
         {
             path: '/Thanks', component: Thanks, name: 'Thanks',
             meta: {

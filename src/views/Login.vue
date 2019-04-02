@@ -135,6 +135,13 @@
 
                         window.localStorage.user = JSON.stringify(data.response)
                         if (data.response.uID > 0) {
+
+                            _this.$message({
+                                message: "后台初始化成功",
+                                type: 'success'
+                            });
+                            _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
+
                             _this.GetNavigationBar(data.response.uID)
                         }
                     }

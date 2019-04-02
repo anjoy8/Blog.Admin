@@ -23,6 +23,8 @@ import Bugs from './views/Tibug/Bugs.vue'
 
 import Thanks from './views/Thanks'
 import {saveRefreshtime} from "./api/api";
+import NoPage from "./views/404";
+import TestOne from "./views/TestShow/TestOne";
 
 
 
@@ -33,6 +35,15 @@ const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
+        {
+            path: '/404', component: NoPage, name: 'NoPage',
+            meta: {
+                title: 'NoPage',
+                requireAuth: false,
+                NoNeedHome: true // 添加该字段，表示不需要home模板
+            },
+            hidden: true
+        },
         {
             path: '/403', component: NotFound, name: 'NotFound',
             meta: {
@@ -167,6 +178,21 @@ const router = new Router({
                 title: '博客管理',
                 requireAuth: false // 添加该字段，表示进入这个路由是需要登录的
             }
+        },
+        {
+            path: '/',
+            component: Layout,
+            name: '测试管理',
+            iconCls: 'fa-line-chart ',//图标样式class
+            children: [
+                {
+                    path: '/TestShow/TestOne', component: TestOne, name: '测试页1',
+                    meta: {
+                        title: '测试页1',
+                        requireAuth: true
+                    }
+                },
+            ]
         },
         {
             path: '*',
