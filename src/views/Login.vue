@@ -17,7 +17,7 @@
                 <el-radio-group @change="loginAccount" v-model="account3">
                     <el-radio-button label="测试账号1"></el-radio-button>
                     <el-radio-button label="测试账号2"></el-radio-button>
-                    <el-radio-button label="超级管理员" disabled ></el-radio-button>
+                    <el-radio-button label="超级管理员"  ></el-radio-button>
                 </el-radio-group>
             </div>
             <el-form-item style="width:100%;">
@@ -64,9 +64,12 @@
                 if (this.account3 == "测试账号1") {
                     this.ruleForm2.account = "test";
                     this.ruleForm2.checkPass = "test";
-                } else {
+                } else if (this.account3 == "测试账号2") {
                     this.ruleForm2.account = "test2";
                     this.ruleForm2.checkPass = "test2";
+                }else {
+                    this.ruleForm2.account = "blogadmin";
+                    this.ruleForm2.checkPass = "666";
                 }
             },
             handleSubmit2(ev) {
@@ -135,13 +138,6 @@
 
                         window.localStorage.user = JSON.stringify(data.response)
                         if (data.response.uID > 0) {
-
-                            _this.$message({
-                                message: "后台初始化成功",
-                                type: 'success'
-                            });
-                            _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
-
                             _this.GetNavigationBar(data.response.uID)
                         }
                     }
@@ -167,7 +163,7 @@
                             type: 'success'
                         });
 
-                        window.localStorage.NavigationBar = JSON.stringify(data.response)
+                        window.localStorage.router = (JSON.stringify(data.response.children));
                         _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }
                 });

@@ -190,7 +190,10 @@
                     window.localStorage.removeItem('NavigationBar');
                     window.localStorage.removeItem('refreshtime');
                     window.localStorage.removeItem('router');
-                    sessionStorage.removeItem("Tags")
+                    sessionStorage.removeItem("Tags");
+
+                    global.antRouter = [];
+
                     this.tagsList = [];
                     this.routes = [];
                     this.$store.commit("saveTagsData","");
@@ -289,14 +292,10 @@
             }
 
 
-            // var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
-            var NavigationBar = global.antRouter;
+            var NavigationBar = JSON.parse(window.localStorage.router? window.localStorage.router:null);
+            // var NavigationBar = global.antRouter;
 
             if (this.routes.length<=0&&NavigationBar&&NavigationBar.length>=0) {
-                this.$message({
-                    message: "后台初始化成功",
-                    type: 'success'
-                });
                 this.routes=NavigationBar;
             }
 
@@ -310,11 +309,10 @@
             }
 
 
-            // var NavigationBar = JSON.parse(window.localStorage.NavigationBar? window.localStorage.NavigationBar:null);
-            var NavigationBar = global.antRouter;
+            var NavigationBar = JSON.parse(window.localStorage.router? window.localStorage.router:null);
 
             if (NavigationBar&&NavigationBar.length>=0) {
-                if (this.routes.length<=0||(JSON.stringify(this.routes)!=JSON.stringify((NavigationBar.children)))) {
+                if (this.routes.length<=0||(JSON.stringify(this.routes)!=JSON.stringify((NavigationBar)))) {
                 this.routes=NavigationBar;
                 }
             }

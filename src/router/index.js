@@ -16,6 +16,7 @@ const router = new Router({
             meta: {
                 title: 'NoPage',
                 requireAuth: false,
+                NoTabPage: true,
                 NoNeedHome: true // 添加该字段，表示不需要home模板
             },
             hidden: true

@@ -8,6 +8,7 @@ import store from "./store";
 
 var getRouter //用来获取后台拿到的路由
 if (!getRouter) {//不加这个判断，路由会陷入死循环
+
     if (!getObjArr('router')) {
         //本地没有，则从数据库获取
         var user = window.localStorage.user ? JSON.parse(window.localStorage.user) : null;
@@ -93,6 +94,12 @@ router.beforeEach((to, from, next) => {
                 routerGo(to, next)
             }
         } else {
+            console.log(to)
+           if(to.name&&to.name != 'login'){
+               getRouter = getObjArr('router')//拿到路由
+               global.antRouter = getRouter
+               routerGo(to, next)//执行路由跳转方法
+           }
             next()
         }
     }
