@@ -7,7 +7,7 @@ import NoPage from '../views/404'
 
 Vue.use(Router)
 
-const router = new Router({
+const createRouter = () => new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
@@ -60,6 +60,12 @@ const router = new Router({
     ]
 })
 
+const router = createRouter()
+
+export function resetRouter () {
+    const newRouter = createRouter()
+    router.matcher = newRouter.matcher // the relevant part
+}
 
 export default router;
 

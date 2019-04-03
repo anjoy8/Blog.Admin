@@ -1,9 +1,11 @@
 import router from './router'
+import {resetRouter} from './router/index'
 
 const _import = require('./router/_import_' + process.env.NODE_ENV)//获取组件的方法
 import Layout from './views/Layout/Layout.vue'//Layout 是架构组件，不在后台返回，在文件里单独引入
 import {getNavigationBar, saveRefreshtime} from './api/api';
 import store from "./store";
+
 
 
 var getRouter //用来获取后台拿到的路由
@@ -98,7 +100,7 @@ router.beforeEach((to, from, next) => {
            if(to.name&&to.name != 'login'){
                getRouter = getObjArr('router')//拿到路由
                global.antRouter = getRouter
-               // routerGo(to, next)//执行路由跳转方法
+               routerGo(to, next)//执行路由跳转方法
            }
             next()
 
@@ -109,6 +111,7 @@ router.beforeEach((to, from, next) => {
 
 function routerGo(to, next) {
     getRouter = filterAsyncRouter(getRouter) //过滤路由
+    resetRouter()
     router.addRoutes(getRouter) //动态添加路由
     global.antRouter = getRouter //将路由数据传递给全局变量，做侧边栏菜单渲染工作
     next({...to, replace: true})
