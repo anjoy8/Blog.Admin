@@ -198,6 +198,7 @@
                     this.routes = [];
                     this.$store.commit("saveTagsData","");
                     _this.$router.push('/login');
+                    window.location.reload()
                 }).catch(() => {
 
                 });

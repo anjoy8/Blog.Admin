@@ -96,11 +96,11 @@ router.beforeEach((to, from, next) => {
                 routerGo(to, next)
             }
         } else {
-            console.log(to)
+            console.log(1)
            if(to.name&&to.name != 'login'){
                getRouter = getObjArr('router')//拿到路由
                global.antRouter = getRouter
-               routerGo(to, next)//执行路由跳转方法
+               // routerGo(to, next)//执行路由跳转方法
            }
             next()
 
