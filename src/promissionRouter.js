@@ -94,6 +94,7 @@ router.beforeEach((to, from, next) => {
                 routerGo(to, next)
             }
         } else {
+            debugger
             console.log(to)
            if(to.name&&to.name != 'login'){
                getRouter = getObjArr('router')//拿到路由
