@@ -112,6 +112,9 @@ export const saveRefreshtime = params => {
          path: "/login",
          query: {redirect: router.currentRoute.fullPath}
      });
+     
+      window.location.reload()
+     
 };
 
 export const getUserByToken = params => {
