@@ -22,15 +22,19 @@ body {
     width: 100%;
 }
 .content-wrapper{
-    margin-bottom: 80px;
+    /*margin-bottom: 80px;*/
 }
 
 .content-expanded{
     max-width: calc(100% - 210px);
+    max-height: calc(100% - 80px);
 }
 .content-collapsed{
     max-width: 100%;
 
+}
+.el-scrollbar__wrap{
+    overflow-x: hidden !important;
 }
 
 .container .header {

@@ -37,8 +37,10 @@
                     </el-col>
                 </el-col>
                 <el-col :span="24" class="main">
-                    <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
 
+
+                    <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+                        <el-scrollbar style="height:100%;background: #2f3e52;">
                         <el-menu  :default-active="$route.path"
                                  class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
                                  unique-opened router :collapse="isCollapse"
@@ -79,7 +81,9 @@
                         </el-menu>
 
 
+                        </el-scrollbar>
                     </aside>
+
                     <el-col :span="24" class="content-wrapper" :class="collapsed?'content-collapsed':'content-expanded'">
                         <div class="tags" v-if="showTags">
                             <ul>
