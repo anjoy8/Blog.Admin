@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
@@ -8,6 +9,7 @@ export default new Vuex.Store({
       token: null,
       tokenExpire: null,
       tagsStoreList: [],
+      language: Cookies.get('language') || 'en',
 
   },
   mutations: {
@@ -23,9 +25,16 @@ export default new Vuex.Store({
           state.tagsStoreList = data;
           sessionStorage.setItem("Tags",data)
       },
+      SET_LANGUAGE: (state, language) => {
+          state.language = language
+          Cookies.set('language', language)
+      },
 
   },
   actions: {
+      setLanguage({ commit }, language) {
+          commit('SET_LANGUAGE', language)
+      },
 
   }
 })

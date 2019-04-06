@@ -5,10 +5,16 @@ import store from './store'
 import router from './router/index'
 import '../util/global'//全局
 import './promissionRouter'//这里进行路由后台获取的模拟
+import i18n from './lang' // Internationalization
+import Cookies from 'js-cookie'
 
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-Vue.use(ElementUI);
+
+Vue.use(ElementUI, {
+    size: Cookies.get('size') || 'medium', // set element-ui default size
+    i18n: (key, value) => i18n.t(key, value)
+});
 
 
 // import Mock from './mock'
@@ -20,7 +26,8 @@ import 'font-awesome/css/font-awesome.min.css'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    i18n,
+    render: h => h(App)
 }).$mount('#app')
