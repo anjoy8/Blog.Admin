@@ -24,19 +24,24 @@
                 <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">
                     登录
                 </el-button>
-                <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
+
+            </el-form-item>
+            <el-form-item style="width:100%;">
+
+                <el-button :loading="loginingMock"  style="width:100%;" @click.native.prevent="handleSubmitMock">Mock登录</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
-    import {requestLogin, getUserByToken, getNavigationBar} from '../api/api';
+    import {requestLogin,requestLoginMock, getUserByToken, getNavigationBar} from '../api/api';
 
     export default {
         data() {
             return {
                 logining: false,
+                loginingMock: false,
                 ruleForm2: {
                     account: 'test',
                     checkPass: 'test'
@@ -71,6 +76,35 @@
                     this.ruleForm2.account = "blogadmin";
                     this.ruleForm2.checkPass = "666";
                 }
+            },
+            //这个是用来测试 mock 的，很简单，只需要在 main.js 中开启服务即可
+            handleSubmitMock(ev) {
+                var _this = this;
+                this.$refs.ruleForm2.validate((valid) => {
+                    if (valid) {
+                        //_this.$router.replace('/table');
+                        this.loginingMock = true;
+                        //NProgress.start();
+                        var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
+
+                        requestLoginMock(loginParams).then(data => {
+                            this.loginingMock = false;
+
+                            if(data&&data.code&&data.msg){
+                                _this.$message({
+                                    message: data.code+data.msg +"，用户名admin,密码123456",
+                                    type: 'error'
+                                });
+                            }else {
+                                console.info('%c 测试mock，请在main.js 中开启服务!', "color:red")
+                            }
+
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
             handleSubmit2(ev) {
                 var _this = this;

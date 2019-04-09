@@ -16,7 +16,7 @@ Vue.use(ElementUI, {
     i18n: (key, value) => i18n.t(key, value)
 });
 
-
+//如果想使用 mock ，开启这两行即可，想看效果，看登录页的 mock登录功能
 // import Mock from './mock'
 // Mock.bootstrap();
 

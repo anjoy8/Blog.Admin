@@ -82,6 +82,8 @@ axios.interceptors.response.use(
 export const requestLogin = params => {
     return axios.get(`${base}/api/login/jwttoken3.0`, {params: params}).then(res => res.data);
 };
+export const requestLoginMock = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
+
 export const refreshToken = params => {
     return axios.get(`${base}/api/login/RefreshToken`, {params: params}).then(res => res.data);
 };
@@ -112,9 +114,9 @@ export const saveRefreshtime = params => {
          path: "/login",
          query: {redirect: router.currentRoute.fullPath}
      });
-     
+
       window.location.reload()
-     
+
 };
 
 export const getUserByToken = params => {
