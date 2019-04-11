@@ -47,37 +47,7 @@
                                  background-color="#2f3e52"
                                  text-color="#fff"
                                  active-text-color="#ffd04b">
-                            <template v-for="(item,index) in routes" v-if="!item.hidden">
-
-                                <template v-if="item.children">
-
-
-                                    <el-submenu :index="index+''" v-if="!item.leaf">
-                                        <template slot="title">
-                                            <i class="fa" :class="item.iconCls"></i>
-                                            <span class="title-name" slot="title">{{item.name}}</span>
-                                        </template>
-                                        <el-menu-item class="title-name"  v-for="child in item.children" :index="child.path" :key="child.id" :base-path="item.path"
-                                                      v-if="!child.hidden">{{child.name}}
-                                        </el-menu-item>
-                                    </el-submenu>
-                                    <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i
-                                            :class="item.iconCls"></i>{{item.children[0].name}}
-                                    </el-menu-item>
-                                </template>
-                                <template v-else>
-
-                                    <el-menu-item :index="item.path">
-                                        <i class="fa" :class="item.iconCls"></i>
-                                        <template slot="title">
-                                            <span class="title-name" slot="title">{{item.name}}</span>
-                                        </template>
-
-                                    </el-menu-item>
-
-                                </template>
-                            </template>
-
+                            <sidebar v-for="(menu,index) in routes" :key="index" :item="menu" />
                         </el-menu>
 
 
@@ -128,8 +98,10 @@
     </div>
 </template>
 <script>
+    import Sidebar from './components/Sidebar'
     import {getUserByToken} from './api/api';
     export default {
+        components: { Sidebar },
         data() {
             return {
                 sysName: 'BlogAdmin',
