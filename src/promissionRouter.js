@@ -67,7 +67,7 @@ router.beforeEach((to, from, next) => {
                     path: "/login",
                     query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
                 });
-                
+
                  window.location.reload()
             }
         } else {
@@ -134,7 +134,7 @@ function filterAsyncRouter(asyncRouterMap) {
     //注意这里的 asyncRouterMap 是一个数组
     const accessedRouters = asyncRouterMap.filter(route => {
         if (route.path) {
-            if (route.path === '/') {//Layout组件特殊处理
+            if (route.path === '/'||route.path === '-') {//Layout组件特殊处理
                 route.component = Layout
             } else {
                 route.component = _import(route.path)
