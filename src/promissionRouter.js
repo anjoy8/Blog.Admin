@@ -137,7 +137,12 @@ function filterAsyncRouter(asyncRouterMap) {
             if (route.path === '/'||route.path === '-') {//Layout组件特殊处理
                 route.component = Layout
             } else {
-                route.component = _import(route.path)
+                try {
+                    route.component = _import(route.path)
+                }catch (e) {
+                    console.info('%c 当前路由 '+route.path+'.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
+
+                }
             }
         }
         if (route.children && route.children.length) {

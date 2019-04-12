@@ -202,7 +202,12 @@
                     }
                 });
             }
-        }
+        },
+        mounted() {
+            window.localStorage.clear()
+            console.info('%c 本地缓存已清空!', "color:green")
+
+        },
     }
 
 </script>
