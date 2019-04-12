@@ -36,6 +36,9 @@
 
 <script>
     import {requestLogin,requestLoginMock, getUserByToken, getNavigationBar} from '../api/api';
+    const _import = require('../router/_import_' + process.env.NODE_ENV)//获取组件的方法
+    import router from '../router'
+    import Layout from '../views/Layout/Layout.vue'//Layout 是架构组件，不在后台返回，在文件里单独引入
 
     export default {
         data() {
@@ -198,18 +201,46 @@
                         });
 
                         window.localStorage.router = (JSON.stringify(data.response.children));
+
+                        let  getRouter = data.response.children//后台拿到路由
+                        getRouter = filterAsyncRouter(getRouter) //过滤路由
+                        router.addRoutes(getRouter) //动态添加路由
+
                         _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }
                 });
             }
         },
         mounted() {
-            window.localStorage.clear()
+            // window.localStorage.clear()
             console.info('%c 本地缓存已清空!', "color:green")
 
         },
     }
 
+    function filterAsyncRouter(asyncRouterMap) {
+        //注意这里的 asyncRouterMap 是一个数组
+        const accessedRouters = asyncRouterMap.filter(route => {
+            if (route.path) {
+                if (route.path === '/'||route.path === '-') {//Layout组件特殊处理
+                    route.component = Layout
+                } else {
+                    try {
+                        route.component = _import(route.path)
+                    }catch (e) {
+                        console.info('%c 当前路由 '+route.path+'.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
+
+                    }
+                }
+            }
+            if (route.children && route.children.length) {
+                route.children = filterAsyncRouter(route.children)
+            }
+            return true
+        })
+
+        return accessedRouters
+    }
 </script>
 
 <style>
