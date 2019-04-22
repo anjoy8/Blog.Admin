@@ -35,12 +35,12 @@
             <el-table-column prop="bCreateTime" label="创建时间" :formatter="formatCreateTime" width="250" sortable>
             </el-table-column>
 
-            <!--<el-table-column label="操作" width="150">-->
-                <!--<template scope="scope">-->
-                    <!--<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
-                    <!--<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>-->
-                <!--</template>-->
-            <!--</el-table-column>-->
+            <el-table-column label="操作" width="150">
+                <template scope="scope">
+                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
         </el-table>
 
         <!--工具条-->
@@ -102,7 +102,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getBlogListPage} from '../../api/api';
+    import {getBlogListPage,removeBlog} from '../../api/api';
 
     export default {
         data() {
@@ -192,8 +192,8 @@
                 }).then(() => {
                     this.listLoading = true;
                     //NProgress.start();
-                    let para = {id: row.Id};
-                    removeModule(para).then((res) => {
+                    let para = {id: row.bID};
+                    removeBlog(para).then((res) => {
                         if (util.isEmt.format(res)) {
                             this.listLoading = false;
                             return;
@@ -221,8 +221,14 @@
             },
             //显示编辑界面
             handleEdit: function (index, row) {
-                this.editFormVisible = true;
-                this.editForm = Object.assign({}, row);
+                // this.editFormVisible = true;
+                // this.editForm = Object.assign({}, row);
+
+                this.$message({
+                    message: "功能正在陆续开发中...",
+                    type: 'error'
+                });
+
             },
             //显示新增界面
             handleAdd() {

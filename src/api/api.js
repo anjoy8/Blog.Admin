@@ -224,3 +224,6 @@ export const addBug = params => {
 export const getBlogListPage = params => {
     return axios.get(`${base}/api/Blog`, {params: params});
 };
+export const removeBlog = params => {
+    return axios.delete(`${base}/api/Blog/delete`, {params: params});
+};
