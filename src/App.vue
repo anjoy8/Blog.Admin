@@ -210,6 +210,7 @@
             closeAll() {
                 this.tagsList = [];
                 this.$router.push('/');
+                sessionStorage.removeItem("Tags");
             },
             // 关闭其他标签
             closeOther() {
@@ -217,6 +218,9 @@
                     return item.path === this.$route.fullPath;
                 })
                 this.tagsList = curItem;
+
+
+                sessionStorage.setItem("Tags",JSON.stringify(this.tagsList))
             },
             // 设置标签
             setTags(route) {

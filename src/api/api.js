@@ -6,6 +6,9 @@ import Vue from 'vue';
 
 let base = '';
 
+// 请求延时
+axios.defaults.timeout = 6000
+
 var storeTemp = store;
 axios.interceptors.request.use(
     config => {
@@ -32,6 +35,19 @@ axios.interceptors.response.use(
         return response;
     },
     error => {
+        // 超时请求处理
+        var originalRequest = error.config;
+        if(error.code == 'ECONNABORTED' && error.message.indexOf('timeout')!=-1 && !originalRequest._retry){
+
+            Vue.prototype.$message({
+                message: '请求超时！',
+                type: 'error'
+            });
+
+            originalRequest._retry = true
+            return null;
+        }
+
         if (error.response) {
             if (error.response.status == 401) {
                 var curTime = new Date()
