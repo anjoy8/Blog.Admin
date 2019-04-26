@@ -243,3 +243,8 @@ export const getBlogListPage = params => {
 export const removeBlog = params => {
     return axios.delete(`${base}/api/Blog/delete`, {params: params});
 };
+
+// 日志
+export const getLogs = params => {
+    return axios.get(`${base}/api/Monitor/get`, {params: params});
+};
