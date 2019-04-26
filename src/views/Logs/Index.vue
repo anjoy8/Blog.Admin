@@ -2,6 +2,7 @@
     <section>
     <el-table
             :data="tableData"
+            v-loading="listLoading"
             style="width: 100%">
         <el-table-column type="expand">
             <template slot-scope="props">
@@ -43,6 +44,7 @@
                 filters: {
                     LinkUrl: ''
                 },
+                listLoading: false,
                 tableData:[]
 
             }
