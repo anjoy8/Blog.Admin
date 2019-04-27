@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
     "axios": "^0.18.0",
     "echarts": "^3.8.5",
     "element-ui": "^2.4.11",

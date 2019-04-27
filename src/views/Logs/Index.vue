@@ -1,42 +1,62 @@
 <template>
     <section>
-    <el-table
-            :data="tableData"
-            v-loading="listLoading"
-            style="width: 100%">
-        <el-table-column type="expand">
-            <template slot-scope="props">
-                <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="Datetime">
-                        <span>{{ props.row.Datetime }}</span>
-                    </el-form-item>
-                    <el-form-item label="Content">
-                        <span v-html="props.row.Content"></span>
-                    </el-form-item>
-                </el-form>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="Datetime"
-                prop="Datetime">
-        </el-table-column>
-        <el-table-column
-                label="Content">
-            <template scope="scope">
-                <span :class="scope.row.LogColor" v-html="scope.row.Content.substring(0,100)"></span>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="IP"
-                prop="IP">
-        </el-table-column>
-    </el-table>
+        <div style="display: none">
+            <div>
+                <label for="userName">Your Name</label>
+                <input type="text" name="Name" id="userName" v-model="userName">
+            </div>
+            <div>
+                <label for="userMessage">Message</label>
+                <input type="text" name="Message" id="userMessage" v-model="userMessage">
+            </div>
+            <ul v-for="(item, index) in messages" v-bind:key="index + 'itemMessage'">
+                <li><b>Name: </b>{{item.user}}</li>
+                <li><b>Message: </b>{{item.message}}</li>
+            </ul>
+
+        </div>
+        <el-button type="primary" @click="getLogs">查询</el-button>
+
+
+        <el-table
+                :data="tableData"
+                v-loading="listLoading"
+                style="width: 100%">
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item label="Datetime">
+                            <span>{{ props.row.datetime }}</span>
+                        </el-form-item>
+                        <el-form-item label="Content">
+                            <span v-html="props.row.content"></span>
+                        </el-form-item>
+                    </el-form>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="Datetime"
+                    prop="datetime">
+            </el-table-column>
+            <el-table-column
+                    label="Content">
+                <template scope="scope">
+                    <span :class="scope.row.logColor"
+                          v-html="scope.row.content? scope.row.content.substring(0,100):''"></span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="IP"
+                    prop="ip">
+            </el-table-column>
+        </el-table>
     </section>
 </template>
 
 <script>
     import util from '../../../util/date'
     import {getLogs} from '../../api/api';
+    import * as signalR from "@aspnet/signalr";
 
     export default {
         data() {
@@ -44,15 +64,20 @@
                 filters: {
                     LinkUrl: ''
                 },
-                listLoading: false,
-                tableData:[]
+                listLoading: true,
+                tableData: [],
+                userName: "1",
+                userMessage: "1",
+                connection: "",
+                messages: [],
+                t:""
 
             }
         },
         methods: {
             //性别显示转换
             formattdDetail: function (row, column) {
-                return row.tdDetail? row.tdDetail.substring(0,20):"N/A";
+                return row.tdDetail ? row.tdDetail.substring(0, 20) : "N/A";
             },
             formatCreateTime: function (row, column) {
                 return (!row.tdCreatetime || row.tdCreatetime == '') ? '' : util.formatDate.format(new Date(row.tdCreatetime), 'yyyy-MM-dd');
@@ -76,10 +101,63 @@
                     //NProgress.done();
                 });
             },
+            submitCard: function () {
+                if (this.userName && this.userMessage) {
+                    this.connection.invoke('SendMessage', this.userName, this.userMessage).catch(function (err) {
+                        return console.error(err);
+                    });
+
+                    this.connection.invoke('GetLatestCount', 1).catch(function (err) {
+                        return console.error(err);
+                    });
+
+                    this.listLoading = false;
+                }
+            },
+            getLogs: function () {
+                this.connection.invoke('GetLatestCount', 1).catch(function (err) {
+                    return console.error(err);
+                });
+
+                this.listLoading = false
+            }
+
+        },
+        created: function () {
+            this.connection = new signalR.HubConnectionBuilder()
+                .withUrl('/api/chatHub')
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+
+            var thisVue = this;
+            thisVue.connection.start();
+
+            thisVue.connection.on('ReceiveMessage', function (user, message) {
+                thisVue.messages.push({user, message});
+            });
+
+            thisVue.connection.on('ReceiveUpdate', function (update) {
+                console.info('update success!')
+                thisVue.tableData = update;
+                // window.clearInterval(this.t)
+            })
 
         },
         mounted() {
-            this.getRoles();
+            // this.getRoles();
+            this.t =  setTimeout(() => {
+
+                this.getLogs();
+           }, 1000);
+
+
+
+        },
+        beforeDestroy() {
+            window.clearInterval(this.t)
+            this.connection.stop();
+
         }
     }
 
@@ -89,16 +167,19 @@
     .demo-table-expand {
         font-size: 0;
     }
+
     .demo-table-expand label {
         width: 90px;
         color: #99a9bf;
     }
+
     .demo-table-expand .el-form-item {
         margin-right: 0;
         margin-bottom: 0;
         width: 30%;
     }
-    .EXC{
-        color:red;
+
+    .EXC {
+        color: red;
     }
 </style>
