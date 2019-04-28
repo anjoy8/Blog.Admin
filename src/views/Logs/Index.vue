@@ -1,21 +1,23 @@
 <template>
     <section>
-        <div style="display: none">
-            <div>
-                <label for="userName">Your Name</label>
-                <input type="text" name="Name" id="userName" v-model="userName">
-            </div>
-            <div>
-                <label for="userMessage">Message</label>
-                <input type="text" name="Message" id="userMessage" v-model="userMessage">
-            </div>
+        <div style="display: none1">
+            <el-form ref="form"  label-width="80px" @submit.prevent="onSubmit" style="margin:20px;width:60%;min-width:600px;">
+                <el-form-item label="用户名">
+                    <el-input v-model="userName"></el-input>
+                </el-form-item>
+
+                <el-form-item label="密码">
+                    <el-input v-model="userMessage"></el-input>
+                </el-form-item>
+            </el-form>
             <ul v-for="(item, index) in messages" v-bind:key="index + 'itemMessage'">
                 <li><b>Name: </b>{{item.user}}</li>
                 <li><b>Message: </b>{{item.message}}</li>
             </ul>
+            <el-button type="primary" @click="submitCard">登录</el-button>
 
+            <el-button type="primary" @click="getLogs">查询</el-button>
         </div>
-        <el-button type="primary" @click="getLogs">查询</el-button>
 
 
         <el-table
@@ -66,8 +68,8 @@
                 },
                 listLoading: true,
                 tableData: [],
-                userName: "1",
-                userMessage: "1",
+                userName: "Tom",
+                userMessage: "123",
                 connection: "",
                 messages: [],
                 t:""
@@ -107,10 +109,6 @@
                         return console.error(err);
                     });
 
-                    this.connection.invoke('GetLatestCount', 1).catch(function (err) {
-                        return console.error(err);
-                    });
-
                     this.listLoading = false;
                 }
             },
@@ -140,14 +138,13 @@
             thisVue.connection.on('ReceiveUpdate', function (update) {
                 console.info('update success!')
                 thisVue.tableData = update;
-                // window.clearInterval(this.t)
+                window.clearInterval(this.t)
             })
 
         },
         mounted() {
             // this.getRoles();
             this.t =  setTimeout(() => {
-
                 this.getLogs();
            }, 1000);
 
@@ -157,7 +154,6 @@
         beforeDestroy() {
             window.clearInterval(this.t)
             this.connection.stop();
-
         }
     }
 
