@@ -151,7 +151,7 @@
 
             thisVue.connection.on('ReceiveUpdate', function (update) {
                 console.info('update success!')
-                this.listLoading = false;
+                thisVue.listLoading = false;
                 thisVue.tableData = update;
                 window.clearInterval(this.t)
             })
