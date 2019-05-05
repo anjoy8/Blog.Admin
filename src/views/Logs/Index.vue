@@ -137,7 +137,7 @@
            // }, 1000);
 
             this.connection = new signalR.HubConnectionBuilder()
-                .withUrl('/api/chatHub')
+                .withUrl('/api2/chatHub')
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
