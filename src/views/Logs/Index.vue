@@ -153,6 +153,7 @@
            //      this.getLogs();
            // }, 1000);
 
+            this.listLoading = false;
 
 
         },
