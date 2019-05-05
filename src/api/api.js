@@ -7,7 +7,7 @@ import Vue from 'vue';
 let base = '';
 
 // 请求延时
-axios.defaults.timeout = 10000
+axios.defaults.timeout = 20000
 
 var storeTemp = store;
 axios.interceptors.request.use(
