@@ -1,7 +1,8 @@
 <template>
     <section>
         <div style="display: none1">
-            <el-form ref="form"  label-width="80px" @submit.prevent="onSubmit" style="margin:20px;width:60%;min-width:600px;">
+            <el-form ref="form" label-width="80px" @submit.prevent="onSubmit"
+                     style="margin:20px;width:60%;min-width:600px;">
                 <el-form-item label="用户名">
                     <el-input v-model="userName"></el-input>
                 </el-form-item>
@@ -72,7 +73,7 @@
                 userMessage: "123",
                 connection: "",
                 messages: [],
-                t:""
+                t: ""
 
             }
         },
@@ -105,7 +106,6 @@
                     });
 
 
-                    this.listLoading = false;
                     //NProgress.done();
                 });
             },
@@ -115,7 +115,6 @@
                         return console.error(err);
                     });
 
-                    this.listLoading = false;
                 }
             },
             getLogs: function () {
@@ -128,21 +127,14 @@
 
         },
         created: function () {
+            let thisVue = this;
 
-        },
-        mounted() {
-             // this.getRoles();
-           //  this.t =  setTimeout(() => {
-           //      this.getLogs();
-           // }, 1000);
-
-            this.connection = new signalR.HubConnectionBuilder()
+            thisVue.connection = new signalR.HubConnectionBuilder()
                 .withUrl('/api2/chatHub')
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
 
-            var thisVue = this;
             thisVue.connection.start();
 
             thisVue.connection.on('ReceiveMessage', function (user, message) {
@@ -155,9 +147,13 @@
                 thisVue.tableData = update;
                 window.clearInterval(this.t)
             })
+        },
+        mounted() {
+            this.getRoles();
 
-            this.listLoading = false;
-
+            //  this.t =  setTimeout(() => {
+            //      this.getLogs();
+            // }, 1000);
 
         },
         beforeDestroy() {
