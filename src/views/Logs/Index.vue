@@ -128,6 +128,14 @@
 
         },
         created: function () {
+
+        },
+        mounted() {
+             // this.getRoles();
+           //  this.t =  setTimeout(() => {
+           //      this.getLogs();
+           // }, 1000);
+
             this.connection = new signalR.HubConnectionBuilder()
                 .withUrl('/api/chatHub')
                 .configureLogging(signalR.LogLevel.Information)
@@ -147,13 +155,6 @@
                 thisVue.tableData = update;
                 window.clearInterval(this.t)
             })
-
-        },
-        mounted() {
-             // this.getRoles();
-           //  this.t =  setTimeout(() => {
-           //      this.getLogs();
-           // }, 1000);
 
             this.listLoading = false;
 
