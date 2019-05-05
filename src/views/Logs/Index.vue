@@ -99,6 +99,12 @@
                 //NProgress.start();
                 getLogs(para).then((res) => {
                     this.tableData = res.data.response;
+
+                    this.connection.invoke('GetLatestCount', 1).catch(function (err) {
+                        return console.error(err);
+                    });
+
+
                     this.listLoading = false;
                     //NProgress.done();
                 });
@@ -117,7 +123,6 @@
                     return console.error(err);
                 });
 
-                this.listLoading = false
             }
 
         },
@@ -143,10 +148,10 @@
 
         },
         mounted() {
-            // this.getRoles();
-            this.t =  setTimeout(() => {
-                this.getLogs();
-           }, 1000);
+             this.getRoles();
+           //  this.t =  setTimeout(() => {
+           //      this.getLogs();
+           // }, 1000);
 
 
 
