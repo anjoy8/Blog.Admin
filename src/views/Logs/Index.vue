@@ -119,6 +119,7 @@
                 }
             },
             getLogs: function () {
+                this.listLoading = true;
                 this.connection.invoke('GetLatestCount', 1).catch(function (err) {
                     return console.error(err);
                 });
@@ -142,6 +143,7 @@
 
             thisVue.connection.on('ReceiveUpdate', function (update) {
                 console.info('update success!')
+                this.listLoading = false;
                 thisVue.tableData = update;
                 window.clearInterval(this.t)
             })
