@@ -91,22 +91,26 @@
             },
             //获取用户列表
             getRoles() {
+                let thisvue=this;
                 let para = {
                     page: this.page,
                     key: this.filters.LinkUrl
                 };
                 this.listLoading = true;
 
-                //NProgress.start();
                 getLogs(para).then((res) => {
-                    this.tableData = res.data.response;
+                    // this.tableData = res.data.response;
+                    thisvue.connection.start().then(() => {
 
-                    this.connection.invoke('GetLatestCount', 1).catch(function (err) {
-                        return console.error(err);
+                        thisvue.connection.invoke('GetLatestCount', 1).catch(function (err) {
+                            return console.error(err);
+                        });
+
+                        // transactionConnection.invoke('JoinGroup', 'ClientAccountTransaction').catch(err => console.error(err.toString()));
+
                     });
 
 
-                    //NProgress.done();
                 });
             },
             submitCard: function () {
@@ -135,7 +139,6 @@
                 .build();
 
 
-            thisVue.connection.start();
 
             thisVue.connection.on('ReceiveMessage', function (user, message) {
                 thisVue.messages.push({user, message});
