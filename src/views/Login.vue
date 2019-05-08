@@ -22,7 +22,7 @@
             </div>
             <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">
-                    登录
+                    {{loginStr}}
                 </el-button>
 
             </el-form-item>
@@ -46,6 +46,7 @@
         data() {
             return {
                 instance: "",
+                loginStr:'登录',
                 logining: false,
                 loginingMock: false,
                 ruleForm2: {
@@ -142,6 +143,8 @@
 
                         _this.openAlert("登录中...")
 
+                        _this.loginStr="登录中...";
+
                         requestLogin(loginParams).then(data => {
 
                             if (!data.success) {
@@ -162,6 +165,7 @@
 
                                 _this.closeAlert()
                                 _this.openAlert("成功获取Token，等待服务器返回用户信息...")
+                                _this.loginStr="成功获取Token，等待服务器返回用户信息...";
 
                                 _this.getUserInfoByToken(token)
 
@@ -189,6 +193,7 @@
 
                         _this.closeAlert()
                         _this.openAlert("接收到用户数据，开始初始化路由树...")
+                        _this.loginStr="接收到用户数据，开始初始化路由树...";
 
                         _this.$notify({
                             type: "success",
