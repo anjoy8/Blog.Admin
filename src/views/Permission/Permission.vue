@@ -55,6 +55,14 @@
                     </el-tag>
                 </template>
             </el-table-column>
+            <el-table-column prop="IsHide" label="是否隐藏" width="100" sortable>
+                <template slot-scope="scope">
+                    <el-tag
+                            :type="!scope.row.IsHide  ? 'success' : 'danger'"
+                            disable-transitions>{{!scope.row.IsHide ? "否":"是"}}
+                    </el-tag>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -101,6 +109,10 @@
                 </el-form-item>
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="editForm.IsButton" >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
+                    <el-switch v-model="editForm.IsHide" >
                     </el-switch>
                 </el-form-item>
                 <el-form-item prop="PidArr" label="父级菜单" width="" sortable>
@@ -152,6 +164,10 @@
                 </el-form-item>
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="addForm.IsButton" >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
+                    <el-switch v-model="addForm.IsHide" >
                     </el-switch>
                 </el-form-item>
                 <el-form-item prop="PidArr" label="父级菜单" width="" sortable>
@@ -228,6 +244,7 @@
                     Icon: '',
                     Enabled: true,
                     IsButton: false,
+                    IsHide: false,
                 },
 
                 addFormVisible: false,//新增界面是否显示
@@ -254,6 +271,7 @@
                     Icon: '',
                     Enabled: true,
                     IsButton: false,
+                    IsHide: false,
                 }
 
             }
@@ -347,6 +365,7 @@
                     Enabled: true,
                     Icon: '',
                     IsButton: false,
+                    IsHide: false,
                 };
 
                 let para={pid:0};

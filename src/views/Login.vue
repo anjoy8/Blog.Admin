@@ -152,6 +152,9 @@
                                     message: data.message,
                                     type: 'error'
                                 });
+                                _this.closeAlert()
+                                this.logining = false;
+                                _this.loginStr="重新登录";
                             } else {
 
                                 var token = data.token;

@@ -224,10 +224,14 @@
                 // this.editFormVisible = true;
                 // this.editForm = Object.assign({}, row);
 
-                this.$message({
-                    message: "功能正在陆续开发中...",
-                    type: 'error'
-                });
+
+                this.$router.replace("/Blog/_id");
+
+
+                // this.$message({
+                //     message: "功能正在陆续开发中...",
+                //     type: 'error'
+                // });
 
             },
             //显示新增界面
