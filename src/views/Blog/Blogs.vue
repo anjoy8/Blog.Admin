@@ -223,9 +223,8 @@
             handleEdit: function (index, row) {
                 // this.editFormVisible = true;
                 // this.editForm = Object.assign({}, row);
-
-
-                this.$router.replace("/Blog/_id");
+                console.log(row.bID)
+                this.$router.replace(`/Blog/Detail?id=${row.bID}`);
 
 
                 // this.$message({

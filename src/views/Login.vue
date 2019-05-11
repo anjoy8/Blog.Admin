@@ -141,7 +141,7 @@
                         var loginParams = {name: this.ruleForm2.account, pass: this.ruleForm2.checkPass};
 
 
-                        _this.openAlert("登录中...")
+                        // _this.openAlert("登录中...")
 
                         _this.loginStr="登录中...";
 
@@ -166,8 +166,8 @@
 
                                 window.localStorage.refreshtime = expiredate;
 
-                                _this.closeAlert()
-                                _this.openAlert("成功获取Token，等待服务器返回用户信息...")
+                                // _this.closeAlert()
+                                // _this.openAlert("成功获取Token，等待服务器返回用户信息...")
                                 _this.loginStr="成功获取Token，等待服务器返回用户信息...";
 
                                 _this.getUserInfoByToken(token)
@@ -193,9 +193,8 @@
                             type: 'error'
                         });
                     } else {
-
-                        _this.closeAlert()
-                        _this.openAlert("接收到用户数据，开始初始化路由树...")
+                        // _this.closeAlert()
+                        // _this.openAlert("接收到用户数据，开始初始化路由树...")
                         _this.loginStr="接收到用户数据，开始初始化路由树...";
 
                         _this.$notify({
@@ -227,7 +226,7 @@
                         });
                     } else {
 
-                        _this.closeAlert()
+                        // _this.closeAlert()
 
                         _this.$message({
                             message: "后台初始化成功",
