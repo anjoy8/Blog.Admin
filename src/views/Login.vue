@@ -152,9 +152,9 @@
                                     message: data.message,
                                     type: 'error'
                                 });
-                                _this.closeAlert()
-                                this.logining = false;
+                                _this.logining = false;
                                 _this.loginStr="重新登录";
+                                _this.closeAlert()
                             } else {
 
                                 var token = data.token;
@@ -216,7 +216,7 @@
                 var loginParams = {uid: uid};
 
                 getNavigationBar(loginParams).then(data => {
-                    this.logining = false;
+                    _this.logining = false;
 
 
                     if (!data.success) {
