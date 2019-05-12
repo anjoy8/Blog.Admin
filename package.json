@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "BS": "git pull && vue-cli-service build",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit"
   },
