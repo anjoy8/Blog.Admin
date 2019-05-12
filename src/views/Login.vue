@@ -166,6 +166,13 @@
 
                                 window.localStorage.refreshtime = expiredate;
 
+
+                                _this.$notify({
+                                    type: "success",
+                                    message: `成功获取 Token ，并将在 ${(data.expires_in)/60} 分钟后过期！`,
+                                    duration: 5000
+                                });
+
                                 // _this.closeAlert()
                                 // _this.openAlert("成功获取Token，等待服务器返回用户信息...")
                                 _this.loginStr="成功获取Token，等待服务器返回用户信息...";
