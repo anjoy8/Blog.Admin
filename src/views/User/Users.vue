@@ -388,27 +388,25 @@
             },
             //批量删除
             batchRemove: function () {
-                this.$message({
-                    message: '该功能未开放',
-                    type: 'warning'
-                });
-                return;
 
-                var ids = this.sels.map(item => item.id).toString();
+                // return;
+
+                var ids = this.sels.map(item => item.uID).toString();
                 this.$confirm('确认删除选中记录吗？', '提示', {
                     type: 'warning'
                 }).then(() => {
                     this.listLoading = true;
                     //NProgress.start();
                     let para = {ids: ids};
+
                     batchRemoveUser(para).then((res) => {
                         this.listLoading = false;
                         //NProgress.done();
                         this.$message({
-                            message: '删除成功',
-                            type: 'success'
+                            message: '该功能未开放',
+                            type: 'warning'
                         });
-                        this.getUsers();
+                        console.log(res)
                     });
                 }).catch(() => {
 

@@ -162,7 +162,7 @@ export const addUser = params => {
     return axios.post(`${base}/api/user/post`, params);
 };
 export const batchRemoveUser = params => {
-    // return axios.get(`${base}/user/batchremove`, {params: params});//没做
+    return axios.delete(`${base}/api/Claims/BatchDelete`, {params: params});//没做
 };
 
 // 角色管理
