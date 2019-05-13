@@ -29,7 +29,11 @@
                         <img src="./assets/logo.png" height="128" width="128"/>
                     </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>我的消息</el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-badge :value="2" class="item" type="warning">
+                                        我的消息
+                                    </el-badge>
+                                    </el-dropdown-item>
                                 <el-dropdown-item>设置</el-dropdown-item>
                                 <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>

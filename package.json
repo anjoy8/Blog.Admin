@@ -12,7 +12,7 @@
     "@aspnet/signalr": "^1.1.4",
     "axios": "^0.18.0",
     "echarts": "^3.8.5",
-    "element-ui": "^2.4.11",
+    "element-ui": "^2.8.2",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
     "v-charts": "^1.19.0",

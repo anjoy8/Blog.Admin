@@ -9,7 +9,7 @@
                 <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
             </el-form-item>
             <el-form-item prop="checkPass">
-                <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
+                <el-input  v-model="ruleForm2.checkPass" auto-complete="off" show-password  placeholder="密码"></el-input>
             </el-form-item>
             <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
 
@@ -81,7 +81,7 @@
                     this.ruleForm2.checkPass = "test2";
                 } else {
                     this.ruleForm2.account = "blogadmin";
-                    this.ruleForm2.checkPass = "666";
+                    this.ruleForm2.checkPass = "blogadmin";
                 }
             },
             //这个是用来测试 mock 的，很简单，只需要在 main.js 中开启服务即可
@@ -154,7 +154,7 @@
                                 });
                                 _this.logining = false;
                                 _this.loginStr="重新登录";
-                                _this.closeAlert()
+                                // _this.closeAlert()
                             } else {
 
                                 var token = data.token;

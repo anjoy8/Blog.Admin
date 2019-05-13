@@ -18,7 +18,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>菜单</span>
-                    <el-button @click="saveAssign" style="float: right; padding: 3px 0" type="text">保存</el-button>
+                    <el-button :loading="loadingSave" @click="saveAssign" style="float: right; padding: 3px 0" type="text">{{loadingSaveStr}}</el-button>
                 </div>
                 <div class="block">
                     <!--<el-tree :data="data5" size="mini" show-checkbox node-key="value" :props="defaultProps"-->
@@ -74,6 +74,8 @@
                 btns: [],
                 assigns: [],
                 checked1: false,
+                loadingSaveStr:'保存',
+                loadingSave:false,
                 assignBtns: [],
                 defaultProps: {
                     children: 'children',
@@ -121,29 +123,42 @@
             },
             //获取菜单树
             getPermissions() {
+                let _this=this;
                 let para = {needbtn: false}
                 getPermissionTree(para).then((res) => {
+                    _this.loadingSave=false;
+                    _this.loadingSaveStr='保存';
                     this.data = res.data.response.children;
                     this.data5 = JSON.parse(JSON.stringify(this.data));
                 });
             },
             //获取菜单Id，通过角色id
             getPermissionIds(rid) {
+                let _this=this;
                 this.assigns = [];
                 this.assignBtns = [];
                 let para = {rid: rid}
                 getPermissionIds(para).then((res) => {
 
+                    _this.loadingSave=false;
+                    _this.loadingSaveStr='保存';
                     this.$refs.tree.setCheckedKeys(res.data.response.permissionids);
                     this.assignBtns = res.data.response.assignbtns;
 
                 });
             },
             operate(id) {
+
+                this.loadingSave=true;
+                this.loadingSaveStr='加载中...';
                 this.roleid = id;
                 this.getPermissionIds(id);
             },
             saveAssign() {
+
+                let _this=this;
+                this.loadingSave=true;
+                this.loadingSaveStr='保存中...';
                 console.log(this.$refs.tree.getCheckedKeys());
                 console.log(this.assignBtns)
                 let pids = this.$refs.tree.getCheckedKeys();
@@ -162,6 +177,9 @@
                 let para = {pids: pids, rid: this.roleid}
                 if (para.rid > 0 && para.pids.length > 0) {
                     addRolePermission(para).then((res) => {
+
+                        _this.loadingSave=false;
+                        _this.loadingSaveStr='保存';
 
                         if (res.data.success) {
 
@@ -295,6 +313,8 @@
 
         },
         mounted() {
+            this.loadingSave=true;
+            this.loadingSaveStr='加载中...';
             this.getRoles();
             this.getPermissions();
         }
