@@ -48,6 +48,7 @@ body {
     text-align: right;
     padding-right: 5px;
     float: right;
+    width: auto;
 }
 
 .container .header .userinfo .userinfo-inner {

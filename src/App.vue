@@ -5,15 +5,15 @@
 
             <el-row class="container">
                 <el-col :span="24" class="header">
-                    <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+                    <el-col :span="10" class="logo collapsedLogo" :class="collapsed?'logo-collapse-width':'logo-width'">
                       <div @click="toindex" >  {{collapsed?sysNameShort:sysName}}</div>
                     </el-col>
-                    <el-col :span="10">
+                    <el-col :span="10" class="logoban">
                         <div :class=" collapsed?'tools collapsed':'tools'" @click="collapse">
                             <i class="fa fa-align-justify"></i>
                         </div>
 
-                        <el-breadcrumb separator="/" class="breadcrumb-inner">
+                        <el-breadcrumb separator="/" class="breadcrumb-inner collapsedLogo">
                             <el-breadcrumb-item  v-for="item in $route.matched" :key="item.path">
 
                                <span style=""> {{ item.name }}</span>
@@ -43,7 +43,7 @@
                 <el-col :span="24" class="main">
 
 
-                    <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+                    <aside :class="collapsedClass "  >
                         <el-scrollbar style="height:100%;background: #2f3e52;">
                         <el-menu  :default-active="$route.path"
                                  class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
@@ -51,7 +51,7 @@
                                  background-color="#2f3e52"
                                  text-color="#fff"
                                  active-text-color="#ffd04b">
-                            <sidebar v-for="(menu,index) in routes" :key="index" :item="menu" />
+                            <sidebar v-for="(menu,index) in routes" @collaFa="collapseFa"  :key="index" :item="menu" />
                         </el-menu>
 
 
@@ -111,6 +111,8 @@
                 sysName: 'BlogAdmin',
                 sysNameShort: 'BA',
                 collapsed: false,
+                collapsedClass:'menu-expanded',
+                ispc:false,
                 sysUserName: '',
                 sysUserAvatar: '',
                 isCollapse: false,
@@ -193,8 +195,31 @@
             //折叠导航栏
             collapse: function () {
                 this.collapsed = !this.collapsed;
+
+                if(this.ispc){
+
+                    if(this.collapsed){
+                        this.collapsedClass='menu-collapsed';
+                    }else{
+                        this.collapsedClass='menu-expanded';
+                    }
+                }else{
+                    if(this.collapsed){
+                        this.collapsedClass='menu-collapsed-mobile';
+                    }else{
+                        this.collapsedClass='menu-expanded-mobile';
+                    }
+
+                    this.collapsedClass +=' mobile-ex ';
+                }
+
                 this.isCollapse = !this.isCollapse;
 
+            },
+            collapseFa: function () {
+                if(!this.ispc){
+                    this.collapse();
+                }
             },
             showMenu(i, status) {
                 this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
@@ -291,7 +316,6 @@
 
         },
         updated(){
-
             var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
             if (user) {
                 this.sysUserName = user.uRealName || '老张的哲学';
@@ -310,11 +334,9 @@
         },
         computed: {
             showTags() {
-
                 if (this.tagsList.length>1) {
                     this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
                 }
-
                 return this.tagsList.length > 0;
             }
         },
@@ -327,6 +349,17 @@
         created() {
             // 第一次进入页面时，修改tag的值
             this.setTags(this.$route);
+            this.ispc=window.screen.width>680;
+
+            if(this.ispc){
+                this.collapsedClass ='menu-expanded';
+            }else{
+                this.collapsedClass ='menu-expanded-mobile mobile-ex';
+                this.collapsed=true;
+                this.collapse();
+            }
+
+
         },
     }
 
@@ -415,4 +448,51 @@
         line-height: 2;
     }
 
+</style>
+<style>
+    .logoban{
+        width: auto !important;
+    }
+
+    @media screen and (max-width:680px) {
+
+        .collapsedLogo{
+            display: none;
+        }
+
+
+        .content-expanded{
+            max-width: 100% !important;
+            max-height: calc(100% - 80px);
+        }
+
+        .mobile-ex{
+            background: #fff;
+            z-index: 3000;
+            position: fixed;
+            height: 100vh;
+            width: 100%;
+            max-width: 260px;
+            top: 0;
+            left: 0;
+            -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
+            box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
+            -webkit-transition: all .25s cubic-bezier(.7,.3,.1,1);
+            transition: all .25s cubic-bezier(.7,.3,.1,1);
+            -webkit-transform: translate(100%);
+            z-index: 40000;
+            left: auto;
+            right: 0;
+            transform: translate(100%);
+        }
+
+        .mobile-ex.menu-collapsed-mobile {
+            transform: translate(0) ;
+        }
+
+        .el-menu--collapse{
+            width: 100% !important;
+        }
+
+    }
 </style>
