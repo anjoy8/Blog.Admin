@@ -29,7 +29,7 @@
                         <img src="./assets/logo.png" height="128" width="128"/>
                     </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>
+                                <el-dropdown-item @click.native="myNews" >
                                     <el-badge :value="2" class="item" type="warning">
                                         我的消息
                                     </el-badge>
@@ -99,6 +99,21 @@
                 <router-view></router-view>
             </div>
         </transition>
+
+        <el-dialog title="Unread Messages" :class="newsDialogCss" :visible.sync="NewsVisible" v-model="NewsVisible" :close-on-click-modal="false">
+           <div>
+               <el-tag
+                       v-for="tag in tagNews"
+                       :key="tag.name"
+                       closable
+                       class="tag-new"
+                       :type="tag.type">
+                   {{tag.name}}
+               </el-tag>
+
+           </div>
+        </el-dialog>
+
     </div>
 </template>
 <script>
@@ -110,10 +125,12 @@
             return {
                 sysName: 'BlogAdmin',
                 sysNameShort: 'BA',
+                NewsVisible: false,
                 collapsed: false,
                 collapsedClass:'menu-expanded',
                 ispc:false,
                 sysUserName: '',
+                newsDialogCss:'news-dialog',
                 sysUserAvatar: '',
                 isCollapse: false,
                 tagsList: [],
@@ -127,8 +144,16 @@
                     resource: '',
                     desc: ''
                 },
-                routes:[]
-                ,
+                routes:[],
+                tagNews: [
+                    { name: '前后端分离', type: '' },
+                    { name: 'vue.js', type: '' },
+                    { name: 'DDD领域驱动设计', type: 'success' },
+                    { name: '标签三', type: 'info' },
+                    { name: '欠费警告！', type: 'warning' },
+                    { name: '异常报告！', type: 'danger' }
+                ]
+
             }
         },
         methods: {
@@ -151,6 +176,11 @@
             },
             onSubmit() {
                 console.log('submit!');
+            },
+            myNews() {
+
+               this.newsDialogCss+=' show ';
+               this.NewsVisible=true;
             },
             handleopen() {
                 //console.log('handleopen');
@@ -378,6 +408,9 @@
 </style>
 
 <style>
+    .menu-collapsed .el-icon-arrow-right:before{
+        display: none;
+    }
     .tags {
         position: relative;
         overflow: hidden;
@@ -453,11 +486,52 @@
     .logoban{
         width: auto !important;
     }
+.news-dialog{
+
+    background: #fff;
+    z-index: 3000;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    max-width: 260px;
+    top: 60px !important;
+    left: 0 !important;;
+    -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
+    -webkit-transition: all .25s cubic-bezier(.7,.3,.1,1);
+    transition: all .25s cubic-bezier(.7,.3,.1,1);
+    -webkit-transform: translate(100%);
+    z-index: 40000;
+    left: auto !important;;
+    right: 0 !important;;
+    transform: translate(0);
+}
+
+.news-dialog .el-dialog{
+     margin: auto !important;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+     box-shadow: none;
+     width: 100%;
+}
+    .news-dialog.show {
+        transform: translate(0) ;
+    }
+
+    .tag-new{
+        width: 100%;
+        margin: 10px 0;
+    }
+
+
 
     @media screen and (max-width:680px) {
 
         .collapsedLogo{
             display: none;
+        }
+
+        .el-dialog{
+            width: 90% !important;
         }
 
 
