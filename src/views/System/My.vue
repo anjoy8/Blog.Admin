@@ -1,7 +1,7 @@
 <template>
-	<el-form ref="form" :model="form" label-width="80px" @submit.prevent="onSubmit" style="margin:20px;width:60%;min-width:600px;">
+	<el-form ref="editForm" :model="editForm" label-width="80px" @submit.prevent="onSubmit" style="margin:20px;width:60%;min-width:600px;">
 		<el-form-item label="我的昵称">
-			<el-input v-model="form.name"></el-input>
+			<el-input v-model="editForm.uRealName"></el-input>
 		</el-form-item>
 
 		<el-form-item label="旧密码" prop="uLoginPWD">
@@ -10,12 +10,15 @@
 		<el-form-item label="新密码" prop="uLoginPWD">
 			<el-input v-model="editForm.uLoginPWD" show-password  auto-complete="off"></el-input>
 		</el-form-item>
+		<el-form-item label="确认密码" prop="uLoginPWD">
+			<el-input v-model="editForm.uLoginPWD" show-password  auto-complete="off"></el-input>
+		</el-form-item>
 
 		<el-form-item label="留言/备注">
-			<el-input type="textarea" v-model="form.desc"></el-input>
+			<el-input type="textarea" v-model="editForm.desc"></el-input>
 		</el-form-item>
 		<el-form-item>
-			<el-button type="primary">更新</el-button>
+			<el-button @click="onSubmit" type="primary">更新</el-button>
 			<el-button @click.native.prevent>取消</el-button>
 		</el-form-item>
 	</el-form>
@@ -25,16 +28,6 @@
 	export default {
 		data() {
 			return {
-				form: {
-					name: '',
-					region: '',
-					date1: '2019-01-01',
-					date2: '',
-					delivery: false,
-					type: [],
-					resource: '',
-					desc: ''
-				},
                 editForm: {
                     id: 0,
                     uID: 0,
@@ -45,15 +38,23 @@
                     sex: -1,
                     age: 0,
                     birth: '',
+                    desc: '',
                     addr: ''
                 }
 			}
 		},
 		methods: {
 			onSubmit() {
-				console.log('submit!');
+                this.$message({
+                    message: '失败！该操作无权限',
+                    type: 'error'
+                });
 			}
-		}
+		},
+		mounted(){
+            var user = JSON.parse(window.localStorage.user);
+            this.editForm.uRealName=user ? user.uRealName:""
+        }
 	}
 
 </script>

@@ -34,7 +34,7 @@
                                         我的消息
                                     </el-badge>
                                     </el-dropdown-item>
-                                <el-dropdown-item>设置</el-dropdown-item>
+                                <el-dropdown-item @click.native="Setting">设置</el-dropdown-item>
                                 <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -184,6 +184,11 @@
                 });
 
 
+            },
+            //设置
+            Setting: function () {
+                var _this = this;
+                _this.$router.push('/System/My');
             },
             //折叠导航栏
             collapse: function () {
