@@ -114,6 +114,11 @@
            </div>
         </el-dialog>
 
+        <div class="v-modal " @click="closeZModalShadow" v-show="NewsVisible"  tabindex="0" style="z-index: 2917;"></div>
+
+
+        <div class="v-modal " @click="collapse" v-show="SidebarVisible"  tabindex="0" style="z-index: 2917;"></div>
+
     </div>
 </template>
 <script>
@@ -126,7 +131,9 @@
                 sysName: 'BlogAdmin',
                 sysNameShort: 'BA',
                 NewsVisible: false,
+                SidebarVisible: false,
                 collapsed: false,
+                zModalShadow:false,
                 collapsedClass:'menu-expanded',
                 ispc:false,
                 sysUserName: '',
@@ -165,6 +172,9 @@
             },
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
+            },
+            closeZModalShadow(){
+                this.NewsVisible=false;
             },
             toindex() {
                 this.$router.replace({
@@ -233,10 +243,12 @@
                     }else{
                         this.collapsedClass='menu-expanded';
                     }
-                }else{
+                }else{ // mobile
                     if(this.collapsed){
+                        this.SidebarVisible=true;
                         this.collapsedClass='menu-collapsed-mobile';
                     }else{
+                        this.SidebarVisible=false;
                         this.collapsedClass='menu-expanded-mobile';
                     }
 
@@ -489,7 +501,7 @@
 .news-dialog{
 
     background: #fff;
-    z-index: 3000;
+    z-index: 3000 !important;
     position: fixed;
     height: 100vh;
     width: 100%;
@@ -565,6 +577,20 @@
         }
 
         .el-menu--collapse{
+            width: 100% !important;
+        }
+
+        .el-date-editor.el-input, .el-date-editor.el-input__inner,.el-cascader.el-cascader--medium{
+            width: 100% !important;
+        }
+
+        .toolbar.roles{
+            width: 100% !important;
+        }
+        .toolbar.perms{
+            width: 800px !important;
+        }
+        .toolbar.perms .box-card{
             width: 100% !important;
         }
 

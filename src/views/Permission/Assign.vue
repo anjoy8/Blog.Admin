@@ -1,7 +1,7 @@
 <template>
     <section>
         <!--工具条-->
-        <el-col :span="8" class="toolbar">
+        <el-col :span="8" class="toolbar roles">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>权限</span>
@@ -14,7 +14,7 @@
             </el-card>
 
         </el-col>
-        <el-col :span="16" class="toolbar">
+        <el-col :span="16" class="toolbar perms">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>菜单</span>

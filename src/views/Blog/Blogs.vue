@@ -24,9 +24,9 @@
             </el-table-column>
             <el-table-column prop="bID" label="ID" width="100" sortable>
             </el-table-column>
-            <el-table-column prop="btitle" label="标题" width="300" sortable>
+            <el-table-column prop="btitle" label="标题" width="" sortable>
             </el-table-column>
-            <el-table-column prop="bcontent" label="内容"   width="" sortable>
+            <el-table-column prop="bcontent" label="内容"   width="400" sortable>
                 <template slot-scope="scope">
 
 <span v-html="scope.row.bcontent.substring(0,100)"></span>
