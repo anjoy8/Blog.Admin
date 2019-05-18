@@ -1,7 +1,10 @@
 <template>
-    <div>
-        <div class="bg bg-blur"></div>
-        <div style="height: 180px;"></div>
+    <div class="wrapper">
+        <ul class="bg-bubbles">
+            <li v-for="n in 10" ></li>
+        </ul>
+        <div class="bg bg-blur" style="display: none;"></div>
+        <div style="height: 10%;"></div>
         <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px"
                  class="demo-ruleForm login-container">
             <h3 class="title">系统登录</h3>
@@ -13,7 +16,7 @@
             </el-form-item>
             <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
 
-            <div style="margin-bottom: 20px;">
+            <div style="margin-bottom: 20px;" class="count-test">
                 <el-radio-group @change="loginAccount" v-model="account3">
                     <el-radio-button label="测试账号1"></el-radio-button>
                     <el-radio-button label="测试账号2"></el-radio-button>
@@ -309,7 +312,7 @@
         background: #fff;
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
-
+        z-index: 9999;
         position: relative;
     }
 
@@ -321,5 +324,171 @@
 
     .login-container .remember {
         margin: 0px 0px 25px 0px;
+    }
+
+    li {}
+
+    .wrapper {
+        background: #50a3a2;
+        background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+        background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+        opacity: 0.8;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .wrapper.form-success .containerLogin h1 {
+        -webkit-transform: translateY(85px);
+        -ms-transform: translateY(85px);
+        transform: translateY(85px);
+    }
+
+    .containerLogin {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 80px 0;
+        height: 400px;
+        text-align: center;
+    }
+
+    .containerLogin h1 {
+        font-size: 40px;
+        -webkit-transition-duration: 1s;
+        transition-duration: 1s;
+        -webkit-transition-timing-function: ease-in-put;
+        transition-timing-function: ease-in-put;
+        font-weight: 200;
+    }
+    .bg-bubbles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .bg-bubbles li {
+        position: absolute;
+        list-style: none;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.15);
+        bottom: -160px;
+        -webkit-animation: square 25s infinite;
+        animation: square 25s infinite;
+        -webkit-transition-timing-function: linear;
+        transition-timing-function: linear;
+    }
+
+    .bg-bubbles li:nth-child(1) {
+        left: 10%;
+    }
+
+    .bg-bubbles li:nth-child(2) {
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+        -webkit-animation-duration: 17s;
+        animation-duration: 17s;
+    }
+
+    .bg-bubbles li:nth-child(3) {
+        left: 25%;
+        -webkit-animation-delay: 4s;
+        animation-delay: 4s;
+    }
+
+    .bg-bubbles li:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        -webkit-animation-duration: 22s;
+        animation-duration: 22s;
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .bg-bubbles li:nth-child(5) {
+        left: 70%;
+    }
+
+    .bg-bubbles li:nth-child(6) {
+        left: 80%;
+        width: 120px;
+        height: 120px;
+        -webkit-animation-delay: 3s;
+        animation-delay: 3s;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .bg-bubbles li:nth-child(7) {
+        left: 32%;
+        width: 160px;
+        height: 160px;
+        -webkit-animation-delay: 7s;
+        animation-delay: 7s;
+    }
+
+    .bg-bubbles li:nth-child(8) {
+        left: 55%;
+        width: 20px;
+        height: 20px;
+        -webkit-animation-delay: 15s;
+        animation-delay: 15s;
+        -webkit-animation-duration: 40s;
+        animation-duration: 40s;
+    }
+
+    .bg-bubbles li:nth-child(9) {
+        left: 25%;
+        width: 10px;
+        height: 10px;
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+        -webkit-animation-duration: 40s;
+        animation-duration: 40s;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .bg-bubbles li:nth-child(10) {
+        left: 90%;
+        width: 160px;
+        height: 160px;
+        -webkit-animation-delay: 11s;
+        animation-delay: 11s;
+    }
+
+    @-webkit-keyframes square {
+        0% {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        100% {
+            -webkit-transform: translateY(-700px) rotate(600deg);
+            transform: translateY(-700px) rotate(600deg);
+        }
+    }
+
+    @keyframes square {
+        0% {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        100% {
+            -webkit-transform: translateY(-700px) rotate(600deg);
+            transform: translateY(-700px) rotate(600deg);
+        }
+    }
+    .content-az{
+        padding: 0 !important;
+        border: none !important;
     }
 </style>
