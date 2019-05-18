@@ -331,7 +331,7 @@
     .wrapper {
         background: #50a3a2;
         background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-        background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+        background: linear-gradient(to bottom right,#127c7b 0,#50a3a2);
         opacity: 0.8;
         position: absolute;
         left: 0;

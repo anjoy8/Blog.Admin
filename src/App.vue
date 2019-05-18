@@ -595,7 +595,7 @@
         }
 
         .login-container{
-            width: 270px !important;
+            width: 300px !important;
         }
         .count-test label{
 
