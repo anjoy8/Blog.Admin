@@ -2,6 +2,7 @@
     <div class="wrapper">
         <ul class="bg-bubbles">
             <li v-for="n in 10" ></li>
+            <ol v-for="n in 5" ></ol>
         </ul>
         <div class="bg bg-blur" style="display: none;"></div>
         <div style="height: 10%;"></div>
@@ -371,7 +372,7 @@
         z-index: 1;
     }
 
-    .bg-bubbles li {
+    .bg-bubbles li,.bg-bubbles ol {
         position: absolute;
         list-style: none;
         display: block;
@@ -383,6 +384,43 @@
         animation: square 25s infinite;
         -webkit-transition-timing-function: linear;
         transition-timing-function: linear;
+    }
+
+    ol{
+        padding: 0 !important;
+    }
+    .bg-bubbles ol:nth-child(11) {
+        left: 10%;
+        top: 10%;
+        width: 20px;
+        height: 20px;
+    }
+    .bg-bubbles ol:nth-child(12) {
+        left: 20%;
+        top: 40%;
+
+        width: 60px;
+        height: 60px;
+    }
+    .bg-bubbles ol:nth-child(13) {
+        left: 65%;
+        top: 30%;
+
+        width: 100px;
+        height: 60px;
+    }
+    .bg-bubbles ol:nth-child(14) {
+        left: 70%;
+        top: 30%;
+        width: 100px;
+        height: 150px;
+    }
+    .bg-bubbles ol:nth-child(15) {
+        left: 50%;
+        top: 70%;
+
+        width: 40px;
+        height: 60px;
     }
 
     .bg-bubbles li:nth-child(1) {
