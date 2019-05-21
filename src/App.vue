@@ -60,6 +60,25 @@
 
                     <el-col :span="24" class="content-wrapper" :class="collapsed?'content-collapsed':'content-expanded'">
                         <div class="tags" v-if="showTags">
+
+                            <div id="tags-view-container" class="tags-view-container">
+                                <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+                                    <router-link
+                                            v-for="(tag,index) in tagsList"
+                                            ref="tag"
+                                            :key="tag.path"
+                                            :class="{'active': isActive(tag.path)}"
+                                            :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+                                            tag="span"
+                                            @click.middle.native="closeTags(index)"
+                                            class="tags-view-item"
+                                    >
+                                        {{ tag.title }}
+                                        <span class="el-icon-close" @click.prevent.stop="closeTags(index)"  />
+                                    </router-link>
+                                </scroll-pane>
+
+                            </div>
                             <ul>
                                 <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
                                     <span class="tag-dot-inner"></span>
@@ -123,9 +142,10 @@
 </template>
 <script>
     import Sidebar from './components/Sidebar'
+    import ScrollPane from './components/ScrollPane'
     import {getUserByToken} from './api/api';
     export default {
-        components: { Sidebar },
+        components: { Sidebar,ScrollPane },
         data() {
             return {
                 sysName: 'BlogAdmin',
@@ -159,7 +179,12 @@
                     { name: '标签三', type: 'info' },
                     { name: '欠费警告！', type: 'warning' },
                     { name: '异常报告！', type: 'danger' }
-                ]
+                ],
+                visible: false,
+                top: 0,
+                left: 0,
+                selectedTag: {},
+                affixTags: []
 
             }
         },
@@ -271,7 +296,6 @@
             },
             // 关闭单个标签
             closeTags(index) {
-
                 const delItem = this.tagsList.splice(index, 1)[0];
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
@@ -337,7 +361,7 @@
                         window.localStorage.user=JSON.stringify(data.response)
                     }
                 });
-            }
+            },
         },
         mounted() {
             console.log(this.$route)
@@ -386,6 +410,22 @@
             // 对router进行监听，每当访问router时，对tags的进行修改
             $route(newValue) {
                 this.setTags(newValue);
+
+                const tags = this.$refs.tag
+                this.$nextTick(() => {
+                    for (const tag of tags) {
+
+                        if (tag.to.path === this.$route.path) {
+                            this.$refs.scrollPane.moveToTarget(tag,tags)
+                            // when query is different then update
+                            // if (tag.to.fullPath !== this.$route.fullPath) {
+                            //     this.$store.dispatch('tagsView/updateVisitedView', this.$route)
+                            // }
+                            break
+                        }
+                    }
+                })
+
             }
         },
         created() {
@@ -437,6 +477,7 @@
         height: 100%;
         padding:0;
         margin: 0;
+        display: none;
     }
 
     .tags-li {
@@ -600,6 +641,99 @@
         .count-test label{
 
         }
+        .content-wrapper .tags{
+            margin: 0px;
+            padding: 0px;
+        }
 
+    }
+</style>
+
+<style  >
+
+    .tags-view-container {
+        height: 34px;
+        width: calc( 100% - 60px );
+        /*background: #fff;*/
+        /*border-bottom: 1px solid #d8dce5;*/
+        /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);*/
+        float: left;
+    }
+    .tags-view-container .tags-view-wrapper .tags-view-item {
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+        height: 26px;
+        line-height: 26px;
+        border: 1px solid #d8dce5;
+        color: #495060;
+        background: #fff;
+        padding: 0 8px;
+        font-size: 12px;
+        margin-left: 5px;
+        margin-top: 4px;
+    }
+    .tags-view-container .tags-view-wrapper .tags-view-item:first-of-type {
+        margin-left: 15px;
+    }
+    .tags-view-container .tags-view-wrapper .tags-view-item:last-of-type {
+        margin-right: 15px;
+    }
+    .tags-view-container .tags-view-wrapper .tags-view-item.active {
+        /*background-color: #42b983;*/
+        /*color: #fff;*/
+        /*border-color: #42b983;*/
+    }
+    .tags-view-container .tags-view-wrapper .tags-view-item.active::before {
+        content: "";
+        background: #2d8cf0;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        position: relative;
+        margin-right: 2px;
+    }
+    .tags-view-container .contextmenu {
+        margin: 0;
+        background: #fff;
+        z-index: 3000;
+        position: absolute;
+        list-style-type: none;
+        padding: 5px 0;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #333;
+        box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    }
+    .tags-view-container .contextmenu li {
+        margin: 0;
+        padding: 7px 16px;
+        cursor: pointer;
+    }
+    .tags-view-container .contextmenu li:hover {
+        background: #eee;
+    }
+</style>
+
+<style  >
+    .tags-view-wrapper .tags-view-item .el-icon-close {
+        width: 16px;
+        height: 16px;
+        vertical-align: 2px;
+        border-radius: 50%;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        transform-origin: 100% 50%;
+    }
+    .tags-view-wrapper .tags-view-item .el-icon-close:before {
+        transform: scale(0.6);
+        display: inline-block;
+        vertical-align: -3px;
+    }
+    .tags-view-wrapper .tags-view-item .el-icon-close:hover {
+        background-color: #ef2b74;
+        color: #fff;
     }
 </style>

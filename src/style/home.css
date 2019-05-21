@@ -34,7 +34,7 @@ body {
 
 }
 .el-scrollbar__wrap{
-    overflow-x: hidden !important;
+    /*overflow-x: hidden !important;*/
 }
 
 .container .header {
@@ -215,7 +215,7 @@ body {
     padding: 5px;
 }
 .content-wrapper .tags{
-    margin-right: 20px;
+    padding-right: 20px;
 }
 .content-az section{
     overflow: auto;
