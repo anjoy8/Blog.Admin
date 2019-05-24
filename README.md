@@ -12,42 +12,46 @@
 ## 给个星星! ⭐️
 如果你喜欢这个项目或者它帮助你, 请给 Star~（辛苦星咯）
 
-
-## Tips：
+*********************************************************
+### 项目下载后，首先安装依赖包
+```
+npm install
 ```
 
-1【重要】、下载后，install 安装依赖，然后 npm run serve 运行，
-想要成功，记得要启动后端api接口服务，也就是blog.core 项目，我配置的是端口，8081(api后端)、2364(本项目)，
+### 安装成功后，运行即可
+```
+npm run serve // 请不要把 再一直用 dev 命令了
+```
+然后你就可以直接访问 http://localhost:6688
 
 
-devServer: {
-    open: true, //配置自动启动浏览器
-    host: "127.0.0.1",
-    port: 2364, // 当前vue项目 端口号
+## Tips：
+
+
+
+```
+如果你想换一个端口，可以直接修改根目录下的 vue.config.js 文件
+
+  devServer: {
+    port: 2364, // 当前 admin 项目的端口号
     https: false,
-    hotOnly: false, // https:{type:Boolean}
-    // proxy: null, // 设置代理
-    // proxy: 'http://123.206.33.109:8081',          // 配置跨域处理,只有一个代理
+
+而且也要代理下后端的接口地址，如果你使用 proxy 来实现跨域的话（如果用 CORS 跨域，这里就不用配置了）：
+
     proxy: {
       // 配置多个代理
       "/api": {
         target: "http://localhost:8081",//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
-        //target: "http://localhost:58427",
-        //target: "http://api.douban.com",
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          // 路径重写，
-          "^/apb": "" // 替换target中的请求地址
-        }
-      }
-    },
-    before: app => {}
-  },
-
-
 
 ```
+
+### 如果要部署，先执行bulid
+```
+npm run build
+```
+
+
+
 
 *****************************************************
 ### 三大平台同步直播
