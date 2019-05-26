@@ -536,9 +536,9 @@
 
 </style>
 <style>
-    .logoban{
-        width: auto !important;
-    }
+    /*.logoban{*/
+        /*width: auto !important;*/
+    /*}*/
 .news-dialog{
 
     background: #fff;
