@@ -6,7 +6,7 @@
             <el-row class="container">
                 <el-col :span="24" class="header">
                     <el-col :span="10" class="logo collapsedLogo" :class="collapsed?'logo-collapse-width':'logo-width'">
-                      <div @click="toindex" >  {{collapsed?sysNameShort:sysName}}</div>
+                        <div @click="toindex"> {{collapsed?sysNameShort:sysName}}</div>
                     </el-col>
                     <el-col :span="10" class="logoban">
                         <div :class=" collapsed?'tools collapsed':'tools'" @click="collapse">
@@ -14,9 +14,9 @@
                         </div>
 
                         <el-breadcrumb separator="/" class="breadcrumb-inner collapsedLogo">
-                            <el-breadcrumb-item  v-for="item in $route.matched" :key="item.path">
+                            <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
 
-                               <span style=""> {{ item.name }}</span>
+                                <span style=""> {{ item.name }}</span>
                             </el-breadcrumb-item>
                         </el-breadcrumb>
 
@@ -29,11 +29,11 @@
                         <img src="./assets/logo.png" height="128" width="128"/>
                     </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item @click.native="myNews" >
+                                <el-dropdown-item @click.native="myNews">
                                     <el-badge :value="2" class="item" type="warning">
                                         我的消息
                                     </el-badge>
-                                    </el-dropdown-item>
+                                </el-dropdown-item>
                                 <el-dropdown-item @click.native="Setting">设置</el-dropdown-item>
                                 <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
@@ -43,22 +43,25 @@
                 <el-col :span="24" class="main">
 
 
-                    <aside :class="collapsedClass "  >
+                    <aside :class="collapsedClass ">
                         <el-scrollbar style="height:100%;background: #2f3e52;">
-                        <el-menu  :default-active="$route.path"
-                                 class="el-menu-vertical-demo" @open="handleopen" @close="handleclose" @select="handleselect"
-                                 unique-opened router :collapse="isCollapse"
-                                 background-color="#2f3e52"
-                                 text-color="#fff"
-                                 active-text-color="#ffd04b">
-                            <sidebar v-for="(menu,index) in routes" @collaFa="collapseFa"  :key="index" :item="menu" />
-                        </el-menu>
+                            <el-menu :default-active="$route.path"
+                                     class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
+                                     @select="handleselect"
+                                     unique-opened router :collapse="isCollapse"
+                                     background-color="#2f3e52"
+                                     text-color="#fff"
+                                     active-text-color="#ffd04b">
+                                <sidebar v-for="(menu,index) in routes" @collaFa="collapseFa" :key="index"
+                                         :item="menu"/>
+                            </el-menu>
 
 
                         </el-scrollbar>
                     </aside>
 
-                    <el-col :span="24" class="content-wrapper" :class="collapsed?'content-collapsed':'content-expanded'">
+                    <el-col :span="24" class="content-wrapper"
+                            :class="collapsed?'content-collapsed':'content-expanded'">
                         <div class="tags" v-if="showTags">
 
                             <div id="tags-view-container" class="tags-view-container">
@@ -74,20 +77,20 @@
                                             class="tags-view-item"
                                     >
                                         {{ tag.title }}
-                                        <span class="el-icon-close" @click.prevent.stop="closeTags(index)"  />
+                                        <span class="el-icon-close" @click.prevent.stop="closeTags(index)"/>
                                     </router-link>
                                 </scroll-pane>
 
                             </div>
 
                             <!--<ul>-->
-                                <!--<li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">-->
-                                    <!--<span class="tag-dot-inner"></span>-->
-                                    <!--<router-link :to="item.path" class="tags-li-title">-->
-                                        <!--{{item.title}}-->
-                                    <!--</router-link>-->
-                                    <!--<span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>-->
-                                <!--</li>-->
+                            <!--<li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">-->
+                            <!--<span class="tag-dot-inner"></span>-->
+                            <!--<router-link :to="item.path" class="tags-li-title">-->
+                            <!--{{item.title}}-->
+                            <!--</router-link>-->
+                            <!--<span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>-->
+                            <!--</li>-->
                             <!--</ul>-->
 
                             <!-- 其他操作按钮 -->
@@ -121,24 +124,25 @@
             </div>
         </transition>
 
-        <el-dialog title="Unread Messages" :class="newsDialogCss" :visible.sync="NewsVisible" v-model="NewsVisible" :close-on-click-modal="false">
-           <div>
-               <el-tag
-                       v-for="tag in tagNews"
-                       :key="tag.name"
-                       closable
-                       class="tag-new"
-                       :type="tag.type">
-                   {{tag.name}}
-               </el-tag>
+        <el-dialog title="Unread Messages" :class="newsDialogCss" :visible.sync="NewsVisible" v-model="NewsVisible"
+                   :close-on-click-modal="false">
+            <div>
+                <el-tag
+                        v-for="tag in tagNews"
+                        :key="tag.name"
+                        closable
+                        class="tag-new"
+                        :type="tag.type">
+                    {{tag.name}}
+                </el-tag>
 
-           </div>
+            </div>
         </el-dialog>
 
-        <div class="v-modal " @click="closeZModalShadow" v-show="NewsVisible"  tabindex="0" style="z-index: 2917;"></div>
+        <div class="v-modal " @click="closeZModalShadow" v-show="NewsVisible" tabindex="0" style="z-index: 2917;"></div>
 
 
-        <div class="v-modal " @click="collapse" v-show="SidebarVisible"  tabindex="0" style="z-index: 2917;"></div>
+        <div class="v-modal " @click="collapse" v-show="SidebarVisible" tabindex="0" style="z-index: 2917;"></div>
 
     </div>
 </template>
@@ -146,8 +150,9 @@
     import Sidebar from './components/Sidebar'
     import ScrollPane from './components/ScrollPane'
     import {getUserByToken} from './api/api';
+
     export default {
-        components: { Sidebar,ScrollPane },
+        components: {Sidebar, ScrollPane},
         data() {
             return {
                 sysName: 'BlogAdmin',
@@ -155,11 +160,11 @@
                 NewsVisible: false,
                 SidebarVisible: false,
                 collapsed: false,
-                zModalShadow:false,
-                collapsedClass:'menu-expanded',
-                ispc:false,
+                zModalShadow: false,
+                collapsedClass: 'menu-expanded',
+                ispc: false,
                 sysUserName: '',
-                newsDialogCss:'news-dialog',
+                newsDialogCss: 'news-dialog',
                 sysUserAvatar: '',
                 isCollapse: false,
                 tagsList: [],
@@ -173,14 +178,14 @@
                     resource: '',
                     desc: ''
                 },
-                routes:[],
+                routes: [],
                 tagNews: [
-                    { name: '前后端分离', type: '' },
-                    { name: 'vue.js', type: '' },
-                    { name: 'DDD领域驱动设计', type: 'success' },
-                    { name: '标签三', type: 'info' },
-                    { name: '欠费警告！', type: 'warning' },
-                    { name: '异常报告！', type: 'danger' }
+                    {name: '前后端分离', type: ''},
+                    {name: 'vue.js', type: ''},
+                    {name: 'DDD领域驱动设计', type: 'success'},
+                    {name: '标签三', type: 'info'},
+                    {name: '欠费警告！', type: 'warning'},
+                    {name: '异常报告！', type: 'danger'}
                 ],
                 visible: false,
                 top: 0,
@@ -200,8 +205,8 @@
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },
-            closeZModalShadow(){
-                this.NewsVisible=false;
+            closeZModalShadow() {
+                this.NewsVisible = false;
             },
             toindex() {
                 this.$router.replace({
@@ -216,8 +221,8 @@
             },
             myNews() {
 
-               this.newsDialogCss+=' show ';
-               this.NewsVisible=true;
+                this.newsDialogCss += ' show ';
+                this.NewsVisible = true;
             },
             handleopen() {
                 //console.log('handleopen');
@@ -245,7 +250,7 @@
 
                     this.tagsList = [];
                     this.routes = [];
-                    this.$store.commit("saveTagsData","");
+                    this.$store.commit("saveTagsData", "");
                     _this.$router.push('/login');
                     window.location.reload()
                 }).catch(() => {
@@ -263,30 +268,30 @@
             collapse: function () {
                 this.collapsed = !this.collapsed;
 
-                if(this.ispc){
+                if (this.ispc) {
 
-                    if(this.collapsed){
-                        this.collapsedClass='menu-collapsed';
-                    }else{
-                        this.collapsedClass='menu-expanded';
+                    if (this.collapsed) {
+                        this.collapsedClass = 'menu-collapsed';
+                    } else {
+                        this.collapsedClass = 'menu-expanded';
                     }
-                }else{ // mobile
-                    if(this.collapsed){
-                        this.SidebarVisible=true;
-                        this.collapsedClass='menu-collapsed-mobile';
-                    }else{
-                        this.SidebarVisible=false;
-                        this.collapsedClass='menu-expanded-mobile';
+                } else { // mobile
+                    if (this.collapsed) {
+                        this.SidebarVisible = true;
+                        this.collapsedClass = 'menu-collapsed-mobile';
+                    } else {
+                        this.SidebarVisible = false;
+                        this.collapsedClass = 'menu-expanded-mobile';
                     }
 
-                    this.collapsedClass +=' mobile-ex ';
+                    this.collapsedClass += ' mobile-ex ';
                 }
 
                 this.isCollapse = !this.isCollapse;
 
             },
             collapseFa: function () {
-                if(!this.ispc){
+                if (!this.ispc) {
                     this.collapse();
                 }
             },
@@ -303,7 +308,7 @@
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
 
-                    this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
+                    this.$store.commit("saveTagsData", JSON.stringify(this.tagsList));
                 } else {
                     this.$router.push('/');
                 }
@@ -322,11 +327,11 @@
                 this.tagsList = curItem;
 
 
-                sessionStorage.setItem("Tags",JSON.stringify(this.tagsList))
+                sessionStorage.setItem("Tags", JSON.stringify(this.tagsList))
             },
             // 设置标签
             setTags(route) {
-                if(!route.meta.NoTabPage) {
+                if (!route.meta.NoTabPage) {
                     const isExist = this.tagsList.some(item => {
                         return item.path === route.fullPath;
                     })
@@ -359,8 +364,8 @@
                             duration: 3000
                         });
 
-                        _this.sysUserName = data.response.uRealName ;
-                        window.localStorage.user=JSON.stringify(data.response)
+                        _this.sysUserName = data.response.uRealName;
+                        window.localStorage.user = JSON.stringify(data.response)
                     }
                 });
             },
@@ -368,42 +373,42 @@
         mounted() {
             console.log(this.$route)
 
-            var tags =sessionStorage.getItem('Tags') ?  JSON.parse( sessionStorage.getItem('Tags')):[];
+            var tags = sessionStorage.getItem('Tags') ? JSON.parse(sessionStorage.getItem('Tags')) : [];
 
-            if (tags&&tags.length>0) {
+            if (tags && tags.length > 0) {
                 this.tagsList = tags;
             }
 
 
-            var NavigationBar = JSON.parse(window.localStorage.router? window.localStorage.router:null);
+            var NavigationBar = JSON.parse(window.localStorage.router ? window.localStorage.router : null);
             // var NavigationBar = global.antRouter;
 
-            if (this.routes.length<=0&&NavigationBar&&NavigationBar.length>=0) {
-                this.routes=NavigationBar;
+            if (this.routes.length <= 0 && NavigationBar && NavigationBar.length >= 0) {
+                this.routes = NavigationBar;
             }
 
         },
-        updated(){
-            var user = JSON.parse(window.localStorage.user? window.localStorage.user:null);
+        updated() {
+            var user = JSON.parse(window.localStorage.user ? window.localStorage.user : null);
             if (user) {
                 this.sysUserName = user.uRealName || '老张的哲学';
                 this.sysUserAvatar = user.avatar || '../assets/user.png';
             }
 
 
-            var NavigationBar = JSON.parse(window.localStorage.router? window.localStorage.router:null);
+            var NavigationBar = JSON.parse(window.localStorage.router ? window.localStorage.router : null);
 
-            if (NavigationBar&&NavigationBar.length>=0) {
-                if (this.routes.length<=0||(JSON.stringify(this.routes)!=JSON.stringify((NavigationBar)))) {
-                this.routes=NavigationBar;
+            if (NavigationBar && NavigationBar.length >= 0) {
+                if (this.routes.length <= 0 || (JSON.stringify(this.routes) != JSON.stringify((NavigationBar)))) {
+                    this.routes = NavigationBar;
                 }
             }
 
         },
         computed: {
             showTags() {
-                if (this.tagsList.length>1) {
-                    this.$store.commit("saveTagsData",JSON.stringify(this.tagsList));
+                if (this.tagsList.length > 1) {
+                    this.$store.commit("saveTagsData", JSON.stringify(this.tagsList));
                 }
                 return this.tagsList.length > 0;
             }
@@ -414,32 +419,33 @@
                 this.setTags(newValue);
 
                 const tags = this.$refs.tag
-                // this.$nextTick(() => {
-                //     for (const tag of tags) {
-                //
-                //         if (tag.to.path === this.$route.path) {
-                //             this.$refs.scrollPane.moveToTarget(tag,tags)
-                //             // when query is different then update
-                //             // if (tag.to.fullPath !== this.$route.fullPath) {
-                //             //     this.$store.dispatch('tagsView/updateVisitedView', this.$route)
-                //             // }
-                //             break
-                //         }
-                //     }
-                // })
+                this.$nextTick(() => {
+                    if (tags) {
+                        for (const tag of tags) {
+                            if (tag.to.path === this.$route.path) {
+                                this.$refs.scrollPane.moveToTarget(tag, tags)
+                                // when query is different then update
+                                // if (tag.to.fullPath !== this.$route.fullPath) {
+                                //     this.$store.dispatch('tagsView/updateVisitedView', this.$route)
+                                // }
+                                break
+                            }
+                        }
+                    }
+                })
 
             }
         },
         created() {
             // 第一次进入页面时，修改tag的值
             this.setTags(this.$route);
-            this.ispc=window.screen.width>680;
+            this.ispc = window.screen.width > 680;
 
-            if(this.ispc){
-                this.collapsedClass ='menu-expanded';
-            }else{
-                this.collapsedClass ='menu-expanded-mobile mobile-ex';
-                this.collapsed=true;
+            if (this.ispc) {
+                this.collapsedClass = 'menu-expanded';
+            } else {
+                this.collapsedClass = 'menu-expanded-mobile mobile-ex';
+                this.collapsed = true;
                 this.collapse();
             }
 
@@ -456,15 +462,16 @@
         /*width: 230px;*/
     }
 
-    .el-breadcrumb{
+    .el-breadcrumb {
         line-height: 60px !important;
     }
 </style>
 
 <style>
-    .menu-collapsed .el-icon-arrow-right:before{
+    .menu-collapsed .el-icon-arrow-right:before {
         display: none;
     }
+
     .tags {
         position: relative;
         overflow: hidden;
@@ -477,7 +484,7 @@
         box-sizing: border-box;
         width: 100%;
         height: 100%;
-        padding:0;
+        padding: 0;
         margin: 0;
         display: none;
     }
@@ -498,7 +505,8 @@
         -webkit-transition: all .3s ease-in;
         transition: all .3s ease-in;
     }
-    .tags-li-icon{
+
+    .tags-li-icon {
         cursor: pointer;
     }
 
@@ -539,63 +547,61 @@
 </style>
 <style>
     /*.logoban{*/
-        /*width: auto !important;*/
+    /*width: auto !important;*/
     /*}*/
-.news-dialog{
+    .news-dialog {
 
-    background: #fff;
-    z-index: 3000 !important;
-    position: fixed;
-    height: 100vh;
-    width: 100%;
-    max-width: 260px;
-    top: 60px !important;
-    left: 0 !important;;
-    -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
-    box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
-    -webkit-transition: all .25s cubic-bezier(.7,.3,.1,1);
-    transition: all .25s cubic-bezier(.7,.3,.1,1);
-    -webkit-transform: translate(100%);
-    z-index: 40000;
-    left: auto !important;;
-    right: 0 !important;;
-    transform: translate(0);
-}
-
-.news-dialog .el-dialog{
-     margin: auto !important;
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
-     box-shadow: none;
-     width: 100%;
-}
-    .news-dialog.show {
-        transform: translate(0) ;
+        background: #fff;
+        z-index: 3000 !important;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        max-width: 260px;
+        top: 60px !important;
+        left: 0 !important;;
+        -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .05);
+        box-shadow: 0 0 15px 0 rgba(0, 0, 0, .05);
+        -webkit-transition: all .25s cubic-bezier(.7, .3, .1, 1);
+        transition: all .25s cubic-bezier(.7, .3, .1, 1);
+        -webkit-transform: translate(100%);
+        z-index: 40000;
+        left: auto !important;;
+        right: 0 !important;;
+        transform: translate(0);
     }
 
-    .tag-new{
+    .news-dialog .el-dialog {
+        margin: auto !important;
+        -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .news-dialog.show {
+        transform: translate(0);
+    }
+
+    .tag-new {
         width: 100%;
         margin: 10px 0;
     }
 
+    @media screen and (max-width: 680px) {
 
-
-    @media screen and (max-width:680px) {
-
-        .collapsedLogo{
+        .collapsedLogo {
             display: none;
         }
 
-        .el-dialog{
+        .el-dialog {
             width: 90% !important;
         }
 
-
-        .content-expanded{
+        .content-expanded {
             max-width: 100% !important;
             max-height: calc(100% - 80px);
         }
 
-        .mobile-ex{
+        .mobile-ex {
             background: #fff;
             z-index: 3000;
             position: fixed;
@@ -604,10 +610,10 @@
             max-width: 260px;
             top: 0;
             left: 0;
-            -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
-            box-shadow: 0 0 15px 0 rgba(0,0,0,.05);
-            -webkit-transition: all .25s cubic-bezier(.7,.3,.1,1);
-            transition: all .25s cubic-bezier(.7,.3,.1,1);
+            -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, .05);
+            box-shadow: 0 0 15px 0 rgba(0, 0, 0, .05);
+            -webkit-transition: all .25s cubic-bezier(.7, .3, .1, 1);
+            transition: all .25s cubic-bezier(.7, .3, .1, 1);
             -webkit-transform: translate(100%);
             z-index: 40000;
             left: auto;
@@ -616,34 +622,38 @@
         }
 
         .mobile-ex.menu-collapsed-mobile {
-            transform: translate(0) ;
+            transform: translate(0);
         }
 
-        .el-menu--collapse{
+        .el-menu--collapse {
             width: 100% !important;
         }
 
-        .el-date-editor.el-input, .el-date-editor.el-input__inner,.el-cascader.el-cascader--medium{
+        .el-date-editor.el-input, .el-date-editor.el-input__inner, .el-cascader.el-cascader--medium {
             width: 100% !important;
         }
 
-        .toolbar.roles{
+        .toolbar.roles {
             width: 100% !important;
         }
-        .toolbar.perms{
+
+        .toolbar.perms {
             width: 800px !important;
         }
-        .toolbar.perms .box-card{
+
+        .toolbar.perms .box-card {
             width: 100% !important;
         }
 
-        .login-container{
+        .login-container {
             width: 300px !important;
         }
-        .count-test label{
+
+        .count-test label {
 
         }
-        .content-wrapper .tags{
+
+        .content-wrapper .tags {
             margin: 0px;
             padding: 0px;
         }
@@ -651,16 +661,17 @@
     }
 </style>
 
-<style  >
+<style>
 
     .tags-view-container {
         height: 34px;
-        width: calc( 100% - 60px );
+        width: calc(100% - 60px);
         /*background: #fff;*/
         /*border-bottom: 1px solid #d8dce5;*/
         /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);*/
         float: left;
     }
+
     .tags-view-container .tags-view-wrapper .tags-view-item {
         display: inline-block;
         position: relative;
@@ -675,17 +686,21 @@
         margin-left: 5px;
         margin-top: 4px;
     }
+
     .tags-view-container .tags-view-wrapper .tags-view-item:first-of-type {
         margin-left: 15px;
     }
+
     .tags-view-container .tags-view-wrapper .tags-view-item:last-of-type {
         margin-right: 15px;
     }
+
     .tags-view-container .tags-view-wrapper .tags-view-item.active {
         /*background-color: #42b983;*/
         /*color: #fff;*/
         /*border-color: #42b983;*/
     }
+
     .tags-view-container .tags-view-wrapper .tags-view-item.active::before {
         content: "";
         background: #2d8cf0;
@@ -696,6 +711,7 @@
         position: relative;
         margin-right: 2px;
     }
+
     .tags-view-container .contextmenu {
         margin: 0;
         background: #fff;
@@ -709,17 +725,19 @@
         color: #333;
         box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
     }
+
     .tags-view-container .contextmenu li {
         margin: 0;
         padding: 7px 16px;
         cursor: pointer;
     }
+
     .tags-view-container .contextmenu li:hover {
         background: #eee;
     }
 </style>
 
-<style  >
+<style>
     .tags-view-wrapper .tags-view-item .el-icon-close {
         width: 16px;
         height: 16px;
@@ -729,11 +747,13 @@
         transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         transform-origin: 100% 50%;
     }
+
     .tags-view-wrapper .tags-view-item .el-icon-close:before {
         transform: scale(0.6);
         display: inline-block;
         vertical-align: -3px;
     }
+
     .tags-view-wrapper .tags-view-item .el-icon-close:hover {
         background-color: #ef2b74;
         color: #fff;
