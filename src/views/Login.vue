@@ -42,9 +42,8 @@
 <script>
     import {requestLogin, requestLoginMock, getUserByToken, getNavigationBar} from '../api/api';
 
-    const _import = require('../router/_import_' + process.env.NODE_ENV)//获取组件的方法
-    import router from '../router'
-    import Layout from '../views/Layout/Layout.vue'//Layout 是架构组件，不在后台返回，在文件里单独引入
+    import router from '@/router'
+    import {resetRouter,filterAsyncRouter} from '@/router/index'
 
     export default {
         data() {
@@ -169,13 +168,14 @@
                                 _this.$store.commit("saveTokenExpire", expiredate);
 
                                 window.localStorage.refreshtime = expiredate;
-
+                                window.localStorage.expires_in = data.expires_in;
 
                                 _this.$notify({
                                     type: "success",
-                                    message: `成功获取 Token ，并将在 ${(data.expires_in)/60} 分钟后过期！`,
-                                    duration: 5000
+                                    message: `成功获取令牌，项目初始化中...`,
+                                    duration: 3000
                                 });
+
 
                                 // _this.closeAlert()
                                 // _this.openAlert("成功获取Token，等待服务器返回用户信息...")
@@ -208,11 +208,6 @@
                         // _this.openAlert("接收到用户数据，开始初始化路由树...")
                         _this.loginStr="接收到用户数据，开始初始化路由树...";
 
-                        _this.$notify({
-                            type: "success",
-                            message: `登录成功 \n 欢迎管理员：${data.response.uRealName} ！`,
-                            duration: 3000
-                        });
 
                         window.localStorage.user = JSON.stringify(data.response)
                         if (data.response.uID > 0) {
@@ -244,6 +239,15 @@
                             type: 'success'
                         });
 
+
+                        let userinfo = JSON.parse(window.localStorage.user ? window.localStorage.user :null);
+                        _this.$notify({
+                            type: "success",
+                            message: `登录成功 \n 欢迎管理员：${userinfo.uRealName} ！Token 将在 ${window.localStorage.expires_in/60} 分钟后过期！`,
+                            duration: 6000
+                        });
+
+
                         window.localStorage.router = (JSON.stringify(data.response.children));
 
                         let getRouter = data.response.children//后台拿到路由
@@ -262,29 +266,6 @@
         },
     }
 
-    function filterAsyncRouter(asyncRouterMap) {
-        //注意这里的 asyncRouterMap 是一个数组
-        const accessedRouters = asyncRouterMap.filter(route => {
-            if (route.path) {
-                if (route.path === '/' || route.path === '-') {//Layout组件特殊处理
-                    route.component = Layout
-                } else {
-                    try {
-                        route.component = _import(route.path)
-                    } catch (e) {
-                        console.info('%c 当前路由 ' + route.path + '.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
-
-                    }
-                }
-            }
-            if (route.children && route.children.length) {
-                route.children = filterAsyncRouter(route.children)
-            }
-            return true
-        })
-
-        return accessedRouters
-    }
 </script>
 
 <style>

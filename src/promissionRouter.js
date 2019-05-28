@@ -1,14 +1,12 @@
-import router from './router'
-import {resetRouter} from './router/index'
+import router from '@/router'
+import {resetRouter,filterAsyncRouter} from '@/router/index'
 
-const _import = require('./router/_import_' + process.env.NODE_ENV)//获取组件的方法
-import Layout from './views/Layout/Layout.vue'//Layout 是架构组件，不在后台返回，在文件里单独引入
-import {getNavigationBar, saveRefreshtime} from './api/api';
-import store from "./store";
+import {getNavigationBar, saveRefreshtime} from '@/api/api';
+import store from "@/store";
 
 
-
-var getRouter //用来获取后台拿到的路由
+//用来获取后台拿到的路由
+var getRouter
 if (!getRouter) {//不加这个判断，路由会陷入死循环
 
     if (!getObjArr('router')) {
@@ -34,6 +32,7 @@ if (!getRouter) {//不加这个判断，路由会陷入死循环
         router.addRoutes(getRouter) //动态添加路由
         global.antRouter = getRouter //将路由数据传递给全局变量，做侧边栏菜单渲染工作
     }
+
 }
 
 var storeTemp = store;
@@ -98,7 +97,7 @@ router.beforeEach((to, from, next) => {
                 routerGo(to, next)
             }
         } else {
-            console.log(1)
+
            if(to.name&&to.name != 'login'){
                getRouter = getObjArr('router')//拿到路由
                global.antRouter = getRouter
@@ -112,10 +111,16 @@ router.beforeEach((to, from, next) => {
 
 
 function routerGo(to, next) {
-    getRouter = filterAsyncRouter(getRouter) //过滤路由
+
+    //过滤路由
+    getRouter = filterAsyncRouter(getRouter)
     resetRouter()
-    router.addRoutes(getRouter) //动态添加路由
-    global.antRouter = getRouter //将路由数据传递给全局变量，做侧边栏菜单渲染工作
+
+    //动态添加路由
+    router.addRoutes(getRouter)
+
+    //将路由数据传递给全局变量，做侧边栏菜单渲染工作
+    global.antRouter = getRouter
     next({...to, replace: true})
 }
 
@@ -129,27 +134,3 @@ function getObjArr(name) {
     return JSON.parse(window.localStorage.getItem(name));
 }
 
-//遍历后台传来的路由字符串，转换为组件对象
-function filterAsyncRouter(asyncRouterMap) {
-    //注意这里的 asyncRouterMap 是一个数组
-    const accessedRouters = asyncRouterMap.filter(route => {
-        if (route.path) {
-            if (route.path === '/'||route.path === '-') {//Layout组件特殊处理
-                route.component = Layout
-            } else {
-                try {
-                    route.component = _import(route.path)
-                }catch (e) {
-                    console.info('%c 当前路由 '+route.path+'.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
-
-                }
-            }
-        }
-        if (route.children && route.children.length) {
-            route.children = filterAsyncRouter(route.children)
-        }
-        return true
-    })
-
-    return accessedRouters
-}
