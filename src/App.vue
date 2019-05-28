@@ -79,15 +79,17 @@
                                 </scroll-pane>
 
                             </div>
-                            <ul>
-                                <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
-                                    <span class="tag-dot-inner"></span>
-                                    <router-link :to="item.path" class="tags-li-title">
-                                        {{item.title}}
-                                    </router-link>
-                                    <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
-                                </li>
-                            </ul>
+
+                            <!--<ul>-->
+                                <!--<li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">-->
+                                    <!--<span class="tag-dot-inner"></span>-->
+                                    <!--<router-link :to="item.path" class="tags-li-title">-->
+                                        <!--{{item.title}}-->
+                                    <!--</router-link>-->
+                                    <!--<span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>-->
+                                <!--</li>-->
+                            <!--</ul>-->
+
                             <!-- 其他操作按钮 -->
                             <div class="tags-close-box">
                                 <el-dropdown @command="handleTags">
@@ -412,19 +414,19 @@
                 this.setTags(newValue);
 
                 const tags = this.$refs.tag
-                this.$nextTick(() => {
-                    for (const tag of tags) {
-
-                        if (tag.to.path === this.$route.path) {
-                            this.$refs.scrollPane.moveToTarget(tag,tags)
-                            // when query is different then update
-                            // if (tag.to.fullPath !== this.$route.fullPath) {
-                            //     this.$store.dispatch('tagsView/updateVisitedView', this.$route)
-                            // }
-                            break
-                        }
-                    }
-                })
+                // this.$nextTick(() => {
+                //     for (const tag of tags) {
+                //
+                //         if (tag.to.path === this.$route.path) {
+                //             this.$refs.scrollPane.moveToTarget(tag,tags)
+                //             // when query is different then update
+                //             // if (tag.to.fullPath !== this.$route.fullPath) {
+                //             //     this.$store.dispatch('tagsView/updateVisitedView', this.$route)
+                //             // }
+                //             break
+                //         }
+                //     }
+                // })
 
             }
         },
