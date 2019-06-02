@@ -72,6 +72,7 @@ npm run build
 <li><a id="post_title_link_10438122" href="https://www.cnblogs.com/laozhang-is-phi/p/10438122.html">一 || 权限后台1.0正式上线</a></li>
 <li><a id="post_title_link_10462316" href="https://www.cnblogs.com/laozhang-is-phi/p/10462316.html">二 || 完美实现 JWT 滑动授权刷新</a></li>
 <li><a id="post_title_link_10643993" href="https://www.cnblogs.com/laozhang-is-phi/p/10643993.html">三 || 动态路由配置 &amp; 项目快速开发</a></li>
+<li><a id="post_title_link_10785022" href="https://www.cnblogs.com/laozhang-is-phi/p/netcore-vue-signalr.html">四 || NetCore + SignalR 实现日志消息推送</a></li>
 </ul>
 
 
