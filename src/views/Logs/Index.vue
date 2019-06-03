@@ -48,10 +48,10 @@
                           v-html="scope.row.content? scope.row.content.substring(0,100):''"></span>
                 </template>
             </el-table-column>
-            <el-table-column
-                    label="IP"
-                    prop="ip">
-            </el-table-column>
+            <!--<el-table-column-->
+                    <!--label="IP"-->
+                    <!--prop="ip">-->
+            <!--</el-table-column>-->
         </el-table>
     </section>
 </template>
