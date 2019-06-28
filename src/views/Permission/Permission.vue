@@ -341,13 +341,18 @@
             },
             //显示编辑界面
             handleEdit: function (index, row) {
+                let that=this;
+                that.editLoading = true;
+
                 this.editFormVisible = true;
-                this.editForm = Object.assign({}, row);
+                this.editForm = {};
 
                 this.options=[];
                 let para={pid:row.Id};
                 getPermissionTree(para).then((res) => {
                     this.options.push(res.data.response);
+                    that.editForm = Object.assign({}, row);
+                    that.editLoading = false;
                 });
             },
             //显示新增界面
