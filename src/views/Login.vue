@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <ul class="bg-bubbles">
-            <li v-for="n in 10" ></li>
-            <ol v-for="n in 5" ></ol>
+            <li v-for="n in 10"></li>
+            <ol v-for="n in 5"></ol>
         </ul>
         <div class="bg bg-blur" style="display: none;"></div>
         <div style="height: 10%;"></div>
@@ -13,7 +13,7 @@
                 <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
             </el-form-item>
             <el-form-item prop="checkPass">
-                <el-input  v-model="ruleForm2.checkPass" auto-complete="off" show-password  placeholder="密码"></el-input>
+                <el-input v-model="ruleForm2.checkPass" auto-complete="off" show-password placeholder="密码"></el-input>
             </el-form-item>
             <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
 
@@ -43,13 +43,13 @@
     import {requestLogin, requestLoginMock, getUserByToken, getNavigationBar} from '../api/api';
 
     import router from '@/router'
-    import {resetRouter,filterAsyncRouter} from '@/router/index'
+    import {resetRouter, filterAsyncRouter} from '@/router/index'
 
     export default {
         data() {
             return {
                 instance: "",
-                loginStr:'登录',
+                loginStr: '登录',
                 logining: false,
                 loginingMock: false,
                 ruleForm2: {
@@ -146,7 +146,7 @@
 
                         // _this.openAlert("登录中...")
 
-                        _this.loginStr="登录中...";
+                        _this.loginStr = "登录中...";
 
                         requestLogin(loginParams).then(data => {
 
@@ -156,7 +156,7 @@
                                     type: 'error'
                                 });
                                 _this.logining = false;
-                                _this.loginStr="重新登录";
+                                _this.loginStr = "重新登录";
                                 // _this.closeAlert()
                             } else {
 
@@ -179,7 +179,7 @@
 
                                 // _this.closeAlert()
                                 // _this.openAlert("成功获取Token，等待服务器返回用户信息...")
-                                _this.loginStr="成功获取Token，等待服务器返回用户信息...";
+                                _this.loginStr = "成功获取Token，等待服务器返回用户信息...";
 
                                 _this.getUserInfoByToken(token)
 
@@ -206,7 +206,7 @@
                     } else {
                         // _this.closeAlert()
                         // _this.openAlert("接收到用户数据，开始初始化路由树...")
-                        _this.loginStr="接收到用户数据，开始初始化路由树...";
+                        _this.loginStr = "接收到用户数据，开始初始化路由树...";
 
 
                         window.localStorage.user = JSON.stringify(data.response)
@@ -219,7 +219,7 @@
             // 获取路由树
             GetNavigationBar(uid) {
                 var _this = this;
-                var loginParams = {uid: uid};
+                var loginParams = {uid: uid, t: new Date()};
 
                 getNavigationBar(loginParams).then(data => {
                     _this.logining = false;
@@ -240,10 +240,10 @@
                         });
 
 
-                        let userinfo = JSON.parse(window.localStorage.user ? window.localStorage.user :null);
+                        let userinfo = JSON.parse(window.localStorage.user ? window.localStorage.user : null);
                         _this.$notify({
                             type: "success",
-                            message: `登录成功 \n 欢迎管理员：${userinfo.uRealName} ！Token 将在 ${window.localStorage.expires_in/60} 分钟后过期！`,
+                            message: `登录成功 \n 欢迎管理员：${userinfo.uRealName} ！Token 将在 ${window.localStorage.expires_in / 60} 分钟后过期！`,
                             duration: 6000
                         });
 
@@ -308,12 +308,13 @@
         margin: 0px 0px 25px 0px;
     }
 
-    li {}
+    li {
+    }
 
     .wrapper {
         background: #50a3a2;
         background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-        background: linear-gradient(to bottom right,#127c7b 0,#50a3a2);
+        background: linear-gradient(to bottom right, #127c7b 0, #50a3a2);
         opacity: 0.8;
         position: absolute;
         left: 0;
@@ -344,6 +345,7 @@
         transition-timing-function: ease-in-put;
         font-weight: 200;
     }
+
     .bg-bubbles {
         position: absolute;
         top: 0;
@@ -353,7 +355,7 @@
         z-index: 1;
     }
 
-    .bg-bubbles li,.bg-bubbles ol {
+    .bg-bubbles li, .bg-bubbles ol {
         position: absolute;
         list-style: none;
         display: block;
@@ -367,15 +369,17 @@
         transition-timing-function: linear;
     }
 
-    ol{
+    ol {
         padding: 0 !important;
     }
+
     .bg-bubbles ol:nth-child(11) {
         left: 10%;
         top: 10%;
         width: 20px;
         height: 20px;
     }
+
     .bg-bubbles ol:nth-child(12) {
         left: 20%;
         top: 40%;
@@ -383,6 +387,7 @@
         width: 60px;
         height: 60px;
     }
+
     .bg-bubbles ol:nth-child(13) {
         left: 65%;
         top: 30%;
@@ -390,12 +395,14 @@
         width: 100px;
         height: 60px;
     }
+
     .bg-bubbles ol:nth-child(14) {
         left: 70%;
         top: 30%;
         width: 100px;
         height: 150px;
     }
+
     .bg-bubbles ol:nth-child(15) {
         left: 50%;
         top: 70%;
@@ -506,7 +513,8 @@
             transform: translateY(-700px) rotate(600deg);
         }
     }
-    .content-az{
+
+    .content-az {
         padding: 0 !important;
         border: none !important;
     }
