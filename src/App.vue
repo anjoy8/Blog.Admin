@@ -35,6 +35,7 @@
                                     </el-badge>
                                 </el-dropdown-item>
                                 <el-dropdown-item @click.native="Setting">设置</el-dropdown-item>
+                                <el-dropdown-item @click.native="goGithub">Github</el-dropdown-item>
                                 <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -263,6 +264,10 @@
             Setting: function () {
                 var _this = this;
                 _this.$router.push('/System/My');
+            },
+            //源码
+            goGithub() {
+                window.open("https://github.com/anjoy8/Blog.Admin")
             },
             //折叠导航栏
             collapse: function () {
