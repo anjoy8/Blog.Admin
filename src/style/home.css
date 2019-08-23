@@ -34,7 +34,7 @@ body {
 
 }
 .el-scrollbar__wrap{
-    overflow-x: auto !important;
+    /*overflow-x: auto !important;*/
 }
 
 .container .header {
