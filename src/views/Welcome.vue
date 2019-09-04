@@ -2,19 +2,19 @@
     <div style="margin-top: 30px;">
           <div style="margin: 20px;"> 欢迎来到 BlogAdmin 后台管理系统!</div>
 
-<el-card style="width:30%;float:left;margin-right:10px;">
+<el-card class="welcome-card">
     <el-aside>快来加入我们吧：</el-aside>
 
     <br>
     <img style="width: 300px;" src="../assets/QQGroup.png" />
 </el-card>
-<el-card style="width:30%;float:left;margin-right:10px;">
+<el-card class="welcome-card">
     <el-aside>动态添加一个vue页面：</el-aside>
 
     <br>
     <img style="width: 300px;" src="http://apk.neters.club/images/addVuePages.gif" />
 </el-card>
-<el-card style="width:30%;float:left;">
+<el-card class="welcome-card">
     <el-aside>快速配置接口权限：</el-aside>
 
     <br>

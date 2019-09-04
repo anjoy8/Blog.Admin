@@ -213,6 +213,8 @@ body {
     margin-right: 10px;
     height: 100%;
     padding: 5px;
+    
+    overflow-y: auto;
 }
 .content-wrapper .tags{
     padding-right: 20px;
@@ -220,4 +222,13 @@ body {
 .content-az section{
     overflow: auto;
     height: 100%;
+}
+.welcome-card{
+    width:30%;float:left;margin-right:10px;
+}
+@media screen and (max-width: 500px) {
+   
+    .welcome-card{
+        width:100%;
+    }
 }
