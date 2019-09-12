@@ -7,6 +7,9 @@
 一个基于 Vue.js 的后台管理系统项目，目前是1.0版本，主要是权限管理系统，以后会增加更多功能，持续开发中...。
 
 
+这里仅仅是vue项目，api接口工程，请查看 [Blog.Core](https://github.com/anjoy8/Blog.Core)
+
+
 
 
 ## 给个星星! ⭐️
