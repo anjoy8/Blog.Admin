@@ -4,7 +4,8 @@ import router from '../router/index'
 import store from "../store";
 import Vue from 'vue';
 
-let base = '';
+let base = process.env.NODE_ENV=="production"? 'http://localhost:8081':'';
+
 
 // 请求延时
 axios.defaults.timeout = 20000

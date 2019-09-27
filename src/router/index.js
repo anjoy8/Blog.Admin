@@ -74,9 +74,12 @@ export function  filterAsyncRouter(asyncRouterMap) {
             } else {
                 try {
                     route.component = _import(route.path)
-                }catch (e) {
-                    console.info('%c 当前路由 '+route.path+'.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
-
+                } catch (e) {
+                    try {
+                        route.component = () => import('@/views' + route.path + '.vue');
+                    } catch (error) {
+                        console.info('%c 当前路由 ' + route.path + '.vue 不存在，因此如法导入组件，请检查接口数据和组件是否匹配，并重新登录，清空缓存!', "color:red")
+                    }
                 }
             }
         }
