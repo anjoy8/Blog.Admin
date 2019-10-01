@@ -55,6 +55,8 @@
                     </el-tag>
                 </template>
             </el-table-column>
+            <el-table-column prop="Func" label="按钮事件" width="" sortable>
+            </el-table-column>
             <el-table-column prop="IsHide" label="是否隐藏" width="100" sortable>
                 <template slot-scope="scope">
                     <el-tag
@@ -111,6 +113,10 @@
                     <el-switch v-model="editForm.IsButton" >
                     </el-switch>
                 </el-form-item>
+                </el-form-item>
+                  <el-form-item label="按钮事件" prop="Func">
+                    <el-input v-model="editForm.Func" auto-complete="off"></el-input>
+                </el-form-item>
                 <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
                     <el-switch v-model="editForm.IsHide" >
                     </el-switch>
@@ -165,6 +171,9 @@
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="addForm.IsButton" >
                     </el-switch>
+                </el-form-item>
+                  <el-form-item label="按钮事件" prop="Func">
+                    <el-input v-model="addForm.Func" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
                     <el-switch v-model="addForm.IsHide" >
@@ -242,6 +251,7 @@
                     Code: '',
                     Description: '',
                     Icon: '',
+                    Func: '',
                     Enabled: true,
                     IsButton: false,
                     IsHide: false,
@@ -269,6 +279,7 @@
                     Code: '',
                     Description: '',
                     Icon: '',
+                    Func: '',
                     Enabled: true,
                     IsButton: false,
                     IsHide: false,

@@ -58,18 +58,18 @@ const createRouter = () => new Router({
         {
             path: '*',
             hidden: true,
-            redirect: {path: '/404'}
+            redirect: { path: '/404' }
         }
     ]
 })
 
 const router = createRouter()
 
-export function  filterAsyncRouter(asyncRouterMap) {
+export function filterAsyncRouter(asyncRouterMap) {
     //注意这里的 asyncRouterMap 是一个数组
     const accessedRouters = asyncRouterMap.filter(route => {
-        if (route.path) {
-            if (route.path === '/'||route.path === '-') {//Layout组件特殊处理
+        if (route.path && !route.IsButton) {
+            if (route.path === '/' || route.path === '-') {//Layout组件特殊处理
                 route.component = Layout
             } else {
                 try {
@@ -83,7 +83,7 @@ export function  filterAsyncRouter(asyncRouterMap) {
                 }
             }
         }
-        if (route.children && route.children.length) {
+        if (route.children && route.children.length && !route.IsButton) {
             route.children = filterAsyncRouter(route.children)
         }
         return true
@@ -92,9 +92,30 @@ export function  filterAsyncRouter(asyncRouterMap) {
     return accessedRouters
 }
 
-export function resetRouter () {
+export function resetRouter() {
     const newRouter = createRouter()
     router.matcher = newRouter.matcher // the relevant part
+}
+
+
+router.$addRoutes = (params) => {
+
+    var f = item => {
+        
+        if (item['children']) {
+            item['children'] = item['children'].filter(f);
+            return true;
+        } else if (item['IsButton']) {
+            return item['IsButton']===false;
+        }  else {
+            return false;
+        }
+        
+    }
+    
+    var paramsFilt = params.filter(f);
+
+    router.addRoutes(paramsFilt)
 }
 
 export default router;

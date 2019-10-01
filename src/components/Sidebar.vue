@@ -1,28 +1,28 @@
 <template>
     <div>
         <template v-if="item.children">
-            <el-submenu v-if="!(item.path!=''&&item.path!=' '&&item.path!='-')" :index="item.id+'index'" :key="item.path" >
+            <el-submenu v-if="!(item.path!=''&&item.path!=' '&&item.path!='-')&&!item.IsButton" :index="item.id+'index'" :key="item.path" >
                 <template slot="title" >
-                    <i v-if="item.children&&item.children.length>0&&item.iconCls" class="fa" :class="item.iconCls"></i>
-                    <span class="title-name"slot="title">{{item.name}}</span>
+                    <i v-if="item.children&&item.children.length>0&&item.iconCls&&!item.IsButton" class="fa" :class="item.iconCls"></i>
+                    <span class="title-name" slot="title">{{item.name}}</span>
                 </template>
                 <template v-for="child in item.children">
                     <!-- 这里实现自己递归嵌套 -->
-                    <template v-if="!child.IsHide">
+                    <template v-if="!child.IsHide&&!item.IsButton">
                         <sidebar
                                 v-if="child.children&&child.children.length>0"
                                 :item="child"
                                 :index="child.id"
                                 :key="child.path"/>
                         <el-menu-item v-else :key="child.path" :index="child.path" @click="cop">
-                            <i v-if="child.children&&child.children.length>0&&item.iconCls" :class="item.iconCls"></i>
+                            <i v-if="child.children&&child.children.length>0&&item.iconCls&&!item.IsButton" :class="item.iconCls"></i>
                             {{child.name}}
                         </el-menu-item>
                     </template>
                 </template>
             </el-submenu>
             <template v-else>
-                <el-menu-item :index="item.path" :key="item.path+'d'">
+                <el-menu-item v-if="!item.IsButton" :index="item.path" :key="item.path+'d'">
                     <i class="fa" :class="item.iconCls"></i>
                     <template slot="title">
                         <span class="title-name" slot="title" >{{item.name}}</span>

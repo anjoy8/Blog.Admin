@@ -252,7 +252,7 @@
 
                         let getRouter = data.response.children//后台拿到路由
                         getRouter = filterAsyncRouter(getRouter) //过滤路由
-                        router.addRoutes(getRouter) //动态添加路由
+                        router.$addRoutes(getRouter) //动态添加路由
 
                         _this.$router.replace(_this.$route.query.redirect ? _this.$route.query.redirect : "/");
                     }

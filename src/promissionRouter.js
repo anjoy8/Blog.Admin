@@ -29,7 +29,7 @@ if (!getRouter) {//不加这个判断，路由会陷入死循环
         console.info('%c get navigation bar from localStorage succeed!', "color:green")
         getRouter = getObjArr('router')//拿到路由
         getRouter = filterAsyncRouter(getRouter) //过滤路由
-        router.addRoutes(getRouter) //动态添加路由
+        router.$addRoutes(getRouter) //动态添加路由
         global.antRouter = getRouter //将路由数据传递给全局变量，做侧边栏菜单渲染工作
     }
 
@@ -117,7 +117,7 @@ function routerGo(to, next) {
     resetRouter()
 
     //动态添加路由
-    router.addRoutes(getRouter)
+    router.$addRoutes(getRouter)
 
     //将路由数据传递给全局变量，做侧边栏菜单渲染工作
     global.antRouter = getRouter
