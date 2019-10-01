@@ -108,14 +108,14 @@ router.$addRoutes = (params) => {
         } else if (item['IsButton']) {
             return item['IsButton']===false;
         }  else {
-            return false;
+            return true;
         }
         
     }
     
-    var paramsFilt = params.filter(f);
+    var params = params.filter(f);
 
-    router.addRoutes(paramsFilt)
+    router.addRoutes(params)
 }
 
 export default router;
