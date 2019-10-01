@@ -4,7 +4,9 @@ import router from '../router/index'
 import store from "../store";
 import Vue from 'vue';
 
-let base = process.env.NODE_ENV=="production"? 'http://localhost:8081':'';
+let base = '';
+// 如果是IIS部署，用这个，因为 IIS 只能是 CORS 跨域，不能代理
+// let base = process.env.NODE_ENV=="production"? 'http://localhost:8081':'';
 
 
 // 请求延时
