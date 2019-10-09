@@ -56,9 +56,6 @@
         <el-form-item label="角色名" prop="Name">
           <el-input v-model="editForm.Name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="说明" prop="Description">
-          <el-input v-model="editForm.Description" auto-complete="off"></el-input>
-        </el-form-item>
         <el-form-item label="状态" prop="Enabled">
           <el-select v-model="editForm.Enabled" placeholder="请选择角色状态">
             <el-option
@@ -68,6 +65,9 @@
               :value="item.value"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="说明" prop="Description">
+          <el-input v-model="editForm.Description" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -87,14 +87,14 @@
         <el-form-item label="角色名" prop="Name">
           <el-input v-model="addForm.Name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="说明" prop="Description">
-          <el-input v-model="addForm.Description" auto-complete="off"></el-input>
-        </el-form-item>
         <el-form-item label="状态" prop="Enabled">
           <el-select v-model="addForm.Enabled" placeholder="请选择角色状态">
             <el-option label="激活" value="true"></el-option>
             <el-option label="禁用" value="false"></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="说明" prop="Description">
+          <el-input v-model="addForm.Description" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -108,6 +108,7 @@
 <script>
 import util from "../../../util/date";
 import { getRoleListPage, removeRole, editRole, addRole } from "../../api/api";
+import { getButtonList } from "../../promissionRouter";
 import Toolbar from "../../components/Toolbar";
 
 export default {
@@ -132,7 +133,8 @@ export default {
       editFormVisible: false, //编辑界面是否显示
       editLoading: false,
       editFormRules: {
-        Name: [{ required: true, message: "请输入角色名", trigger: "blur" }]
+        Name: [{ required: true, message: "请输入角色名", trigger: "blur" }],
+        Enabled: [{ required: true, message: "请选择状态", trigger: "blur" }]
       },
       //编辑界面数据
       editForm: {
@@ -145,14 +147,15 @@ export default {
       addFormVisible: false, //新增界面是否显示
       addLoading: false,
       addFormRules: {
-        Name: [{ required: true, message: "请输入角色名", trigger: "blur" }]
+        Name: [{ required: true, message: "请输入角色名", trigger: "blur" }],
+        Enabled: [{ required: true, message: "请选择状态", trigger: "blur" }]
       },
       //新增界面数据
       addForm: {
         CreateBy: "",
         CreateId: "",
         Name: "",
-        Enabled: ""
+        Enabled: true
       }
     };
   },
@@ -368,7 +371,7 @@ export default {
         type: "warning"
       });
     },
-    getButtonList(routers) {
+    getButtonList2(routers) {
       let _this = this;
       routers.forEach(element => {
         let path = this.$route.path.toLowerCase();
@@ -383,10 +386,15 @@ export default {
   },
   mounted() {
     this.getRoles();
+
     let routers = window.localStorage.router
       ? JSON.parse(window.localStorage.router)
       : [];
-    this.getButtonList(routers);
+    //第一种写法，每个页面都需要写方法，但是可以做特性化处理
+    // this.getButtonList(routers);
+    
+    //第二种写法，封装到 permissionRouter.js 中
+    this.buttonList = getButtonList(this.$route.path, routers);
   }
 };
 </script>

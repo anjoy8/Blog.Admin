@@ -1,7 +1,7 @@
 import router from '@/router'
-import {resetRouter,filterAsyncRouter} from '@/router/index'
+import { resetRouter, filterAsyncRouter } from '@/router/index'
 
-import {getNavigationBar, saveRefreshtime} from '@/api/api';
+import { getNavigationBar, saveRefreshtime } from '@/api/api';
 import store from "@/store";
 
 
@@ -14,7 +14,7 @@ if (!getRouter) {//不加这个判断，路由会陷入死循环
         var user = window.localStorage.user ? JSON.parse(window.localStorage.user) : null;
         if (user && user.uID > 0) {
             console.info(user.uID)
-            var loginParams = {uid: user.uID};
+            var loginParams = { uid: user.uID };
             getNavigationBar(loginParams).then(data => {
                 if (data.success) {
                     console.info('%c get navigation bar from api succeed!', "color:red")
@@ -64,10 +64,10 @@ router.beforeEach((to, from, next) => {
 
                 next({
                     path: "/login",
-                    query: {redirect: to.fullPath} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                    query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
                 });
 
-                 window.location.reload()
+                window.location.reload()
             }
         } else {
             next();
@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
             if (!getObjArr('router')) {
                 var user = window.localStorage.user ? JSON.parse(window.localStorage.user) : null;
                 if (user && user.uID > 0) {
-                    var loginParams = {uid: user.uID};
+                    var loginParams = { uid: user.uID };
                     getNavigationBar(loginParams).then(data => {
                         console.log('router before each get navigation bar from api succeed!')
                         if (data.success) {
@@ -98,11 +98,11 @@ router.beforeEach((to, from, next) => {
             }
         } else {
 
-           if(to.name&&to.name != 'login'){
-               getRouter = getObjArr('router')//拿到路由
-               global.antRouter = getRouter
-               // routerGo(to, next)//执行路由跳转方法
-           }
+            if (to.name && to.name != 'login') {
+                getRouter = getObjArr('router')//拿到路由
+                global.antRouter = getRouter
+                // routerGo(to, next)//执行路由跳转方法
+            }
             next()
 
         }
@@ -121,7 +121,7 @@ function routerGo(to, next) {
 
     //将路由数据传递给全局变量，做侧边栏菜单渲染工作
     global.antRouter = getRouter
-    next({...to, replace: true})
+    next({ ...to, replace: true })
 }
 
 //localStorage 存储数组对象的方法
@@ -133,4 +133,24 @@ function saveObjArr(name, data) {
 function getObjArr(name) {
     return JSON.parse(window.localStorage.getItem(name));
 }
+
+
+var buttonList = [];
+
+
+export const getButtonList = (routePath,routers) => {
+    routers.forEach(element => {
+        if (routePath&&element.path) {
+            let path = routePath.toLowerCase();
+            if (element.path && element.path.toLowerCase() === path) {
+                buttonList = element.children;
+                return;
+            } else if (element.children) {
+                getButtonList(path,element.children);
+            }
+        }
+    });
+    return buttonList;
+};
+
 
