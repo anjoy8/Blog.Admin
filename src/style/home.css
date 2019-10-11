@@ -27,7 +27,7 @@ body {
 
 .content-expanded{
     max-width: calc(100% - 210px);
-    max-height: calc(100% - 80px);
+    max-height: calc(100% - 60px);
 }
 .content-collapsed{
     max-width: 100%;
