@@ -45,7 +45,7 @@
 
 
                     <aside :class="collapsedClass ">
-                        <el-scrollbar style="height:100%;background: #2f3e52;">
+                        <el-scrollbar style="height:100%;background: #2f3e52;"  class="scrollbar-handle">
                             <el-menu :default-active="$route.path"
                                      class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
                                      @select="handleselect"
@@ -603,7 +603,7 @@
 
         .content-expanded {
             max-width: 100% !important;
-            max-height: calc(100% - 80px);
+            max-height: calc(100% - 60px);
         }
 
         .mobile-ex {

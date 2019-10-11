@@ -232,3 +232,7 @@ body {
         width:100%;
     }
 }
+
+.scrollbar-handle.el-scrollbar > :first-child {
+    overflow-x: hidden !important;
+}
