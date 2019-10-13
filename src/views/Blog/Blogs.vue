@@ -224,7 +224,7 @@
                 // this.editFormVisible = true;
                 // this.editForm = Object.assign({}, row);
                 console.log(row.bID)
-                this.$router.replace(`/Blog/Detail?id=${row.bID}`);
+                this.$router.replace(`/Blog/Detail/${row.bID}`);
 
 
                 // this.$message({

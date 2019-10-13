@@ -7,8 +7,11 @@
         name: "Detail",
         data() {
             return {
-                id: this.$route.query.id,
+                id: this.$route.params.id,
             };
+        },
+        mounted(){
+            console.log(this.$route)
         }
     }
 </script>
