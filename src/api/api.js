@@ -251,3 +251,9 @@ export const removeBlog = params => {
 export const getLogs = params => {
     return axios.get(`${base}/api/Monitor/get`, {params: params});
 };
+export const getRequestApiinfoByWeek = params => {
+    return axios.get(`${base}/api/Monitor/GetRequestApiinfoByWeek`, {params: params});
+};
+export const getAccessApiByDate = params => {
+    return axios.get(`${base}/api/Monitor/GetAccessApiByDate`, {params: params});
+};
