@@ -7,24 +7,28 @@
     >
       <el-row :gutter="20">
         <el-col :span="12" class="echarts-item">
-          <div class="content-title">周访问柱状图</div>
+          <div class="content-title">周访问柱状图 Top8</div>
           <ve-histogram
-            :data="histogramChartData"
-            :settings="histogramChartSettings"
+            :data="histogramChartDataWeek"
+            :settings="histogramChartSettingsWeek"
             :mark-line="histogramChartMarkLine"
           ></ve-histogram>
         </el-col>
         <el-col :span="12" class="echarts-item">
-          <div class="content-title">天访问曲线图</div>
+          <div class="content-title">7天访问曲线图</div>
           <ve-line
-            :data="lineChartData"
-            :settings="lineChartSettings"
+            :data="lineChartData7Day"
+            :settings="lineChartSettings7Day"
             :mark-point="lineChartMarkPoint"
           ></ve-line>
         </el-col>
         <el-col :span="12" class="echarts-item">
-          <div class="content-title">饼图</div>
-          <ve-pie :data="pieChartData" :settings="pieChartSettings"></ve-pie>
+          <div class="content-title">24小时访问图</div>
+         <ve-line
+            :data="lineChartData24Hour"
+            :settings="lineChartSettings24Hour"
+            :mark-point="lineChartMarkPoint"
+          ></ve-line>
         </el-col>
         <el-col :span="12" class="echarts-item">
           <div class="content-title">环形图</div>
@@ -39,24 +43,32 @@
 import Vue from "vue";
 import VCharts from "v-charts";
 Vue.use(VCharts);
-import { getRequestApiinfoByWeek, getAccessApiByDate } from "../../api/api";
+import { getRequestApiinfoByWeek, getAccessApiByDate,getAccessApiByHour } from "../../api/api";
 
 export default {
   name: "AdminDashboard",
   data() {
     return {
-      histogramChartData: {
+      histogramChartDataWeek: {
         columns: [],
         rows: []
       },
-      histogramChartSettings: {},
+      histogramChartSettingsWeek: {},
       histogramChartMarkLine: {
       },
-      lineChartData: {
+      lineChartData7Day: {
         columns: [],
         rows: []
       },
-      lineChartSettings: {
+      lineChartSettings7Day: {
+        metrics: ["count"],
+        dimension: ["date"]
+      },
+      lineChartData24Hour: {
+        columns: [],
+        rows: []
+      },
+      lineChartSettings24Hour: {
         metrics: ["count"],
         dimension: ["date"]
       },
@@ -158,11 +170,14 @@ export default {
       let para={};
 
     getRequestApiinfoByWeek(para).then(res => {
-      this.histogramChartData.columns = res.data.response.columns;
-      this.histogramChartData.rows =JSON.parse( res.data.response.rows);
+      this.histogramChartDataWeek.columns = res.data.response.columns;
+      this.histogramChartDataWeek.rows =JSON.parse( res.data.response.rows);
     });
     getAccessApiByDate(para).then(res => {
-      this.lineChartData = res.data.response;
+      this.lineChartData7Day = res.data.response;
+    });
+    getAccessApiByHour(para).then(res => {
+      this.lineChartData24Hour = res.data.response;
     });
   }
 };

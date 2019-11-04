@@ -257,3 +257,6 @@ export const getRequestApiinfoByWeek = params => {
 export const getAccessApiByDate = params => {
     return axios.get(`${base}/api/Monitor/GetAccessApiByDate`, {params: params});
 };
+export const getAccessApiByHour = params => {
+    return axios.get(`${base}/api/Monitor/GetAccessApiByHour`, {params: params});
+};
