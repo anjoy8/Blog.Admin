@@ -18,6 +18,7 @@
           <div class="content-title">7天访问曲线图</div>
           <ve-line
             :data="lineChartData7Day"
+            :extend="extend"
             :settings="lineChartSettings7Day"
             :mark-point="lineChartMarkPoint"
           ></ve-line>
@@ -52,6 +53,15 @@ export default {
       histogramChartDataWeek: {
         columns: [],
         rows: []
+      },
+      extend: {
+        series: {
+          label: {
+            normal: {
+              show: true
+            }
+          }
+        }
       },
       histogramChartSettingsWeek: {},
       histogramChartMarkLine: {
