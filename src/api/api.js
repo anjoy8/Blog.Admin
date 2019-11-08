@@ -243,6 +243,12 @@ export const addBug = params => {
 export const getBlogListPage = params => {
     return axios.get(`${base}/api/Blog`, {params: params});
 };
+export const getBlogDeatil = params => {
+    return axios.get(`${base}/api/Blog/DetailNuxtNoPer`, {params: params});
+};
+export const editBlog = params => {
+    return axios.put(`${base}/api/Blog/update`, params);
+};
 export const removeBlog = params => {
     return axios.delete(`${base}/api/Blog/delete`, {params: params});
 };
