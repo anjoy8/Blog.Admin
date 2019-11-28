@@ -16,21 +16,29 @@
         </el-col>
 
         <!--列表-->
-        <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
-                  style="width: 100%;">
+        <el-table :data="users" 
+        highlight-current-row 
+        v-loading="listLoading" 
+        @selection-change="selsChange"
+        row-key="Id"
+        border
+        lazy
+        :load="load"
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+        style="width: 100%;">
             <el-table-column type="selection" width="50">
             </el-table-column>
             <el-table-column type="index" width="80">
             </el-table-column>
-            <el-table-column label="菜单/按钮" width="" sortable>
+            <el-table-column label="菜单/按钮" width="200" sortable>
                 <template slot-scope="scope">
                     <i class="fa" :class="scope.row.Icon"></i>
                     {{scope.row.Name}}
 
                 </template>
             </el-table-column>
-            <el-table-column prop="PnameArr" label="父节点" width="" sortable>
-            </el-table-column>
+            <!-- <el-table-column prop="PnameArr" label="父节点" width="" sortable>
+            </el-table-column> -->
             <el-table-column prop="Code" label="路由地址" width="" sortable>
             </el-table-column>
             <el-table-column prop="MName" label="API接口" width="" sortable>
@@ -112,7 +120,6 @@
                 <el-form-item prop="IsButton" label="是否按钮" width="" sortable>
                     <el-switch v-model="editForm.IsButton" >
                     </el-switch>
-                </el-form-item>
                 </el-form-item>
                   <el-form-item label="按钮事件" prop="Func">
                     <el-input v-model="editForm.Func" auto-complete="off"></el-input>
@@ -211,7 +218,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getPermissionListPage, removePermission, editPermission, addPermission,getPermissionTree,getModuleListPage} from '../../api/api';
+    import {getPermissionListPage,getPermissionTreeTable, removePermission, editPermission, addPermission,getPermissionTree,getModuleListPage} from '../../api/api';
 
     export default {
         data() {
@@ -298,6 +305,18 @@
             handleCurrentChange(val) {
                 this.page = val;
                 this.getPermissions();
+            },  
+            load(tree, treeNode, resolve) {
+                 let para = {
+                    page: this.page,
+                    f:tree.Id,
+                    key: this.filters.Name
+                };
+                  getPermissionTreeTable(para).then((res) => {
+                   resolve(res.data.response)
+                });
+
+                
             },
             //获取用户列表
             getPermissions() {
@@ -308,9 +327,8 @@
                 this.listLoading = true;
 
                 //NProgress.start();
-                getPermissionListPage(para).then((res) => {
-                    this.total = res.data.response.dataCount;
-                    this.users = res.data.response.data;
+                getPermissionTreeTable(para).then((res) => {
+                    this.users = res.data.response;
                     this.listLoading = false;
                     //NProgress.done();
                 });

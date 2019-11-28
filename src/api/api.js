@@ -201,6 +201,9 @@ export const addModule = params => {
 export const getPermissionListPage = params => {
     return axios.get(`${base}/api/permission/get`, {params: params});
 };
+export const getPermissionTreeTable = params => {
+    return axios.get(`${base}/api/permission/GetTreeTable`, {params: params});
+};
 export const removePermission = params => {
     return axios.delete(`${base}/api/permission/delete`, {params: params});
 };
