@@ -26,7 +26,10 @@
             </el-table-column>
             <el-table-column prop="uLoginName" label="登录名" width="" sortable>
             </el-table-column>
-            <el-table-column prop="RoleName" label="角色" width="" sortable>
+            <el-table-column prop="RoleNames" label="角色" width="" sortable>
+                 <template slot-scope="scope">
+                    <el-tag v-for="item in scope.row.RoleNames" :key="item.Id" >{{item}}</el-tag>
+                </template>
             </el-table-column>
             <!--<el-table-column prop="name" label="姓名" width="" sortable>-->
             <!--</el-table-column>-->
@@ -71,8 +74,8 @@
                     <!--<el-input v-model="editForm.uLoginPWD" show-password  auto-complete="off"></el-input>-->
                 <!--</el-form-item>-->
 
-                <el-form-item label="角色" prop="RID">
-                    <el-select v-model="editForm.RID" placeholder="请选择角色">
+                <el-form-item label="角色" prop="RIDs">
+                    <el-select multiple v-model="editForm.RIDs" placeholder="请选择角色">
                         <el-option  :key="0" :label="'未选择角色'" :value="0"></el-option>
                         <el-option v-for="item in roles" :key="item.Id" :label="item.Name" :value="item.Id"></el-option>
                     </el-select>
@@ -174,7 +177,7 @@
                 editForm: {
                     id: 0,
                     uID: 0,
-                    RID: 0,
+                    RIDs: 0,
                     uLoginName: '',
                     uRealName: '',
                     name: '',
