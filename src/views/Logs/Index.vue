@@ -58,7 +58,7 @@
 
 <script>
     import util from '../../../util/date'
-    import {getLogs} from '../../api/api';
+    import {getLogs,BaseApiUrl} from '../../api/api';
     import * as signalR from "@aspnet/signalr";
 
     export default {
@@ -134,7 +134,7 @@
             let thisVue = this;
 
             thisVue.connection = new signalR.HubConnectionBuilder()
-                .withUrl('/api2/chatHub')
+                .withUrl(`${BaseApiUrl}/api2/chatHub`)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 

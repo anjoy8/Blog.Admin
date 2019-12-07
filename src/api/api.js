@@ -97,6 +97,9 @@ axios.interceptors.response.use(
     }
 );
 
+
+export const BaseApiUrl =base;
+
 // 登录
 export const requestLogin = params => {
     return axios.get(`${base}/api/login/jwttoken3.0`, {params: params}).then(res => res.data);
