@@ -119,6 +119,7 @@
             getRoles() {
                 getRoleListPage().then((res) => {
                     this.roles = res.data.response.data;
+                    this.getPermissions();
                 });
             },
             //获取菜单树
@@ -316,7 +317,7 @@
             this.loadingSave=true;
             this.loadingSaveStr='加载中...';
             this.getRoles();
-            this.getPermissions();
+            // this.getPermissions();
         }
     }
 
