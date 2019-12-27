@@ -51,6 +51,7 @@
                                      @select="handleselect"
                                      unique-opened router :collapse="isCollapse"
                                      background-color="#2f3e52"
+                                     style="border-right: none;"
                                      text-color="#fff"
                                      active-text-color="#ffd04b">
                                 <sidebar v-for="(menu,index) in routes" @collaFa="collapseFa" :key="index"
