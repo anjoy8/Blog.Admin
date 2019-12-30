@@ -1,97 +1,62 @@
 # 介绍
 
-从零开始搭建自己的前后端分离【 .NET Core3.1 Api + Vue 2.x 】框架。
-ASP.NET Core 2.2/3.1 教程，前后端分离的后端接口，vue教程的姊妹篇。
+一个完整的前后端分离框架【 Vue 2.x + ASP.NET Core3.1 Api】。  
+VUE 2.x 全面教程，从基础知识，到权限框架。
+
+
+## 你能得到什么？
+
+1、入门 SPA 单页面程序工作机制；  
+2、快速理解前后端分离项目开发流程；  
+3、掌握 VUE 开发常用技能；  
+4、配套使用完整的权限管理系统；  
+5、开箱即用，快速扩展和上线使用；  
+6、社区可定制服务；  
 
 
 ## 它是如何工作的？
 
-这是一个基于 netcore 2.x 的 webapi 项目，配合搭建前后端分离工程。
+这是一个基于 `VUE2.x` 的通用后台权限框架，可搭配任意后端 `api` 项目。
 
 **************************************************************
 系统环境
 
-windows 10、SQL server 2012、Visual Studio 2017、Windows Server 2008 R2
-
-后端技术：
-
-  * .Net Core 2.0 API（因为想单纯搭建前后端分离，因此就选用的API，如果想了解.Net Core MVC，也可以交流）
-  
-  * Swagger 前后端文档说明，基于RESTful风格编写接口
-
-  * Repository + Service 仓储模式编程
-
-  * Async和Await 异步编程
-
-  * Cors 简单的跨域解决方案
-
-  * AOP基于切面编程技术
-
-  * Autofac 轻量级IoC和DI依赖注入
-
-  * Vue 本地代理跨域方案，Nginx跨域代理
-
-  * JWT权限验证
-
-
-
-数据库技术
-
-  * SqlSugar 轻量级ORM框架，CodeFirst
-
-  * T4 模板生成
-
-  * AutoMapper 自动对象映射
-
-
-
-分布式缓存技术
-
-  * Redis 轻量级分布式缓存
+`windows 10`、`Visual Studio Code`、`Windows Server 2008 R2+` 、`Linux`
 
 
 
 前端技术
 
-  * Vue 2.0 框架全家桶 Vue2 + VueRouter2 + Webpack + Axios + vue-cli + vuex
+>  Vue 2.x 框架全家桶  
+1、vue-router 路由   
+2、Webpack 打包工具  
+3、Axios http库     
+4、vue-cli 脚手架     
+5、vuex 状态管理器  
+6、ElementUI 基于Vue 2.x的组件库  
+7、echarts 图形库  
+8、font-awesome 图标组件  
+9、i18n 多语言管理  
+10、quill-editor 富文本编辑器  
+11、signalr 实时库  
 
-  * ElementUI 基于Vue 2.0的组件库
-
-  * Nuxt.js服务端渲染SSR
-
-
-## 它能做什么？
-
-它能帮助您快速搭建基于asp.net core的api项目，无缝对接微服务。
-提供丰富的文档和视频讲解，快速入门。
 
 
 ## 功能与进度
 
-- [√] 采用仓储+服务+接口的形式封装框架；
-- [√] 使用Swagger做api文档；
-- [√] 使用MiniProfiler做接口性能分析；
-- [√] 使用Automapper做Dto处理；
-- [√] 接入SqlSugar ORM，封装数据库操作；
-- [√] 项目启动，自动生成seed种子数据；
-- [√] 支持自由切换多种数据库，Sqlite/SqlServer/MySql/PostgreSQL/Oracle；
-- [√] 异步async/await开发；
-- [√] 支持事务；
-- [√] AutoFac接入做依赖注入；
-- [√] 支持AOP切面编程；
-- [√] 支持CORS跨域；
-- [√] 支持T4代码模板，自动生成每层代码；
-- [√] 支持一键创建自己项目；
-- [√] 封装 JWT 自定义策略授权；
-- [√] 使用Log4Net日志框架+自定义日志输出；
-- [√] 使用SingleR推送日志信息到管理后台；
-- [√] 搭配前端Blog项目，vue开发；
-- [√] 搭配一个Admin管理后台，用vue+ele开发；
-- [ ] IdentityServer4 认证（更新中...);
-- [ ] API 限速;
-- [ ] Redis 队列;
-- [ ] 作业调度 Quartz.net;
-- [ ] Sqlsugar 读写分离;
-- [ ] 支付;
-- [ ] 数据部门权限;
+- [√] 对管理员赋予角色；  
+- [√] 角色功能权限的动态分配；  
+- [√] 根据权限不同，动态加载菜单；  
+- [√] 动态标签页；  
+- [√] 按钮级别权限，无该权限不显示按钮；  
+- [√] 用户操作日志；  
+- [√] 接口访问图表；    
+- [√] 样式兼容手机；  
+- [ ] 个人信息修改;    
+- [ ] 审核功能;
+- [ ] 部门权限;
+- [ ] 国际化;
+- [ ] 导入导出，上传下载;
+- [ ] 修改背景，定制主题;
+- [ ] 动态 Table ;
 

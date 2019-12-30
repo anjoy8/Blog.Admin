@@ -14,6 +14,6 @@ Kawhi、
 做推广。
 
 ```
-1、https://github.com/GeorGeWzw/Uwl.Admin.Core，后端优秀框架
+1、https://github.com/GeorGeWzw/Vue.Uwl.Admin，也是一个 vue 前端框架
 
 ```
