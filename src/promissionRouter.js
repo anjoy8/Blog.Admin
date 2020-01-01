@@ -4,11 +4,11 @@ import { resetRouter, filterAsyncRouter } from '@/router/index'
 import { getNavigationBar, saveRefreshtime } from '@/api/api';
 import store from "@/store";
 
+import applicationUserManager from "./Auth/applicationusermanager";
 
 //用来获取后台拿到的路由
 var getRouter
 if (!getRouter) {//不加这个判断，路由会陷入死循环
-
     if (!getObjArr('router')) {
         //本地没有，则从数据库获取
         var user = window.localStorage.user ? JSON.parse(window.localStorage.user) : null;
@@ -39,7 +39,6 @@ var storeTemp = store;
 router.beforeEach((to, from, next) => {
     //验证Token
     {
-
         if (!storeTemp.state.token) {
             storeTemp.commit("saveToken", window.localStorage.Token)
         }
@@ -62,12 +61,17 @@ router.beforeEach((to, from, next) => {
                 window.localStorage.removeItem('NavigationBar');
                 window.localStorage.removeItem('router');
 
-                next({
-                    path: "/login",
-                    query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
-                });
+                
+                //这里使用Id4授权认证，用Jwt，请删之，并把下边的跳转login 打开；
+                applicationUserManager.login();
 
-                window.location.reload()
+                //这里使用Jwt登录，如果不用Id4授权认证，这里打开它；
+                // next({
+                //     path: "/login",
+                //     query: { redirect: to.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                // });
+
+                // window.location.reload()
             }
         } else {
             next();
