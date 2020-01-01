@@ -4,8 +4,6 @@ import router from '../router/index'
 import store from "../store";
 import Vue from 'vue';
 
-import applicationUserManager from "../Auth/applicationusermanager";
-
 let base = '';
 // 如果是IIS部署，用这个，因为 IIS 只能是 CORS 跨域，不能代理
 // let base = process.env.NODE_ENV=="production"? 'http://localhost:8081':'';
@@ -128,23 +126,18 @@ export const saveRefreshtime = params => {
     }
 };
  const ToLogin = params => {
-     
      store.commit("saveToken", "");
      store.commit("saveTokenExpire", "");
      store.commit("saveTagsData", "");
      window.localStorage.removeItem('user');
      window.localStorage.removeItem('NavigationBar');
 
-     
-                
-    //这里使用Id4授权认证，用Jwt，请删之；
-    applicationUserManager.login();
-    //  router.replace({
-    //      path: "/login",
-    //      query: {redirect: router.currentRoute.fullPath}
-    //  });
+     router.replace({
+         path: "/login",
+         query: {redirect: router.currentRoute.fullPath}
+     });
 
-    //   window.location.reload()
+      window.location.reload()
 
 };
 

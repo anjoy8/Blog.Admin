@@ -42,23 +42,17 @@
 </template>
 
 <script>
-    import applicationUserManager from "../Auth/applicationusermanager";
-  
-  export default {
+    export default {
         name: "Welcome",
         mounted() {
             var curTime = new Date()
             if(window.localStorage.TokenExpire){
                 var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
                 if(curTime>=expiretime){
-                    // id4登录
-                    applicationUserManager.login();
-                    // this.$router.push('/login');
+                    this.$router.push('/login');
                 }
             }else {
-                // id4登录
-                applicationUserManager.login();
-                // this.$router.push('/login');
+                this.$router.push('/login');
             }
 
         },

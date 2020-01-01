@@ -8,8 +8,6 @@ import NoPage from '../views/404'
 import Layout from "../views/Layout/Layout";
 const _import = require('@/router/_import_' + process.env.NODE_ENV)//获取组件的方法
 
-import LoginCallbackView from "../views/LoginCallbackView";
-
 Vue.use(Router)
 
 const createRouter = () => new Router({
@@ -45,27 +43,17 @@ const createRouter = () => new Router({
                 requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
             }
         },
-        // {
-        //     path: '/login',
-        //     component: Login,
-        //     name: 'login',
-        //     iconCls: 'fa-address-card',//图标样式class
-        //     meta: {
-        //         title: '登录',
-        //         NoTabPage: true,
-        //         NoNeedHome: true // 添加该字段，表示不需要home模板
-        //     },
-        //     hidden: true
-        // },
         {
-          path: "/callback",
-          name: "LoginCallbackView",
-          component: LoginCallbackView,
-          meta: {
-              title: '登录',
-              NoTabPage: true,
-          },
-          hidden: true
+            path: '/login',
+            component: Login,
+            name: 'login',
+            iconCls: 'fa-address-card',//图标样式class
+            meta: {
+                title: '登录',
+                NoTabPage: true,
+                NoNeedHome: true // 添加该字段，表示不需要home模板
+            },
+            hidden: true
         },
         {
             path: '*',
