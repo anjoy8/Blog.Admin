@@ -208,6 +208,8 @@
                     });
                 } else {
 
+                    this.loadingSaveStr='保存';
+                    this.loadingSave=false;
                     this.$message({
                         message: "参数错误",
                         type: 'error'
