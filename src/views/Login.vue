@@ -149,10 +149,9 @@
                         _this.loginStr = "登录中...";
 
                         requestLogin(loginParams).then(data => {
-
                             if (!data.success) {
                                 _this.$message({
-                                    message: data.message,
+                                    message: data.msg,
                                     type: 'error'
                                 });
                                 _this.logining = false;
@@ -160,15 +159,15 @@
                                 // _this.closeAlert()
                             } else {
 
-                                var token = data.token;
+                                var token = data.response.token;
                                 _this.$store.commit("saveToken", token);
 
                                 var curTime = new Date();
-                                var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + data.expires_in));
+                                var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + data.response.expires_in));
                                 _this.$store.commit("saveTokenExpire", expiredate);
 
                                 window.localStorage.refreshtime = expiredate;
-                                window.localStorage.expires_in = data.expires_in;
+                                window.localStorage.expires_in = data.response.expires_in;
 
                                 _this.$notify({
                                     type: "success",
@@ -200,7 +199,7 @@
 
                     if (!data.success) {
                         _this.$message({
-                            message: data.message,
+                            message: data.msg,
                             type: 'error'
                         });
                     } else {
@@ -227,7 +226,7 @@
 
                     if (!data.success) {
                         _this.$message({
-                            message: data.message,
+                            message: data.msg,
                             type: 'error'
                         });
                     } else {

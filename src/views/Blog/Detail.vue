@@ -79,7 +79,7 @@ export default {
     //初始化
     var para = { id: this.id };
     getBlogDeatil(para).then(res => {
-      this.infoForm = res.data.data;
+      this.infoForm = res.data.response;
     });
   },
   methods: {
