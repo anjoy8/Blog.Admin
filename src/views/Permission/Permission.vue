@@ -43,16 +43,6 @@
             </el-table-column>
             <el-table-column prop="MName" label="API接口" width="" sortable>
             </el-table-column>
-            <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="150" sortable>
-            </el-table-column>
-            <el-table-column prop="Enabled" label="状态" width="100" sortable>
-                <template slot-scope="scope">
-                    <el-tag
-                            :type="scope.row.Enabled  ? 'success' : 'danger'"
-                            disable-transitions>{{scope.row.Enabled ? "正常":"禁用"}}
-                    </el-tag>
-                </template>
-            </el-table-column>
             <el-table-column prop="OrderSort" label="Sort" width="" sortable>
             </el-table-column>
             <el-table-column prop="IsButton" label="是否按钮" width="100" sortable>
@@ -70,6 +60,14 @@
                     <el-tag
                             :type="!scope.row.IsHide  ? 'success' : 'danger'"
                             disable-transitions>{{!scope.row.IsHide ? "否":"是"}}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column prop="IskeepAlive" label="keepAlive" width="100" sortable>
+                <template slot-scope="scope">
+                    <el-tag
+                            :type="!scope.row.IskeepAlive  ? 'success' : 'danger'"
+                            disable-transitions>{{!scope.row.IskeepAlive ? "否":"是"}}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -128,6 +126,10 @@
                     <el-switch v-model="editForm.IsHide" >
                     </el-switch>
                 </el-form-item>
+                <el-form-item prop="IskeepAlive" label="keepAlive" width="" sortable>
+                    <el-switch v-model="editForm.IskeepAlive" >
+                    </el-switch>
+                </el-form-item>
                 <el-form-item prop="PidArr" label="父级菜单" width="" sortable>
                     <el-cascader placeholder="请选择，支持搜索功能" style="width: 400px"  v-model="editForm.PidArr"
                                  :options="options"
@@ -184,6 +186,10 @@
                 </el-form-item>
                 <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
                     <el-switch v-model="addForm.IsHide" >
+                    </el-switch>
+                </el-form-item>
+                <el-form-item prop="IskeepAlive" label="keepAlive" width="" sortable>
+                    <el-switch v-model="addForm.IskeepAlive" >
                     </el-switch>
                 </el-form-item>
                 <el-form-item prop="PidArr" label="父级菜单" width="" sortable>
@@ -262,6 +268,7 @@
                     Enabled: true,
                     IsButton: false,
                     IsHide: false,
+                    IskeepAlive: false,
                 },
 
                 addFormVisible: false,//新增界面是否显示
@@ -290,6 +297,7 @@
                     Enabled: true,
                     IsButton: false,
                     IsHide: false,
+                    IskeepAlive: false,
                 }
 
             }
@@ -400,6 +408,7 @@
                     Icon: '',
                     IsButton: false,
                     IsHide: false,
+                    IskeepAlive: false,
                 };
 
                 let para={pid:0};

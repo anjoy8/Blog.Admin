@@ -13,11 +13,11 @@
     <el-form-item label="旧密码" prop="uLoginPWD">
       <el-input v-model="editForm.uLoginPWD" type="text" auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="新密码" prop="uLoginPWD">
-      <el-input v-model="editForm.uLoginPWD" show-password auto-complete="off"></el-input>
+    <el-form-item label="新密码" prop="uLoginPWDNew">
+      <el-input v-model="editForm.uLoginPWDNew" show-password auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="确认密码" prop="uLoginPWD">
-      <el-input v-model="editForm.uLoginPWD" show-password auto-complete="off"></el-input>
+    <el-form-item label="确认密码" prop="uLoginPWDConfirm">
+      <el-input v-model="editForm.uLoginPWDConfirm" show-password auto-complete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="头像">
