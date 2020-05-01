@@ -5,9 +5,9 @@
         <el-input v-model="searchVal" placeholder="请输入内容"></el-input>
       </el-form-item>
       <!-- 这个就是当前页面内，所有的btn列表 -->
-      <el-form-item v-for="item in buttonList">
+      <el-form-item v-for="item in buttonList" v-bind:key="item.id">
         <!-- 这里触发点击事件 -->
-        <el-button type="primary" v-if="!item.IsHide" @click="callFunc(item)">{{item.name}}</el-button>
+        <el-button :type="item.Func&&item.Func.toLowerCase().indexOf('handledel')!= -1 ? 'danger':'primary'" v-if="!item.IsHide" @click="callFunc(item)">{{item.name}}</el-button>
       </el-form-item>
     </el-form>
   </el-col>
