@@ -1,22 +1,13 @@
 <template>
     <section>
         <!--工具条-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters" @submit.native.prevent>
-                <el-form-item>
-                    <el-input v-model="filters.name" placeholder="昵称/登录名"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="getUsers">查询</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="handleAdd">新增</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
+     <toolbar :buttonList="buttonList" @callFunction="callFunction"></toolbar>
+     
 
         <!--列表-->
-        <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+        <el-table :data="users" highlight-current-row 
+        @current-change="selectCurrentRow"
+        v-loading="listLoading" @selection-change="selsChange"
                   style="width: 100%;">
             <el-table-column type="selection" width="50">
             </el-table-column>
@@ -45,12 +36,12 @@
                     </el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <!-- <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
 
         <!--工具条-->
@@ -145,8 +136,11 @@
 <script>
     import util from '../../../util/date'
     import {testapi, getUserListPage,getRoleListPage , removeUser, batchRemoveUser, editUser, addUser} from '../../api/api';
+    import { getButtonList } from "../../promissionRouter";
+    import Toolbar from "../../components/Toolbar";
 
     export default {
+        components: { Toolbar },
         data() {
             return {
                 filters: {
@@ -155,6 +149,8 @@
                 users: [],
                 roles: [],
                 total: 0,
+                buttonList: [],
+                currentRow: null,
                 page: 1,
                 listLoading: false,
                 sels: [],//列表选中列
@@ -218,6 +214,15 @@
             }
         },
         methods: {
+            selectCurrentRow(val) {
+            this.currentRow = val;
+            },
+            callFunction(item) {
+            this.filters = {
+                name: item.search
+            };
+            this[item.Func].apply(this, item);
+            },
             //性别显示转换
             formatSex: function (row, column) {
                 return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
@@ -248,7 +253,16 @@
                 });
             },
             //删除
-            handleDel: function (index, row) {
+            handleDel() {
+                let row = this.currentRow;
+                if (!row) {
+                    this.$message({
+                    message: "请选择要删除的一行数据！",
+                    type: "error"
+                    });
+
+                    return;
+                }
                 this.$confirm('确认删除该记录吗?', '提示', {
                     type: 'warning'
                 }).then(() => {
@@ -283,7 +297,16 @@
                 });
             },
             //显示编辑界面
-            handleEdit: function (index, row) {
+            handleEdit() {
+                let row = this.currentRow;
+                if (!row) {
+                    this.$message({
+                    message: "请选择要编辑的一行数据！",
+                    type: "error"
+                    });
+
+                    return;
+                }
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
 
@@ -418,6 +441,11 @@
         },
         mounted() {
             this.getUsers();
+
+            let routers = window.localStorage.router
+            ? JSON.parse(window.localStorage.router)
+            : [];
+            this.buttonList = getButtonList(this.$route.path, routers);
         }
     }
 

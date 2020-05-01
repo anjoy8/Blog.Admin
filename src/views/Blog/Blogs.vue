@@ -1,22 +1,12 @@
 <template>
     <section>
         <!--工具条-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-            <el-form :inline="true" :model="filters" @submit.native.prevent>
-                <el-form-item>
-                    <el-input v-model="filters.LinkUrl" placeholder="标题/内容"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="getRoles">查询</el-button>
-                </el-form-item>
-                <!--<el-form-item>-->
-                    <!--<el-button type="primary" @click="handleAdd">新增</el-button>-->
-                <!--</el-form-item>-->
-            </el-form>
-        </el-col>
+        <toolbar :buttonList="buttonList" @callFunction="callFunction"></toolbar>
 
         <!--列表-->
-        <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+        <el-table :data="users" highlight-current-row
+        @current-change="selectCurrentRow" 
+        v-loading="listLoading" @selection-change="selsChange"
                   style="width: 100%;">
             <el-table-column type="selection" width="50">
             </el-table-column>
@@ -35,12 +25,12 @@
             <el-table-column prop="bCreateTime" label="创建时间" :formatter="formatCreateTime" width="250" sortable>
             </el-table-column>
 
-            <el-table-column label="操作" width="150">
+            <!-- <el-table-column label="操作" width="150">
                 <template scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
 
         <!--工具条-->
@@ -103,10 +93,15 @@
 <script>
     import util from '../../../util/date'
     import {getBlogListPage,removeBlog} from '../../api/api';
+    import { getButtonList } from "../../promissionRouter";
+    import Toolbar from "../../components/Toolbar";
 
     export default {
+        components: { Toolbar },
         data() {
             return {
+                buttonList: [],
+                currentRow: null,
                 filters: {
                     LinkUrl: ''
                 },
@@ -157,6 +152,15 @@
             }
         },
         methods: {
+            selectCurrentRow(val) {
+            this.currentRow = val;
+            },
+            callFunction(item) {
+            this.filters = {
+                name: item.search
+            };
+            this[item.Func].apply(this, item);
+            },
             //性别显示转换
             formatbcontent: function (row, column) {
                 return row.bcontent ? row.bcontent.substring(20) : 'N/A';
@@ -166,10 +170,10 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getRoles();
+                this.getBlogs();
             },
             //获取用户列表
-            getRoles() {
+            getBlogs() {
                 let para = {
                     page: this.page,
                     key: this.filters.LinkUrl
@@ -185,7 +189,16 @@
                 });
             },
             //删除
-            handleDel: function (index, row) {
+            handleDel() {
+                let row = this.currentRow;
+                if (!row) {
+                    this.$message({
+                    message: "请选择要删除的一行数据！",
+                    type: "error"
+                    });
+
+                    return;
+                }
                 this.$confirm('确认删除该记录吗?', '提示', {
                     type: 'warning'
                 }).then(() => {
@@ -212,14 +225,23 @@
                             });
                         }
 
-                        this.getRoles();
+                        this.getBlogs();
                     });
                 }).catch(() => {
 
                 });
             },
             //显示编辑界面
-            handleEdit: function (index, row) {
+            handleEdit() {
+                let row = this.currentRow;
+                if (!row) {
+                    this.$message({
+                    message: "请选择要编辑的一行数据！",
+                    type: "error"
+                    });
+
+                    return;
+                }
                 // this.editFormVisible = true;
                 // this.editForm = Object.assign({}, row);
                 console.log(row.bID)
@@ -267,7 +289,7 @@
                                     });
                                     this.$refs['editForm'].resetFields();
                                     this.editFormVisible = false;
-                                    this.getRoles();
+                                    this.getBlogs();
                                 } else {
                                     this.$message({
                                         message: res.data.msg,
@@ -323,7 +345,7 @@
                                     });
                                     this.$refs['addForm'].resetFields();
                                     this.addFormVisible = false;
-                                    this.getRoles();
+                                    this.getBlogs();
                                 }
                                 else {
                                     this.$message({
@@ -351,7 +373,12 @@
             }
         },
         mounted() {
-            this.getRoles();
+            this.getBlogs();
+
+            let routers = window.localStorage.router
+            ? JSON.parse(window.localStorage.router)
+            : [];
+            this.buttonList = getButtonList(this.$route.path, routers);
         }
     }
 
