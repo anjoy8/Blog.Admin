@@ -2,11 +2,14 @@
     <div style="margin-top: 30px;">
           <div style="margin: 20px;"> 欢迎来到 BlogAdmin 后台管理系统!</div>
 
-<el-card class="welcome-card">
-    <el-aside>快来加入我们吧：</el-aside>
-
-    <br>
-    <img style="width: 300px;" src="../assets/QQGroup.png" />
+<el-card shadow="hover" class="welcome-card note">
+   <div slot="header" class="clearfix">
+    <span>操作指南</span>
+  </div>
+  <div class="text item"><i class="el-icon-edit"></i>、在vue.config.js中配置项目端口号，以及代理后端API项目域名。  </div>
+  <div class="text item"><i class="el-icon-edit"></i>、在global.js中配置授权方案global.IS_IDS4。  </div>
+  <div class="text item"><i class="el-icon-edit"></i>、动态添加页面以及权限配置，看右侧两个动图。  </div>
+  <div class="text item"><i class="el-icon-edit"></i>、更多内容，查看官方文档：<a href="http://vueadmin.neters.club/.doc/" target="_blank">http://vueadmin.neters.club/.doc/</a>。  </div>
 </el-card>
 <el-card class="welcome-card">
     <el-aside>动态添加一个vue页面：</el-aside>
@@ -42,17 +45,27 @@
 </template>
 
 <script>
-    export default {
+    import applicationUserManager from "../Auth/applicationusermanager";
+  
+  export default {
         name: "Welcome",
         mounted() {
             var curTime = new Date()
             if(window.localStorage.TokenExpire){
                 var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
                 if(curTime>=expiretime){
-                    this.$router.push('/login');
+                    if (global.IS_IDS4) {
+                        applicationUserManager.login();
+                    } else {
+                        this.$router.push('/login');
+                    }
                 }
             }else {
-                this.$router.push('/login');
+                if (global.IS_IDS4) {
+                    applicationUserManager.login();
+                } else {
+                    this.$router.push('/login');
+                }
             }
 
         },
@@ -60,5 +73,11 @@
 </script>
 
 <style scoped>
+.note .text {
+    font-size: 14px;
+  }
 
+ .note .item {
+    margin-bottom: 18px;
+  }
 </style>

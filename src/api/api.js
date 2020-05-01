@@ -4,6 +4,8 @@ import router from '../router/index'
 import store from "../store";
 import Vue from 'vue';
 
+import applicationUserManager from "../Auth/applicationusermanager";
+
 let base = '';
 // 如果是IIS部署，用这个，因为 IIS 只能是 CORS 跨域，不能代理
 // let base = process.env.NODE_ENV=="production"? 'http://localhost:8081':'';
@@ -92,6 +94,14 @@ axios.interceptors.response.use(
                 });
                 return null;
             }
+            // 429 ip限流
+            if (error.response.status == 429) {
+                Vue.prototype.$message({
+                    message: '刷新次数过多，请稍事休息重试！',
+                    type: 'error'
+                });
+                return null;
+            }
         }
         return ""; // 返回接口返回的错误信息
     }
@@ -126,19 +136,25 @@ export const saveRefreshtime = params => {
     }
 };
  const ToLogin = params => {
+     
      store.commit("saveToken", "");
      store.commit("saveTokenExpire", "");
      store.commit("saveTagsData", "");
      window.localStorage.removeItem('user');
      window.localStorage.removeItem('NavigationBar');
 
-     router.replace({
-         path: "/login",
-         query: {redirect: router.currentRoute.fullPath}
-     });
+     
+                
+    if (global.IS_IDS4) {
+        applicationUserManager.login();
+    } else {
+        router.replace({
+            path: "/login",
+            query: {redirect: router.currentRoute.fullPath}
+        });
 
-      window.location.reload()
-
+        window.location.reload()
+    }
 };
 
 export const getUserByToken = params => {

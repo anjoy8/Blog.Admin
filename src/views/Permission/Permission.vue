@@ -120,7 +120,9 @@
                     </el-switch>
                 </el-form-item>
                   <el-form-item label="按钮事件" prop="Func">
-                    <el-input v-model="editForm.Func" auto-complete="off"></el-input>
+                    <el-tooltip class="item" effect="dark" content="只写方法名即可，不用带括号，比如：handleEdit" placement="top-start">
+                        <el-input v-model="editForm.Func" auto-complete="off"></el-input>
+                    </el-tooltip>
                 </el-form-item>
                 <el-form-item prop="IsHide" label="隐藏菜单" width="" sortable>
                     <el-switch v-model="editForm.IsHide" >

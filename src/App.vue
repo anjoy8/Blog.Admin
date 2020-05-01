@@ -153,8 +153,12 @@
     import ScrollPane from './components/ScrollPane'
     import {getUserByToken} from './api/api';
 
+    import applicationUserManager from "./Auth/applicationusermanager";
+    import userAuth from "./Auth/UserAuth";
+
     export default {
         components: {Sidebar, ScrollPane},
+        mixins: [userAuth],
         data() {
             return {
                 sysName: 'BlogAdmin',
@@ -253,8 +257,14 @@
                     this.tagsList = [];
                     this.routes = [];
                     this.$store.commit("saveTagsData", "");
-                    _this.$router.push('/login');
-                    window.location.reload()
+
+                    if (global.IS_IDS4) {
+                        applicationUserManager.logout();
+                    } else {
+                        _this.$router.push('/login');
+                        window.location.reload()
+                    }
+                    
                 }).catch(() => {
 
                 });
@@ -421,7 +431,12 @@
         },
         watch: {
             // 对router进行监听，每当访问router时，对tags的进行修改
-            $route(newValue) {
+            $route: async function(newValue, from) {
+                
+                if (global.IS_IDS4) {
+                    await this.refreshUserInfo();
+                }
+
                 this.setTags(newValue);
 
                 const tags = this.$refs.tag

@@ -40,32 +40,4 @@ Gitee（国内） 下载 [https://gitee.com/laozhangIsPhi/Blog.Admin](https://gi
 根目录会出现一个 `dist` 文件夹，  
 然后拷贝到服务器，用  `Nginx` 或者 `IIS` 进行代理即可。
 
-### Nginx 部署
 
-1. 直接执行 `build` 命令后，把 `dist` 文件夹拷贝到服务器，然后配置 `nginx` 即可；  
-2. 重点是在 `nginx` 中，需要做跨域代理，比如这样的：  
-
-```
-        location /api/ {
-            rewrite  ^.+apb/?(.*)$ /$1 break;
-            include  uwsgi_params;
-            proxy_pass http://localhost:8081;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            #proxy_set_header Connection "upgrade";
-            #proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-```
-
-### IIS 部署
-
-1. 如果使用 `IIS` 部署的话，就只能使用后端 `CORS` 跨域了，必须保证你的后端项目已经配置好了前端的端口，来允许前端项目能访问，具体的可以查看我的 `Blog.Core` 后端项目中的 `appsettings.json` 中 `Startup/Cors/IPs` 下的配置；  
-2. 同时，我们请求后端的 `api` 就必须使用绝对路径了，因此，我们需要在 `api.js` 文件中，修改 `base` ，配置为后端项目的端口；  
-
-
-### 页面刷新 404 问题
-
-具体的查看我的文章：
-https://www.cnblogs.com/laozhang-is-phi/p/beautifulPublish-mostBugs.html#autoid-3-10-0

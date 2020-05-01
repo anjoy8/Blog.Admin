@@ -8,6 +8,8 @@ import NoPage from '../views/404'
 import Layout from "../views/Layout/Layout";
 const _import = require('@/router/_import_' + process.env.NODE_ENV)//获取组件的方法
 
+import LoginCallbackView from "../views/LoginCallbackView";
+
 Vue.use(Router)
 
 const createRouter = () => new Router({
@@ -54,6 +56,16 @@ const createRouter = () => new Router({
                 NoNeedHome: true // 添加该字段，表示不需要home模板
             },
             hidden: true
+        },
+        {
+          path: "/callback",
+          name: "LoginCallbackView",
+          component: LoginCallbackView,
+          meta: {
+              title: '登出',
+              NoTabPage: true,
+          },
+          hidden: true
         },
         {
             path: '*',
