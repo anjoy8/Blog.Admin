@@ -66,14 +66,14 @@ axios.interceptors.response.use(
                                 type: 'success'
                             });
 
-                            store.commit("saveToken", res.token);
+                            store.commit("saveToken", res.response.token);
 
                             var curTime = new Date();
-                            var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.expires_in));
+                            var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.response.expires_in));
                             store.commit("saveTokenExpire", expiredate);
 
                             error.config.__isRetryRequest = true;
-                            error.config.headers.Authorization = 'Bearer ' + res.token;
+                            error.config.headers.Authorization = 'Bearer ' + res.response.token;
                             return axios(error.config);
                         } else {
                             // 刷新token失败 清除token信息并跳转到登录页面
