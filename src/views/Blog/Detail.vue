@@ -93,7 +93,7 @@ export default {
           var postPara = this.infoForm;
 
           editBlog(postPara).then(res => {
-            if (res.data.response.success) {
+            if (res.success) {
               this.$notify({
                 type: "success",
                 message: "修改成功!",
@@ -101,7 +101,7 @@ export default {
               });
               this.$router.replace(`/Blog/Blogs`);
             } else {
-              var errorMsg = res.data.response.msg;
+              var errorMsg = res.msg;
               this.$message({
                 type: "error",
                 message: errorMsg,
