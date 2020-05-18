@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <ul class="bg-bubbles">
-            <li v-for="n in 10"></li>
-            <ol v-for="n in 5"></ol>
+            <li v-for="n in 10" :key="n"></li>
+            <ol v-for="m in 5"  :key="m"></ol>
         </ul>
         <div class="bg bg-blur" style="display: none;"></div>
         <div style="height: 10%;"></div>
@@ -306,10 +306,7 @@
     .login-container .remember {
         margin: 0px 0px 25px 0px;
     }
-
-    li {
-    }
-
+    
     .wrapper {
         background: #50a3a2;
         background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
