@@ -82,6 +82,7 @@
                 <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="editForm.Name" auto-complete="off"></el-input>
                 </el-form-item>
+
                 <el-form-item label="路由地址" prop="Code">
                     <el-tooltip class="item" effect="dark" content="如果是导航条且无路由，请填‘-’字符，如果是按钮，请输入空格即可" placement="top-start">
                         <el-input v-model="editForm.Code" auto-complete="off"></el-input>
@@ -151,6 +152,15 @@
                 <el-form-item label="菜单名称" prop="Name">
                     <el-input v-model="addForm.Name" auto-complete="off"></el-input>
                 </el-form-item>
+                
+                <el-form-item label="菜单类型">
+                    <el-radio-group  @change="clkType"  v-model="addForm.MenuType">
+                        <el-radio label="目录"></el-radio>
+                        <el-radio label="页面"></el-radio>
+                        <el-radio label="按钮"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+
                 <el-form-item label="路由地址" prop="Code">
                     <el-tooltip class="item" effect="dark" content="如果是导航条且无路由，请填‘-’字符，如果是按钮，请输入空格即可" placement="top-start">
                     <el-input v-model="addForm.Code" auto-complete="off"></el-input>
@@ -301,6 +311,17 @@
         methods: {
             selectCurrentRow(val) {
             this.currentRow = val;
+            },
+            clkType() {
+                this.addForm.IsButton=false
+                if (this.addForm.MenuType=="页面") {
+                    this.addForm.Code=""
+                }else  if (this.addForm.MenuType=="目录") {
+                    this.addForm.Code="-"
+                }else  if (this.addForm.MenuType=="按钮") {
+                    this.addForm.Code=" "
+                this.addForm.IsButton=true
+                }
             },
             callFunction(item) {
             this.filters = {

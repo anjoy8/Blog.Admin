@@ -288,3 +288,26 @@ export const getAccessApiByDate = params => {
 export const getAccessApiByHour = params => {
     return axios.get(`${base}/api/Monitor/GetAccessApiByHour`, {params: params});
 };
+// Task管理
+export const getTaskListPage = params => {
+    return axios.get(`${base}/api/TasksQz/get`, {params: params});
+};
+export const removeTask = params => {
+    return axios.delete(`${base}/api/TasksQz/delete`, {params: params});
+};
+export const editTask = params => {
+    return axios.put(`${base}/api/TasksQz/put`, params);
+};
+export const addTask = params => {
+    return axios.post(`${base}/api/TasksQz/post`, params);
+};
+
+export const startJob = params => {
+    return axios.get(`${base}/api/TasksQz/StartJob`, {params: params});
+};
+export const stopJob = params => {
+    return axios.get(`${base}/api/TasksQz/StopJob`, {params: params});
+};
+export const reCovery = params => {
+    return axios.get(`${base}/api/TasksQz/ReCovery`, {params: params});
+};

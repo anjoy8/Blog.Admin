@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
         <ul class="bg-bubbles">
-            <li v-for="n in 10" :key="n"></li>
-            <ol v-for="m in 5"  :key="m"></ol>
+            <li v-for="n in 10" :key="n+'n'"></li>
+            <ol v-for="m in 5"  :key="m+'m'"></ol>
         </ul>
         <div class="bg bg-blur" style="display: none;"></div>
         <div style="height: 10%;"></div>
