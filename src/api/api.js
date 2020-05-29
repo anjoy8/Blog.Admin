@@ -288,6 +288,11 @@ export const getAccessApiByDate = params => {
 export const getAccessApiByHour = params => {
     return axios.get(`${base}/api/Monitor/GetAccessApiByHour`, {params: params});
 };
+export const getServerInfo = params => {
+    return axios.get(`${base}/api/Monitor/Server`, {params: params});
+};
+
+
 // Task管理
 export const getTaskListPage = params => {
     return axios.get(`${base}/api/TasksQz/get`, {params: params});

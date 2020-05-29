@@ -12,14 +12,39 @@
   <div class="text item"><i class="el-icon-edit"></i>、更多内容，查看官方文档：<a href="http://vueadmin.neters.club/.doc/" target="_blank">http://vueadmin.neters.club/.doc/</a>。  </div>
 </el-card>
 <el-card class="welcome-card">
-    <el-aside>动态添加一个vue页面：</el-aside>
+   <div slot="header" class="clearfix">
+    <span>服务器：</span>
+   </div>
+
+    <br>
+  <div class="text item">环境变量：{{serverInfo.EnvironmentName}}</div>
+  <div class="text item">系统架构：{{serverInfo.OSArchitecture}}</div>
+  <div class="text item">ContentRootPath：{{serverInfo.ContentRootPath}}</div>
+  <div class="text item">WebRootPath：{{serverInfo.WebRootPath}}</div>
+  <div class="text item">.NET Core版本：{{serverInfo.FrameworkDescription}}</div>
+  <div class="text item">内存占用：{{serverInfo.MemoryFootprint}}</div>
+  <div class="text item">启动时间：{{serverInfo.WorkingTime}}</div>
+    
+
+    
+</el-card>
+<el-card class="welcome-card">
+    <div slot="header" class="clearfix">
+        <span>相关配置</span>
+    </div>
+
+
+    <el-aside>1、动态添加一个vue页面：</el-aside>
 
     <br>
     
     <div class="text item"><i class="el-icon-edit"></i>、更多内容，查看博客园文档：<a href="https://www.cnblogs.com/laozhang-is-phi/p/10643993.html#autoid-2-6-0" target="_blank">https://www.cnblogs.com/laozhang-is-phi/p/10643993.html#autoid-2-6-0</a>。  </div>
-</el-card>
-<el-card class="welcome-card">
-    <el-aside>快速配置接口权限：</el-aside>
+
+    <br>
+    <hr>
+    <br>
+
+    <el-aside>2、快速配置接口权限：</el-aside>
 
     <br>
     <div style="height: 300px;overflow-y: auto;">
@@ -44,9 +69,15 @@
 
 <script>
     import applicationUserManager from "../Auth/applicationusermanager";
+    import {getServerInfo} from '../api/api';
   
   export default {
         name: "Welcome",
+         data() {
+            return {
+                serverInfo:{}
+            }
+        },
         mounted() {
             var curTime = new Date()
             if(window.localStorage.TokenExpire){
@@ -65,6 +96,10 @@
                     this.$router.push('/login');
                 }
             }
+
+            getServerInfo({}).then((res) => {
+                this.serverInfo = res.data.response;
+            });
 
         },
     }

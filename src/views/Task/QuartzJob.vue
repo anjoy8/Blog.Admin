@@ -25,7 +25,7 @@
       </el-table-column>
 
       <el-table-column prop="Cron" label="Cron表达式" width sortable></el-table-column>
-      <el-table-column prop="IntervalSecond" label="循环时间" width sortable></el-table-column>
+      <el-table-column prop="IntervalSecond" label="循环s" width sortable></el-table-column>
       <el-table-column prop="RunTimes" label="运行次数" width sortable></el-table-column>
       <el-table-column prop="AssemblyName" label="程序集" width sortable></el-table-column>
       <el-table-column prop="ClassName" label="执行类" width="150" sortable></el-table-column>
@@ -41,6 +41,20 @@
           >{{scope.row.IsStart ? "运行中":"停止"}}</el-tag>
         </template>
       </el-table-column>
+
+      
+    <el-table-column
+      label="日志" >
+      <template slot-scope="scope">
+        <el-popover trigger="hover" placement="top">
+          <p v-html="scope.row.Remark"></p>
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">Log</el-tag>
+          </div>
+        </el-popover>
+      </template>
+    </el-table-column>
+
     </el-table>
 
     <!--工具条-->
