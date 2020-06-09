@@ -91,14 +91,14 @@ const router = new Router({
             iconCls: 'fa-users',//图标样式class
             children: [
                 {
-                    path: '/Admin/Users', component: Table, name: '用户管理',
+                    path: '/User/Users', component: Table, name: '用户管理',
                     meta: {
                         title: '用户管理',
                         requireAuth: true
                     }
                 },
                 {
-                    path: '/Admin/Roles', component: Roles, name: '角色管理',
+                    path: '/User/Roles', component: Roles, name: '角色管理',
                     meta: {
                         title: '角色管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
@@ -113,14 +113,14 @@ const router = new Router({
             iconCls: 'fa-sitemap',//图标样式class
             children: [
                 {
-                    path: '/Permission/Modules', component: Module, name: '接口管理',
+                    path: '/Permission/Module', component: Module, name: '接口管理',
                     meta: {
                         title: '接口管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                     }
                 },
                 {
-                    path: '/Permission/Menu', component: Permission, name: '菜单管理',
+                    path: '/Permission/Permission', component: Permission, name: '菜单管理',
                     meta: {
                         title: '菜单管理',
                         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的

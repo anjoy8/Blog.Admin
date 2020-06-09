@@ -1,5 +1,5 @@
 <template>
-  <el-col v-if="buttonList.length>0" :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-col v-if="buttonList!=null&&buttonList.length>0" :span="24" class="toolbar" style="padding-bottom: 0px;">
     <el-form :inline="true" @submit.native.prevent>
       <el-form-item>
         <el-input v-model="searchVal" placeholder="请输入内容"></el-input>
