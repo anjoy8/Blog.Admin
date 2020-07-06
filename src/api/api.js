@@ -291,6 +291,9 @@ export const getAccessApiByHour = params => {
 export const getServerInfo = params => {
     return axios.get(`${base}/api/Monitor/Server`, {params: params});
 };
+export const getAccessLogs = params => {
+    return axios.get(`${base}/api/Monitor/GetAccessLogs`, {params: params});
+};
 
 
 // Task管理

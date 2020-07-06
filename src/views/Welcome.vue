@@ -2,7 +2,7 @@
     <div style="margin-top: 30px;">
           <div style="margin: 20px;"> 欢迎来到 BlogAdmin 后台管理系统!</div>
 
-<el-card shadow="hover" class="welcome-card note">
+<el-card shadow="hover" class="welcome-card note" style="width:45%;">
    <div slot="header" class="clearfix">
     <span>操作指南</span>
   </div>
@@ -11,7 +11,7 @@
   <div class="text item"><i class="el-icon-edit"></i>、动态添加页面以及权限配置，看右侧两个动图。  </div>
   <div class="text item"><i class="el-icon-edit"></i>、更多内容，查看官方文档：<a href="http://vueadmin.neters.club/.doc/" target="_blank">http://vueadmin.neters.club/.doc/</a>。  </div>
 </el-card>
-<el-card class="welcome-card">
+<el-card class="welcome-card"  style="width:45%;">
    <div slot="header" class="clearfix">
     <span>服务器：</span>
    </div>
@@ -28,7 +28,40 @@
 
     
 </el-card>
-<el-card class="welcome-card">
+
+<el-card class="welcome-card" style="margin-top:20px;">
+    <div slot="header" class="clearfix">
+        <span>访问日志</span>
+    </div>
+<el-table :data="logs" highlight-current-row 
+        v-loading="listLoading" 
+                  style="width: 100%;">
+            <el-table-column prop="User" label="访问者" width="100px" sortable>
+            </el-table-column>
+            <el-table-column prop="IP" label="请求地址" width="100px" >
+            </el-table-column>
+            <el-table-column prop="BeginTime" label="请求时间" width="150px" >
+            </el-table-column>
+            <el-table-column prop="API" label="访问接口" width="200px" >
+            </el-table-column>
+            <el-table-column prop="RequestMethod" label="Method" width="100px" >
+            </el-table-column>
+            <el-table-column prop="OPTime" label="响应时长" width="100px" >
+            </el-table-column>
+            <el-table-column prop="RequestData" label="参数" width="" >
+            </el-table-column>
+            <el-table-column prop="Agent" label="Agent" width="" >
+            </el-table-column>
+           
+          
+        </el-table>
+
+
+    <br>
+</el-card>
+
+
+<el-card class="welcome-card" style="margin-top:20px;">
     <div slot="header" class="clearfix">
         <span>相关配置</span>
     </div>
@@ -69,12 +102,14 @@
 
 <script>
     import applicationUserManager from "../Auth/applicationusermanager";
-    import {getServerInfo} from '../api/api';
+    import {getServerInfo,getAccessLogs} from '../api/api';
   
   export default {
         name: "Welcome",
          data() {
             return {
+                listLoading: false,
+                logs: [],
                 serverInfo:{}
             }
         },
@@ -100,6 +135,12 @@
             getServerInfo({}).then((res) => {
                 this.serverInfo = res.data.response;
             });
+
+               getAccessLogs({}).then((res) => {
+                    this.logs = res.data.response;
+                    this.listLoading = false;
+                    //NProgress.done();
+                });
 
         },
     }

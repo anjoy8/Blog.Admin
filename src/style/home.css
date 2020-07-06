@@ -224,7 +224,7 @@ body {
     height: 100%;
 }
 .welcome-card{
-    width:30%;float:left;margin-right:10px;
+    width:100%;float:left;margin-right:10px;
 }
 @media screen and (max-width: 500px) {
    
