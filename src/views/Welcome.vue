@@ -36,13 +36,13 @@
 <el-table :data="logs" highlight-current-row 
         v-loading="listLoading" 
                   style="width: 100%;">
-            <el-table-column prop="User" label="访问者" width="100px" sortable>
+            <el-table-column prop="User" label="访问者" width="150px" sortable>
             </el-table-column>
-            <el-table-column prop="IP" label="请求地址" width="100px" >
+            <el-table-column prop="IP" label="请求地址" width="150px" >
             </el-table-column>
             <el-table-column prop="BeginTime" label="请求时间" width="150px" >
             </el-table-column>
-            <el-table-column prop="API" label="访问接口" width="200px" >
+            <el-table-column prop="API" label="访问接口" width="" >
             </el-table-column>
             <el-table-column prop="RequestMethod" label="Method" width="100px" >
             </el-table-column>
