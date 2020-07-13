@@ -44,19 +44,25 @@
     </template>
     <!-- 没有子节点，直接输出 -->
     <template v-else>
-      <el-menu-item :index="item.path" :key="item.path+'d'" @click="cop">
-        <i class="fa" :class="item.iconCls"></i>
-        <template slot="title">
-          <span class="title-name" slot="title">{{item.name}}</span>
-        </template>
-      </el-menu-item>
+      <app-link :to="item.path">
+        <el-menu-item :index="isExternalLink(item.path)? '':item.path" :key="item.path+'d'" @click="cop">
+          <i class="fa" :class="item.iconCls"></i>
+          <template slot="title">
+            <span class="title-name" slot="title">{{item.name}}</span>
+          </template>
+        </el-menu-item>
+      </app-link>
     </template>
   </div>
 </template>
 
 <script>
+import AppLink from "./AppLink";
+import { isExternal } from '../../util/validate'
+
 export default {
   name: "Sidebar",
+  components: { AppLink },
   props: {
     item: {
       type: Object,
@@ -64,6 +70,9 @@ export default {
     }
   },
   methods: {
+    isExternalLink(to) {
+      return isExternal(to)
+    },
     cop: function() {
       // 子组件中触发父组件方法collaFa并传值123
       this.$emit("collaFa", "123");
