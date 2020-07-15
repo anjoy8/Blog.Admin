@@ -42,7 +42,9 @@
                         <span>
                         <el-checkbox-group v-model="assignBtns">
                         <el-checkbox v-for="btn in data.btns" :key="btn.value"
-                                     :label="btn.label+'_'+btn.value"></el-checkbox>
+                                     :label="btn.value.toString()">
+                                     {{btn.label}}
+                                     </el-checkbox>
                         </el-checkbox-group>
 
                         </span>
@@ -160,14 +162,15 @@
                 let _this=this;
                 this.loadingSave=true;
                 this.loadingSaveStr='保存中...';
-                console.log(this.$refs.tree.getCheckedKeys());
-                console.log(this.assignBtns)
+                //console.log(this.$refs.tree.getCheckedKeys());
+                //console.log(this.assignBtns)
                 let pids = this.$refs.tree.getCheckedKeys();
                 try {
                     if (this.assignBtns.length > 0) {
                         for (let i = 0; i < this.assignBtns.length; i++) {
-                            let assginbtn = this.assignBtns[i].split("_")[1];
-                            if (assginbtn > 0) {
+                            // let assginbtn = this.assignBtns[i].split("_")[1];
+                            let assginbtn = this.assignBtns[i];
+                            if (assginbtn && assginbtn > 0) {
                                 pids.push(assginbtn);
                             }
                         }
@@ -319,6 +322,12 @@
             this.loadingSave=true;
             this.loadingSaveStr='加载中...';
             this.getRoles();
+
+            this.$message({
+                message: "[2020-07-22 去掉该提醒] 菜单按钮展示方式已变更，请保证后端代码Blog.Core为最新",
+                type: 'warning'
+            });
+
             // this.getPermissions();
         }
     }

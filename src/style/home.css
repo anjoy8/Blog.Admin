@@ -240,3 +240,7 @@ body {
 .scrollbar-handle.el-scrollbar > :first-child {
     overflow-x: hidden !important;
 }
+
+a{
+    text-decoration: none;
+}
