@@ -11,12 +11,10 @@
   <div class="text item"><i class="el-icon-edit"></i>、动态添加页面以及权限配置，看右侧两个动图。  </div>
   <div class="text item"><i class="el-icon-edit"></i>、更多内容，查看官方文档：<a href="http://vueadmin.neters.club/.doc/" target="_blank">http://vueadmin.neters.club/.doc/</a>。  </div>
 </el-card>
-<el-card class="welcome-card"  style="width: 49%;margin: 0;">
+<el-card class="welcome-card"  style="width: 49%;margin: 0;font-size: 14px;">
    <div slot="header" class="clearfix">
     <span>服务器：</span>
    </div>
-
-    <br>
   <div class="text item">环境变量：{{serverInfo.EnvironmentName}}</div>
   <div class="text item">系统架构：{{serverInfo.OSArchitecture}}</div>
   <div class="text item">ContentRootPath：{{serverInfo.ContentRootPath}}</div>
@@ -35,7 +33,7 @@
     </div>
 <el-table :data="logs" highlight-current-row border
         v-loading="listLoading" 
-                  style="width: 100%;">
+                  style="width: 100%;font-size: 12px;">
             <el-table-column prop="User" label="访问者" width="150px" sortable>
             </el-table-column>
             <el-table-column prop="IP" label="请求地址" width="150px" >
