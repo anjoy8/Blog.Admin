@@ -13,7 +13,7 @@
 </el-card>
 <el-card class="welcome-card"  style="width: 49%;margin: 0;font-size: 14px;">
    <div slot="header" class="clearfix">
-    <span>服务器：</span>
+    <span style="font-size: 16px;">服务器</span>
    </div>
   <div class="text item">环境变量：{{serverInfo.EnvironmentName}}</div>
   <div class="text item">系统架构：{{serverInfo.OSArchitecture}}</div>
@@ -22,14 +22,14 @@
   <div class="text item">.NET Core版本：{{serverInfo.FrameworkDescription}}</div>
   <div class="text item">内存占用：{{serverInfo.MemoryFootprint}}</div>
   <div class="text item">启动时间：{{serverInfo.WorkingTime}}</div>
-    
+  <div><br ></div>
 
     
 </el-card>
 
 <el-card class="welcome-card" style="margin-top:20px;width: 98%;">
     <div slot="header" class="clearfix">
-        <span>访问日志</span>
+        <span>访问日志 <span style="font-size:12px;">(Top 50 desc)</span> </span>
     </div>
 <el-table :data="logs" highlight-current-row border
         v-loading="listLoading" 
