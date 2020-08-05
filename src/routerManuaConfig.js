@@ -21,7 +21,7 @@ import Charts from './views/Form/Charts.vue'
 import Blogs from './views/Blog/Blogs.vue'
 import Bugs from './views/Tibug/Bugs.vue'
 
-import Thanks from './views/Thanks'
+import APIDoc from './views/APIDoc'
 import {saveRefreshtime} from "./api/api";
 import NoPage from "./views/404";
 import TestOne from "./views/TestShow/TestOne";
@@ -31,6 +31,9 @@ import TestOne from "./views/TestShow/TestOne";
 Vue.use(Router)
 
 
+/**
+ * 这是手动注册的方式，弃用
+ */
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -54,9 +57,9 @@ const router = new Router({
             hidden: true
         },
         {
-            path: '/Thanks', component: Thanks, name: 'Thanks',
+            path: '/APIDoc', component: APIDoc, name: 'APIDoc',
             meta: {
-                title: 'Thanks',
+                title: 'APIDoc',
                 requireAuth: false
             },
             hidden: true

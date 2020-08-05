@@ -497,7 +497,6 @@
         position: relative;
         overflow: hidden;
         border: 1px solid #f0f0f0;
-        margin-bottom: 20px;
         background: #f0f0f0;
     }
 

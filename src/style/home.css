@@ -208,8 +208,8 @@ body {
 }
 .content-az{
     border: 1px solid #f0f0f0;
-    /*margin: 10px 15px;*/
-    /*overflow: auto;*/
+    margin-top: 20px;
+    margin-left: 5px;
     margin-right: 10px;
     height: 100%;
     padding: 5px;

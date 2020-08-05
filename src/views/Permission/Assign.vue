@@ -323,11 +323,6 @@
             this.loadingSaveStr='加载中...';
             this.getRoles();
 
-            this.$message({
-                message: "[2020-07-22 去掉该提醒] 菜单按钮展示方式已变更，请保证后端代码Blog.Core为最新",
-                type: 'warning'
-            });
-
             // this.getPermissions();
         }
     }
