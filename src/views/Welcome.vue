@@ -27,6 +27,24 @@
     
 </el-card>
 
+
+
+<el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
+   <div slot="header" class="clearfix">
+    <span>30天用户增加曲线图</span>
+  </div>
+  
+    <el-col :span="24" class="echarts-item">
+        <ve-line
+        :data="lineChartData7Day"
+        :extend="extend"
+        :settings="lineChartSettings7Day"
+        :mark-point="lineChartMarkPoint"
+        ></ve-line>
+    </el-col>
+</el-card>
+
+
 <el-card class="welcome-card" style="margin-top:20px;width: 98%;">
     <div slot="header" class="clearfix">
         <span>访问日志 <span style="font-size:12px;">(Top 50 desc)</span> </span>
@@ -104,7 +122,7 @@
 
 <script>
     import applicationUserManager from "../Auth/applicationusermanager";
-    import {getServerInfo,getAccessLogs} from '../api/api';
+    import {getServerInfo,getAccessLogs,getIds4UsersGrow} from '../api/api';
   
   export default {
         name: "Welcome",
@@ -112,7 +130,36 @@
             return {
                 listLoading: false,
                 logs: [],
-                serverInfo:{}
+                serverInfo:{},
+                extend: {
+                    series: {
+                    label: {
+                        normal: {
+                        show: true
+                        }
+                    }
+                    }
+                },
+                lineChartData7Day: {
+                    columns: [],
+                    rows: []
+                },
+                lineChartSettings7Day: {
+                    metrics: ["count"],
+                    dimension: ["date"]
+                },
+                lineChartMarkPoint: {
+                    data: [
+                    {
+                        name: "最大值",
+                        type: "max"
+                    },
+                    {
+                        name: "最小值",
+                        type: "min"
+                    }
+                    ]
+                },
             }
         },
         mounted() {
@@ -134,15 +181,20 @@
                 }
             }
 
+            
+            getIds4UsersGrow({}).then(res => {
+                this.lineChartData7Day = res.data.response;
+            });
+
             getServerInfo({}).then((res) => {
                 this.serverInfo = res.data.response;
             });
 
-               getAccessLogs({}).then((res) => {
-                    this.logs = res.data.response;
-                    this.listLoading = false;
-                    //NProgress.done();
-                });
+            getAccessLogs({}).then((res) => {
+                this.logs = res.data.response;
+                this.listLoading = false;
+                //NProgress.done();
+            });
 
         },
     }

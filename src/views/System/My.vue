@@ -94,6 +94,38 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.editForm.tdLogo = "/" + res.response;
+    },
+    fileDownload () {
+        let self=this
+        let token = "132465"
+        // 将token放到头中，设置下载进度、请求参数、返回类型
+        axios({
+            url: '/images/Down/Bmd?filename='+self.rulesForm.data.ItemBmdPath,
+            method: 'get',
+            headers: { 'FileToken': token },
+            onDownloadProgress: p => {
+                // this.precent = Math.floor(100 * (p.loaded / p.total))
+            },
+            responseType: 'blob'
+        }).then(data => {
+            // 如果后端用encodeURI对文件名进行了编码，前端需用decodeURI进行解码（主要为处理特殊字符）
+            let fileName = decodeURI(data.headers.filename)
+            // 由于ie不支持download属性，故需要做兼容判断
+            if (navigator.appVersion.toString().indexOf('.NET') > 0) {
+                // ie独有的msSaveBlob属性，data.data为Blob文件流
+                window.navigator.msSaveBlob(data.data, fileName)
+            } else {
+                // 以下流程即为文章开始的下载流程
+                let url = window.URL.createObjectURL(data.data)
+                let link = document.createElement('a')
+                link.style.display = 'none'
+                link.href = url
+                link.download = fileName
+                document.body.appendChild(link)
+                link.click()
+                window.URL.revokeObjectURL(link.href);
+            }
+        })
     }
   },
   mounted() {

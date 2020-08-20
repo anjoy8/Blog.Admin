@@ -294,6 +294,9 @@ export const getServerInfo = params => {
 export const getAccessLogs = params => {
     return axios.get(`${base}/api/Monitor/GetAccessLogs`, {params: params});
 };
+export const getIds4UsersGrow = params => {
+    return axios.get(`${base}/api/Monitor/GetIds4Users`, {params: params});
+};
 
 
 // Task管理
