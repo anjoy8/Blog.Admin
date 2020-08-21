@@ -28,23 +28,6 @@
 </el-card>
 
 
-
-<el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
-   <div slot="header" class="clearfix">
-    <span>30天用户增加曲线图</span>
-  </div>
-  
-    <el-col :span="24" class="echarts-item">
-        <ve-line
-        :data="lineChartData7Day"
-        :extend="extend"
-        :settings="lineChartSettings7Day"
-        :mark-point="lineChartMarkPoint"
-        ></ve-line>
-    </el-col>
-</el-card>
-
-
 <el-card class="welcome-card" style="margin-top:20px;width: 98%;">
     <div slot="header" class="clearfix">
         <span>访问日志 <span style="font-size:12px;">(Top 50 desc)</span> </span>
@@ -80,6 +63,23 @@
     <br>
 </el-card>
 
+
+
+
+<el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
+   <div slot="header" class="clearfix">
+    <span>30天用户增加曲线图</span>
+  </div>
+  
+    <el-col :span="24" class="echarts-item">
+        <ve-line
+        :data="lineChartData7Day"
+        :extend="extend"
+        :settings="lineChartSettings7Day"
+        :mark-point="lineChartMarkPoint"
+        ></ve-line>
+    </el-col>
+</el-card>
 
 <el-card class="welcome-card" style="margin-top: 20px;width: 98%;">
     <div slot="header" class="clearfix">
