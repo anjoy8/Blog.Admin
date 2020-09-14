@@ -1,3 +1,9 @@
+FROM node
+WORKDIR /app
+RUN npm install
+COPY . .
+
+
 FROM nginx
 MAINTAINER vueadmin
 ADD dist /usr/share/nginx/html
