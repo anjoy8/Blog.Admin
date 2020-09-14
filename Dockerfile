@@ -1,6 +1,7 @@
 FROM node
 WORKDIR /app
 RUN npm install
+RUN npm run build
 COPY . .
 
 
