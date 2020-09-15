@@ -1,14 +1,7 @@
-FROM node
-WORKDIR /app
-COPY . /app
-RUN npm install
-RUN npm run build
-
-
 FROM nginx
 MAINTAINER vueadmin
 ADD dist /usr/share/nginx/html
 ADD vueadmin.nginx.conf /etc/nginx/nginx.conf
 RUN chown nginx:nginx -R /usr/share/nginx/html
 EXPOSE 80
-RUN echo 'build admin imageg successful!!'
+RUN echo 'build admin image successful!!'
