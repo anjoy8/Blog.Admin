@@ -46,12 +46,11 @@
 
       <div class="bg-color-sub" style="background: rgb(236, 245, 255) none repeat scroll 0% 0%;">
         <div
-        v-for="(item,index) in activeUsers"
+          v-for="(item,index) in activeUsers"
           :key="item.user+index"
           class="bg-blue-sub-item"
-          :style="'background: rgb('+(index)*20+83+', '+(index)*10+168+', 255) none repeat scroll 0% 0%;'"
+          :style="getBck(index)"
         >{{item.user}}</div>
-        
       </div>
     </el-card>
 
@@ -149,7 +148,12 @@
 
 <script>
 import applicationUserManager from "../Auth/applicationusermanager";
-import { getServerInfo, getAccessLogs, getIds4UsersGrow,getActiveUsers } from "../api/api";
+import {
+  getServerInfo,
+  getAccessLogs,
+  getIds4UsersGrow,
+  getActiveUsers
+} from "../api/api";
 
 export default {
   name: "Welcome",
@@ -189,6 +193,11 @@ export default {
         ]
       }
     };
+  },  
+  methods: {
+    getBck(index) {
+      return `background: rgb(${83+index*20}, ${168+index*10}, 255) none repeat scroll 0% 0%;`
+    }
   },
   mounted() {
     var curTime = new Date();
@@ -231,13 +240,13 @@ export default {
 
 <style scoped>
 .bg-blue-sub-item {
-    max-width: 120px !important;
-    height: 50px;
-    float: left;
-    color: #fff;
-    font-size: 15px;
-    line-height: 50px;
-    padding: 0 10px;
+  max-width: 120px !important;
+  height: 50px;
+  float: left;
+  color: #fff;
+  font-size: 15px;
+  line-height: 50px;
+  padding: 0 10px;
 }
 .note .text {
   font-size: 14px;
