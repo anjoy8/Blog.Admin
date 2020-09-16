@@ -196,7 +196,7 @@ export default {
   },  
   methods: {
     getBck(index) {
-      return `background: rgb(${83+index*20}, ${168+index*10}, 255) none repeat scroll 0% 0%;`
+      return `background: rgb(${43+index*20}, ${148+index*10}, 255) none repeat scroll 0% 0%;`
     }
   },
   mounted() {
