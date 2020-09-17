@@ -1,7 +1,44 @@
 <template>
   <div style="margin-top: 30px;">
-    <div style="margin: 20px;">欢迎来到 BlogAdmin 后台管理系统!</div>
+    <el-row class="panel-group">
+      <el-col class="card-panel-col" style="float: left;width: calc(96% - 350px);margin: 0;">
+        <el-card class="welcome-card activeuser note" >
+          <div slot="header" class="clearfix">
+            <span>今日活跃用户</span>
+          </div>
 
+          <div
+            class="bg-color-sub"
+            style="background: rgb(236, 245, 255) none repeat scroll 0% 0%;"
+          >
+            <div
+              v-for="(item,index) in activeUsers"
+              :key="item.user+index"
+              class="bg-blue-sub-item"
+              :style="getBck(index)"
+            >{{item.user}}</div>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col class="card-panel-col">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-money"></div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">访问用户</div>
+            <span data-v-6723c96e class="card-acuser-num">30</span>
+          </div>
+        </div>
+      </el-col>
+      <el-col class="card-panel-col">
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-shopping"></div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">今日异常</div>
+            <span data-v-6723c96e class="card-panel-num">01</span>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
     <el-card class="welcome-card note" style="width: calc(49% - 10px);margin-right: 10px;">
       <div slot="header" class="clearfix">
         <span>操作指南</span>
@@ -36,21 +73,6 @@
       <div class="text item">启动时间：{{serverInfo.WorkingTime}}</div>
       <div>
         <br />
-      </div>
-    </el-card>
-
-    <el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
-      <div slot="header" class="clearfix">
-        <span>今日活跃用户</span>
-      </div>
-
-      <div class="bg-color-sub" style="background: rgb(236, 245, 255) none repeat scroll 0% 0%;">
-        <div
-          v-for="(item,index) in activeUsers"
-          :key="item.user+index"
-          class="bg-blue-sub-item"
-          :style="getBck(index)"
-        >{{item.user}}</div>
       </div>
     </el-card>
 
@@ -193,10 +215,11 @@ export default {
         ]
       }
     };
-  },  
+  },
   methods: {
     getBck(index) {
-      return `background: rgb(${43+index*20}, ${148+index*10}, 255) none repeat scroll 0% 0%;`
+      return `background: rgb(${43 + index * 20}, ${148 +
+        index * 10}, 255) none repeat scroll 0% 0%;`;
     }
   },
   mounted() {
@@ -254,5 +277,120 @@ export default {
 
 .note .item {
   margin-bottom: 18px;
+}
+</style>
+
+<style scoped>
+.panel-group {
+  margin-top: 18px;
+}
+.card-panel-col {
+  margin-bottom: 32px;
+  width: 150px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  margin-right: 2%;
+  float: right;
+}
+
+.card-panel {
+  height: 108px;
+  cursor: pointer;
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  color: #666;
+  background: #fff;
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.card-panel .card-panel-icon-wrapper {
+  color: #fff;
+}
+
+.card-panel .card-panel .icon-people {
+  background: #40c9c6;
+}
+
+.card-panel .card-panel .icon-message {
+  background: #36a3f7;
+}
+
+.card-panel .card-panel .icon-money {
+  background: #f4516c;
+}
+
+.card-panel .card-panel .icon-shopping {
+  background: #34bfa3;
+}
+
+.card-panel .icon-people {
+  color: #40c9c6;
+}
+
+.card-panel .icon-message {
+  color: #36a3f7;
+}
+
+.card-panel .icon-money {
+  color: #f4516c;
+}
+
+.card-panel .icon-shopping {
+  color: #34bfa3;
+}
+
+.card-panel .card-panel-icon-wrapper {
+  float: left;
+  margin: 14px 0 0 14px;
+  padding: 16px;
+  transition: all 0.38s ease-out;
+  border-radius: 6px;
+}
+
+.card-panel .card-panel-icon {
+  float: left;
+  font-size: 48px;
+}
+
+.card-panel .card-panel-description {
+  float: right;
+  font-weight: bold;
+  margin: 26px;
+  margin-left: 0px;
+}
+.card-panel .card-panel-description .card-panel-text {
+  line-height: 18px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.card-panel .card-panel-description .card-panel-num {
+  font-size: 36px;
+  color: #f4516c;
+}
+
+.card-acuser-num {
+  font-size: 36px;
+  color: #40c9c6;
+}
+
+@media (max-width: 550px) {
+  .card-panel-description {
+    display: none;
+  }
+
+  .card-panel-icon-wrapper {
+    float: none !important;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+  }
+  .card-panel-icon-wrapper .svg-icon {
+    display: block;
+    margin: 14px auto !important;
+    float: none !important;
+  }
 }
 </style>

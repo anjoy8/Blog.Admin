@@ -244,3 +244,6 @@ body {
 a{
     text-decoration: none;
 }
+.activeuser .el-card__body{
+    padding: 0 !important;
+    }
