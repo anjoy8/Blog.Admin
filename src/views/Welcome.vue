@@ -30,7 +30,7 @@
         </div>
       </el-col>
       <el-col class="card-panel-col">
-        <div class="card-panel">
+        <div class="card-panel extoday" @click="toLogs">
           <div class="card-panel-icon-wrapper icon-shopping"></div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日异常</div>
@@ -219,7 +219,12 @@ export default {
     getBck(index) {
       return `background: rgb(${43 + index * 20}, ${148 +
         index * 10}, 255) none repeat scroll 0% 0%;`;
-    }
+    },
+    toLogs() {
+        this.$router.replace({
+            path: "/Logs/Index",
+        });
+    },
   },
   mounted() {
     var curTime = new Date();
@@ -288,7 +293,6 @@ export default {
 
 .card-panel {
   height: 108px;
-  cursor: pointer;
   font-size: 12px;
   position: relative;
   overflow: hidden;
@@ -364,7 +368,9 @@ export default {
   font-size: 36px;
   color: #f4516c;
 }
-
+.extoday{
+  cursor: pointer;
+}
 .card-acuser-num {
   font-size: 36px;
   color: #40c9c6;

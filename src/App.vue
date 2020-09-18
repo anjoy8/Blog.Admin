@@ -162,7 +162,7 @@
         data() {
             return {
                 sysName: 'BlogAdmin',
-                sysNameShort: 'BA',
+                sysNameShort: 'BD',
                 NewsVisible: false,
                 SidebarVisible: false,
                 collapsed: false,
