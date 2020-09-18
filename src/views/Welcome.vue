@@ -12,7 +12,7 @@
             style="background: rgb(236, 245, 255) none repeat scroll 0% 0%;"
           >
             <div
-              v-for="(item,index) in activeUsers"
+              v-for="(item,index) in welcomeInitData.activeUsers"
               :key="item.user+index"
               class="bg-blue-sub-item"
               :style="getBck(index)"
@@ -25,7 +25,7 @@
           <div class="card-panel-icon-wrapper icon-money"></div>
           <div class="card-panel-description">
             <div class="card-panel-text">访问用户</div>
-            <span data-v-6723c96e class="card-acuser-num">30</span>
+            <span data-v-6723c96e class="card-acuser-num">{{welcomeInitData.activeUserCount}}</span>
           </div>
         </div>
       </el-col>
@@ -34,7 +34,7 @@
           <div class="card-panel-icon-wrapper icon-shopping"></div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日异常</div>
-            <span data-v-6723c96e class="card-panel-num">01</span>
+            <span data-v-6723c96e class="card-panel-num">{{welcomeInitData.errorCount}}</span>
           </div>
         </div>
       </el-col>
@@ -183,7 +183,7 @@ export default {
     return {
       listLoading: false,
       logs: [],
-      activeUsers: [],
+      welcomeInitData: {},
       serverInfo: {},
       extend: {
         series: {
@@ -255,7 +255,7 @@ export default {
     });
 
     getActiveUsers({}).then(res => {
-      this.activeUsers = res.data.response;
+      this.welcomeInitData = res.data.response;
     });
   }
 };
@@ -354,7 +354,7 @@ export default {
 }
 
 .card-panel .card-panel-description {
-  float: right;
+  float: left;
   font-weight: bold;
   margin: 26px;
   margin-left: 0px;
