@@ -84,7 +84,7 @@
         </span>
       </div>
       <el-table
-        :data="logs"
+        :data="welcomeInitData.logs"
         highlight-current-row
         border
         v-loading="listLoading"
@@ -182,7 +182,6 @@ export default {
   data() {
     return {
       listLoading: false,
-      logs: [],
       welcomeInitData: {},
       serverInfo: {},
       extend: {
@@ -247,11 +246,6 @@ export default {
 
     getServerInfo({}).then(res => {
       this.serverInfo = res.data.response;
-    });
-
-    getAccessLogs({}).then(res => {
-      this.logs = res.data.response;
-      this.listLoading = false;
     });
 
     getActiveUsers({}).then(res => {
