@@ -1,8 +1,8 @@
 <template>
   <div style="margin-top: 30px;">
     <el-row class="panel-group">
-      <el-col class="card-panel-col" style="float: left;width: calc(96% - 350px);margin: 0;">
-        <el-card class="welcome-card activeuser note" >
+      <el-col class="card-panel-col" style="float: left;width: calc(96% - 430px);margin: 0;">
+        <el-card class="welcome-card activeuser note">
           <div slot="header" class="clearfix">
             <span>今日活跃用户</span>
           </div>
@@ -22,19 +22,34 @@
       </el-col>
       <el-col class="card-panel-col">
         <div class="card-panel">
-          <div class="card-panel-icon-wrapper icon-money"></div>
           <div class="card-panel-description">
-            <div class="card-panel-text">访问用户</div>
-            <span data-v-6723c96e class="card-acuser-num">{{welcomeInitData.activeUserCount}}</span>
+            <div class="card-panel-text">今日活跃</div>
+            <span
+              data-v-6723c96e
+              class="card-acuser-num"
+            >{{welcomeInitData.activeUserCount>9 ? welcomeInitData.activeUserCount:'0'+welcomeInitData.activeUserCount}}</span>
+          </div>
+        </div>
+      </el-col>
+      <el-col class="card-panel-col">
+        <div class="card-panel">
+          <div class="card-panel-description">
+            <div class="card-panel-text">今日新增</div>
+            <span
+              data-v-6723c96e
+              class="card-acuser-num"
+            >{{lineChartDataIDS4.today>9 ? lineChartDataIDS4.today:'0'+lineChartDataIDS4.today}}</span>
           </div>
         </div>
       </el-col>
       <el-col class="card-panel-col">
         <div class="card-panel extoday" @click="toLogs">
-          <div class="card-panel-icon-wrapper icon-shopping"></div>
           <div class="card-panel-description">
             <div class="card-panel-text">今日异常</div>
-            <span data-v-6723c96e class="card-panel-num">{{welcomeInitData.errorCount}}</span>
+            <span
+              data-v-6723c96e
+              class="card-panel-num"
+            >{{welcomeInitData.errorCount >9 ? welcomeInitData.errorCount:'0'+welcomeInitData.errorCount}}</span>
           </div>
         </div>
       </el-col>
@@ -75,7 +90,20 @@
         <br />
       </div>
     </el-card>
+    <el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
+      <div slot="header" class="clearfix">
+        <span>30天用户注册曲线图</span>
+      </div>
 
+      <el-col :span="24" class="echarts-item">
+        <ve-line
+          :data="lineChartDataIDS4"
+          :extend="extend"
+          :settings="lineChartSettings7Day"
+          :mark-point="lineChartMarkPoint"
+        ></ve-line>
+      </el-col>
+    </el-card>
     <el-card class="welcome-card" style="margin-top:20px;width: 98%;">
       <div slot="header" class="clearfix">
         <span>
@@ -105,21 +133,6 @@
       </el-table>
 
       <br />
-    </el-card>
-
-    <el-card class="welcome-card note" style="width: 98%;margin-top:20px;">
-      <div slot="header" class="clearfix">
-        <span>30天用户增加曲线图</span>
-      </div>
-
-      <el-col :span="24" class="echarts-item">
-        <ve-line
-          :data="lineChartData7Day"
-          :extend="extend"
-          :settings="lineChartSettings7Day"
-          :mark-point="lineChartMarkPoint"
-        ></ve-line>
-      </el-col>
     </el-card>
 
     <el-card class="welcome-card" style="margin-top: 20px;width: 98%;">
@@ -174,7 +187,8 @@ import {
   getServerInfo,
   getAccessLogs,
   getIds4UsersGrow,
-  getActiveUsers
+  getActiveUsers,
+  getAchieveUsers_IS4
 } from "../api/api";
 
 export default {
@@ -193,9 +207,10 @@ export default {
           }
         }
       },
-      lineChartData7Day: {
+      lineChartDataIDS4: {
         columns: [],
-        rows: []
+        rows: [],
+        today: 0
       },
       lineChartSettings7Day: {
         metrics: ["count"],
@@ -221,10 +236,10 @@ export default {
         index * 10}, 255) none repeat scroll 0% 0%;`;
     },
     toLogs() {
-        this.$router.replace({
-            path: "/Logs/Index",
-        });
-    },
+      this.$router.replace({
+        path: "/Logs/Index"
+      });
+    }
   },
   mounted() {
     var curTime = new Date();
@@ -245,9 +260,11 @@ export default {
       }
     }
 
-    getIds4UsersGrow({}).then(res => {
-      this.lineChartData7Day = res.data.response;
-    });
+    if (global.IS_IDS4) {
+      getAchieveUsers_IS4({}).then(res => {
+        this.lineChartDataIDS4 = res.data.response;
+      });
+    }
 
     getServerInfo({}).then(res => {
       this.serverInfo = res.data.response;
@@ -285,7 +302,7 @@ export default {
 }
 .card-panel-col {
   margin-bottom: 32px;
-  width: 150px;
+  width: 115px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   margin-right: 2%;
   float: right;
@@ -354,8 +371,8 @@ export default {
 .card-panel .card-panel-description {
   float: left;
   font-weight: bold;
-  margin: 26px;
-  margin-left: 0px;
+  margin-left: 30px;
+  margin-top: 20px;
 }
 .card-panel .card-panel-description .card-panel-text {
   line-height: 18px;
@@ -368,7 +385,7 @@ export default {
   font-size: 36px;
   color: #f4516c;
 }
-.extoday{
+.extoday {
   cursor: pointer;
 }
 .card-acuser-num {

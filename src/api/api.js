@@ -325,3 +325,8 @@ export const stopJob = params => {
 export const reCovery = params => {
     return axios.get(`${base}/api/TasksQz/ReCovery`, {params: params});
 };
+
+// ids4
+export const getAchieveUsers_IS4 = params => {
+    return axios.get(`${base}/is4api/GetAchieveUsers`, {params: params});
+};
