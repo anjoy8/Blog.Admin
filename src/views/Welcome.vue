@@ -182,6 +182,10 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VCharts from "v-charts";
+Vue.use(VCharts);
+
 import applicationUserManager from "../Auth/applicationusermanager";
 import {
   getServerInfo,
