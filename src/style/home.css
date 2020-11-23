@@ -211,7 +211,7 @@ body {
     margin-top: 20px;
     margin-left: 5px;
     margin-right: 10px;
-    height: 100%;
+    height: calc(100% - 61px);
     padding: 5px;
     
     overflow-y: auto;
