@@ -297,6 +297,9 @@ export const getAccessLogs = params => {
 export const getIds4UsersGrow = params => {
     return axios.get(`${base}/api/Monitor/GetIds4Users`, {params: params});
 };
+export const getActiveUsers = params => {
+    return axios.get(`${base}/api/Monitor/GetActiveUsers`, {params: params});
+};
 
 
 // Task管理
@@ -321,4 +324,9 @@ export const stopJob = params => {
 };
 export const reCovery = params => {
     return axios.get(`${base}/api/TasksQz/ReCovery`, {params: params});
+};
+
+// ids4
+export const getAchieveUsers_IS4 = params => {
+    return axios.get(`${base}/is4api/GetAchieveUsers`, {params: params});
 };

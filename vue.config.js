@@ -55,6 +55,11 @@ module.exports = {
         ws: true,
         changeOrigin: true
       },
+      "/is4api": {
+        target: "http://localhost:5004",
+        ws: true,
+        changeOrigin: true
+      },
     },
     before: app => {}
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="thanks">
     <!-- <iframe
-      src="http://apk.neters.club"
+      src="https://apk.neters.club"
       id="apidoc"
       scrolling="no"
       frameborder="0"
@@ -9,7 +9,7 @@
     ></iframe> -->
 
     <iframe
-      src="http://apk.neters.club"
+      src="https://apk.neters.club"
       scrolling="auto"
       id="apidoc"
       width="100%"

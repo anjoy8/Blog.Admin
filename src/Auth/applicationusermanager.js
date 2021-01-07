@@ -5,10 +5,10 @@ class ApplicationUserManager extends UserManager {
     super({
       authority: 'https://ids.neters.club',
       client_id: 'blogadminjs',
-      redirect_uri: 'http://vueadmin.neters.club/callback',
+      redirect_uri: 'https://vueadmin.neters.club/callback',
       response_type: 'id_token token',
       scope: 'openid profile roles blog.core.api',
-      post_logout_redirect_uri: 'http://vueadmin.neters.club'
+      post_logout_redirect_uri: 'https://vueadmin.neters.club'
     })
   }
 

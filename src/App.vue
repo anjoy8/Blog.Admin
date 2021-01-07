@@ -162,7 +162,7 @@
         data() {
             return {
                 sysName: 'BlogAdmin',
-                sysNameShort: 'BA',
+                sysNameShort: 'BD',
                 NewsVisible: false,
                 SidebarVisible: false,
                 collapsed: false,
@@ -403,6 +403,8 @@
                 this.routes = NavigationBar;
             }
 
+            // 折叠菜单栏
+            this.collapse();
         },
         updated() {
             var user = JSON.parse(window.localStorage.user ? window.localStorage.user : null);
@@ -676,6 +678,10 @@
         .content-wrapper .tags {
             margin: 0px;
             padding: 0px;
+        }
+
+        .activeuser{
+            display: none !important;
         }
 
     }
