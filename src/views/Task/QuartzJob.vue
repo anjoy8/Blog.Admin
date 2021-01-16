@@ -25,22 +25,32 @@
       </el-table-column>
 
       <el-table-column prop="Cron" label="Cron表达式" width sortable></el-table-column>
-      <el-table-column prop="IntervalSecond" label="循环s" width sortable></el-table-column>
-      <el-table-column prop="RunTimes" label="运行次数" width sortable></el-table-column>
+      <el-table-column prop="RunTimes" label="累计运行(次)" width sortable></el-table-column>
+       <el-table-column prop="IntervalSecond" label="循环周期(秒)" width sortable></el-table-column>
+        <el-table-column prop="CycleRunTimes" label="循环次数(次)" width sortable></el-table-column>
       <el-table-column prop="AssemblyName" label="程序集" width sortable></el-table-column>
       <el-table-column prop="ClassName" label="执行类" width="150" sortable></el-table-column>
       <el-table-column prop="BeginTime" label="开始时间" :formatter="formatBeginTime" width sortable></el-table-column>
       <el-table-column prop="EndTime" label="结束时间" :formatter="formatEndTime" width sortable></el-table-column>
       <!--<el-table-column prop="CreateBy" label="创建者" width="" sortable>-->
       <!--</el-table-column>-->
-      <el-table-column prop="IsStart" label="状态" width="" sortable>
+      <el-table-column prop="IsStart" label="状态-数据库" width="" sortable>
         <template slot-scope="scope">
           <el-tag
             :type="scope.row.IsStart  ? 'success' : 'danger'"
             disable-transitions
           >{{scope.row.IsStart ? "运行中":"停止"}}</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column>  
+
+      <el-table-column prop="Triggers"  label="状态-内存" width="" sortable >
+      <template slot-scope="scope">
+         <el-tag
+            :type="(scope.row.Triggers[0].triggerStatus=='正常')  ? 'success' : 'danger'"
+            disable-transitions
+          >{{scope.row.Triggers[0].triggerStatus}}</el-tag>
+      </template>
+    </el-table-column> 
 
       
     <el-table-column
@@ -116,17 +126,25 @@
           <el-input-number v-model="editForm.IntervalSecond"  :min="1" style="width:200px;" auto-complete="off"></el-input-number>
             <span style="float:right;color: #aaa;">(单位：秒)</span> 
         </el-form-item>
-
+        <el-form-item label="循环次数" v-if="!editForm.TriggerType" prop="CycleRunTimes">
+          <el-tooltip placement="top">
+            <div slot="content">
+                 设置成0时,就意味着无限制次数运行
+            </div>
+           <el-input-number v-model="editForm.CycleRunTimes"  :min="0" style="width:200px;" auto-complete="off"></el-input-number>
+         </el-tooltip> 
+            <span style="float:right;color: #aaa;">(单位：次)</span> 
+        </el-form-item>
         <el-form-item label="是否激活" prop="IsStart">
           <el-switch v-model="editForm.IsStart" >
             </el-switch>
         </el-form-item>
 
         <el-form-item label="开始时间" prop="BeginTime">
-            <el-date-picker type="date" placeholder="选择日期" v-model="editForm.BeginTime"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="editForm.BeginTime" :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间" prop="EndTime">
-            <el-date-picker type="date" placeholder="选择日期" v-model="editForm.EndTime"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="editForm.EndTime" :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
 
       </el-form>
@@ -184,17 +202,25 @@
           <el-input-number v-model="addForm.IntervalSecond"  :min="1" style="width:200px;" auto-complete="off"></el-input-number>
             <span style="float:right;color: #aaa;">(单位：秒)</span> 
         </el-form-item>
-
+        <el-form-item label="循环次数" v-if="!addForm.TriggerType" prop="CycleRunTimes">
+          <el-tooltip placement="top">
+            <div slot="content">
+                 设置成0时,就意味着无限制次数运行
+            </div>
+           <el-input-number v-model="editForm.CycleRunTimes"  :min="0" style="width:200px;" auto-complete="off"></el-input-number>
+         </el-tooltip> 
+            <span style="float:right;color: #aaa;">(单位：次)</span> 
+        </el-form-item>
         <el-form-item label="是否激活" prop="IsStart">
           <el-switch v-model="addForm.IsStart" >
             </el-switch>
         </el-form-item>
 
         <el-form-item label="开始时间" prop="BeginTime">
-            <el-date-picker type="date" placeholder="选择日期" v-model="addForm.BeginTime"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="addForm.BeginTime" :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
         <el-form-item label="结束时间" prop="EndTime">
-            <el-date-picker type="date" placeholder="选择日期" v-model="addForm.EndTime"></el-date-picker>
+            <el-date-picker type="datetime" placeholder="选择日期" v-model="addForm.EndTime" :picker-options="pickerOptions"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -207,7 +233,7 @@
 
 <script>
 import util from "../../../util/date";
-import { getTaskListPage, removeTask, editTask, addTask,startJob, stopJob, reCovery } from "../../api/api";
+import { getTaskListPage, removeTask, editTask, addTask,startJob, stopJob, reCovery ,pauseJob,resumeJob} from "../../api/api";
 import { getButtonList } from "../../promissionRouter";
 import Toolbar from "../../components/Toolbar";
 
@@ -286,7 +312,43 @@ export default {
         Remark: "",
         IsDeleted:false,
         IsStart: false
-      }
+      },
+      pickerOptions: {
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '明天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周后',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一月后(30)',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一年后(365)',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 365);
+              picker.$emit('pick', date);
+            }
+          }]
+        }
     };
   },
   methods: {
@@ -306,17 +368,17 @@ export default {
     formatCreateTime: function(row, column) {
       return !row.CreateTime || row.CreateTime == ""
         ? ""
-        : util.formatDate.format(new Date(row.CreateTime), "yyyy-MM-dd");
+        : util.formatDate.format(new Date(row.CreateTime), "yyyy-MM-dd hh:mm:ss");
     },
     formatBeginTime: function(row, column) {
       return !row.BeginTime || row.BeginTime == ""
         ? ""
-        : util.formatDate.format(new Date(row.BeginTime), "yyyy-MM-dd");
+        : util.formatDate.format(new Date(row.BeginTime), "yyyy-MM-dd hh:mm:ss");
     },
     formatEndTime: function(row, column) {
       return !row.EndTime || row.EndTime == ""
         ? ""
-        : util.formatDate.format(new Date(row.EndTime), "yyyy-MM-dd");
+        : util.formatDate.format(new Date(row.EndTime), "yyyy-MM-dd hh:mm:ss");
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -338,48 +400,6 @@ export default {
 
         //NProgress.done();
       });
-    },
-    //删除
-    handleDel() {
-      let row = this.currentRow;
-      if (!row) {
-        this.$message({
-          message: "请选择要编辑的一行数据！",
-          type: "error"
-        });
-
-        return;
-      }
-      this.$confirm("确认删除该记录吗?", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          this.listLoading = true;
-          //NProgress.start();
-          let para = { id: row.Id };
-          removeTask(para).then(res => {
-            if (util.isEmt.format(res)) {
-              this.listLoading = false;
-              return;
-            }
-            this.listLoading = false;
-            //NProgress.done();
-            if (res.data.success) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-            } else {
-              this.$message({
-                message: res.data.msg,
-                type: "error"
-              });
-            }
-
-            this.getTasks();
-          });
-        })
-        .catch(() => {});
     },
     //显示编辑界面
     handleEdit() {
@@ -458,6 +478,7 @@ export default {
                 this.editFormVisible = false;
                 this.getTasks();
               } else {
+                this.editLoading = false;
                 this.$message({
                   message: res.data.msg,
                   type: "error"
@@ -520,6 +541,7 @@ export default {
                 this.addFormVisible = false;
                 this.getTasks();
               } else {
+                this.addLoading = false;
                 this.$message({
                   message: res.data.msg,
                   type: "error"
@@ -557,7 +579,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "启动成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {
@@ -572,7 +594,7 @@ export default {
         })
         .catch(() => {});
     },
-    //暂停job
+    //停止job
     handleStopJob() {
       let row = this.currentRow;
       if (!row) {
@@ -583,7 +605,7 @@ export default {
 
         return;
       }
-      this.$confirm("确认暂停该Job吗?", "提示", {
+      this.$confirm("确认停止该Job吗?", "提示", {
         type: "warning"
       })
         .then(() => {
@@ -599,7 +621,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "暂停成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {
@@ -641,7 +663,132 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "重启成功",
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+
+            this.getTasks();
+          });
+        })
+        .catch(() => {});
+    },//暂停job
+    handlePauseJob() {
+      let row = this.currentRow;
+      if (!row) {
+        this.$message({
+          message: "请选择要操作的一行数据！",
+          type: "error"
+        });
+
+        return;
+      }
+      this.$confirm("确认暂停该Job吗?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          this.listLoading = true;
+          //NProgress.start();
+          let para = { jobId: row.Id };
+          pauseJob(para).then(res => {
+            if (util.isEmt.format(res)) {
+              this.listLoading = false;
+              return;
+            }
+            this.listLoading = false;
+            //NProgress.done();
+            if (res.data.success) {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+
+            this.getTasks();
+          });
+        })
+        .catch(() => {});
+    },
+    //恢复job
+    handleResumeJob() {
+      let row = this.currentRow;
+      if (!row) {
+        this.$message({
+          message: "请选择要操作的一行数据！",
+          type: "error"
+        });
+
+        return;
+      }
+      this.$confirm("确认恢复该Job吗?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          this.listLoading = true;
+          //NProgress.start();
+          let para = { jobId: row.Id };
+          resumeJob(para).then(res => {
+            if (util.isEmt.format(res)) {
+              this.listLoading = false;
+              return;
+            }
+            this.listLoading = false;
+            //NProgress.done();
+            if (res.data.success) {
+              this.$message({
+                message: res.data.msg,
+                type: "success"
+              });
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+
+            this.getTasks();
+          });
+        })
+        .catch(() => {});
+    },
+    //删除
+    handleDel() {
+      let row = this.currentRow;
+      if (!row) {
+        this.$message({
+          message: "请选择要编辑的一行数据！",
+          type: "error"
+        });
+
+        return;
+      }
+      this.$confirm("确认删除该记录吗?", "提示", {
+        type: "warning"
+      })
+        .then(() => {
+          this.listLoading = true;
+          //NProgress.start();
+          let para = { jobId: row.Id };
+          removeTask(para).then(res => {
+            if (util.isEmt.format(res)) {
+              this.listLoading = false;
+              return;
+            }
+            this.listLoading = false;
+            //NProgress.done();
+            if (res.data.success) {
+              this.$message({
+                message: res.data.msg,
                 type: "success"
               });
             } else {
