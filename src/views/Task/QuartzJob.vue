@@ -401,48 +401,6 @@ export default {
         //NProgress.done();
       });
     },
-    //删除
-    handleDel() {
-      let row = this.currentRow;
-      if (!row) {
-        this.$message({
-          message: "请选择要编辑的一行数据！",
-          type: "error"
-        });
-
-        return;
-      }
-      this.$confirm("确认删除该记录吗?", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          this.listLoading = true;
-          //NProgress.start();
-          let para = { id: row.Id };
-          removeTask(para).then(res => {
-            if (util.isEmt.format(res)) {
-              this.listLoading = false;
-              return;
-            }
-            this.listLoading = false;
-            //NProgress.done();
-            if (res.data.success) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-            } else {
-              this.$message({
-                message: res.data.msg,
-                type: "error"
-              });
-            }
-
-            this.getTasks();
-          });
-        })
-        .catch(() => {});
-    },
     //显示编辑界面
     handleEdit() {
       let row = this.currentRow;
@@ -520,6 +478,7 @@ export default {
                 this.editFormVisible = false;
                 this.getTasks();
               } else {
+                this.editLoading = false;
                 this.$message({
                   message: res.data.msg,
                   type: "error"
@@ -582,6 +541,7 @@ export default {
                 this.addFormVisible = false;
                 this.getTasks();
               } else {
+                this.addLoading = false;
                 this.$message({
                   message: res.data.msg,
                   type: "error"
@@ -619,7 +579,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "启动成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {
@@ -661,7 +621,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "停止成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {
@@ -703,7 +663,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "重启成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {
@@ -748,10 +708,10 @@ export default {
                 type: "success"
               });
             } else {
-            //   this.$message({
-            //     message: res.data.msg,
-            //     type: "error"
-            //   });
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
             }
 
             this.getTasks();
@@ -790,10 +750,10 @@ export default {
                 type: "success"
               });
             } else {
-            //   this.$message({
-            //     message: res.data.msg,
-            //     type: "error"
-            //   });
+              this.$message({
+                message: res.data.msg,
+                type: "error"
+              });
             }
 
             this.getTasks();
@@ -828,7 +788,7 @@ export default {
             //NProgress.done();
             if (res.data.success) {
               this.$message({
-                message: "删除成功",
+                message: res.data.msg,
                 type: "success"
               });
             } else {

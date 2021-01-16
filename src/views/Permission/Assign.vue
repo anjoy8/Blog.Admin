@@ -38,7 +38,7 @@
                             :check-strictly="true"
                     >
                         <span class="custom-tree-node" slot-scope="{ node, data }">
-                        <span>{{ node.label }}</span>
+                        <span>{{ node.label }}<el-button @click.prevent="reverse(data.btns)" v-if="(data.btns && data.btns.length>1)" style="padding:5px 8px;margin-left:5px;" size="mini" type="plain">反选</el-button> </span>
                         <span>
                         <el-checkbox-group v-model="assignBtns">
                         <el-checkbox v-for="btn in data.btns" :key="btn.value"
@@ -110,6 +110,22 @@
             }
         },
         methods: {
+            //反选
+            reverse(ls){
+                console.log(this.data5);
+                console.log(ls);
+                if(ls && ls.length){
+                    for(let i=0;i<ls.length;i++){
+                        let btn = ls[i];
+                        let findBtnIndex = this.assignBtns.findIndex(t=>t == btn.value);
+                        if(findBtnIndex>-1){
+                            this.assignBtns.splice(findBtnIndex,1);
+                        }else{
+                            this.assignBtns.push(""+btn.value);
+                        }
+                    }
+                }
+            },
             //性别显示转换
             formatEnabled: function (row, column) {
                 return row.Enabled ? '正常' : '未知';
@@ -178,6 +194,9 @@
                 } catch (e) {
 
                 }
+                console.log(this.assignBtns);
+                console.log(pids);
+                return;
                 let para = {pids: pids, rid: this.roleid}
                 if (para.rid > 0 && para.pids.length > 0) {
                     addRolePermission(para).then((res) => {
