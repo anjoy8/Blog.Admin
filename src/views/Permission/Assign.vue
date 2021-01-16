@@ -190,13 +190,25 @@
                                 pids.push(assginbtn);
                             }
                         }
+                    } else {
+                        this.loadingSaveStr = "保存";
+                        this.loadingSave = false;
+                        this.$message({
+                            message: "参数错误",
+                            type: "error",
+                        });
+                        return false;
                     }
                 } catch (e) {
-
+                    this.$message({
+                        message: "操作异常",
+                        type: "error",
+                    });
+                    return false;
                 }
                 console.log(this.assignBtns);
                 console.log(pids);
-                return;
+              
                 let para = {pids: pids, rid: this.roleid}
                 if (para.rid > 0 && para.pids.length > 0) {
                     addRolePermission(para).then((res) => {
