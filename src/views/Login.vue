@@ -184,6 +184,9 @@
 
 
                             }
+                        }).catch(e => {
+                            _this.logining = false;
+                            _this.loginStr = "重新登录"; 
                         });
                     } else {
                         console.log('error submit!!');

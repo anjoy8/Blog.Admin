@@ -263,10 +263,12 @@ export default {
         this.$router.push("/login");
       }
     }
-
-    getAchieveUsers_IS4({}).then(res => {
+    if(global.IS_IDS4)
+    {
+      getAchieveUsers_IS4({}).then(res => {
       this.lineChartDataIDS4 = res.data.response;
     });
+    }
 
     getServerInfo({}).then(res => {
       this.serverInfo = res.data.response;

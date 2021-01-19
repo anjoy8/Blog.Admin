@@ -16,10 +16,11 @@
       :load="load"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       style="width: 100%;"
+      ref="table"
     >
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column type="index" width="80"></el-table-column>
-      <el-table-column label="菜单/按钮" width="200" sortable>
+      <el-table-column label="菜单/按钮" width="200" >
         <template slot-scope="scope">
           <i class="fa" :class="scope.row.Icon"></i>
 
@@ -28,10 +29,10 @@
       </el-table-column>
       <!-- <el-table-column prop="PnameArr" label="父节点" width="" sortable>
       </el-table-column>-->
-      <el-table-column prop="Code" label="路由地址" width sortable></el-table-column>
-      <el-table-column prop="MName" label="API接口" width sortable></el-table-column>
-      <el-table-column prop="OrderSort" label="Sort" width sortable></el-table-column>
-      <el-table-column prop="IsButton" label="是否按钮" width="100" sortable>
+      <el-table-column prop="Code" label="路由地址" width ></el-table-column>
+      <el-table-column prop="MName" label="API接口" width ></el-table-column>
+      <el-table-column prop="OrderSort" label="Sort" width ></el-table-column>
+      <el-table-column prop="IsButton" label="是否按钮" width="100" >
         <template slot-scope="scope">
           <el-tag
             :type="!scope.row.IsButton  ? 'success' : 'danger'"
@@ -39,8 +40,8 @@
           >{{!scope.row.IsButton ? "否":"是"}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="Func" label="按钮事件" width sortable></el-table-column>
-      <el-table-column prop="IsHide" label="是否隐藏" width="100" sortable>
+      <el-table-column prop="Func" label="按钮事件" width ></el-table-column>
+      <el-table-column prop="IsHide" label="是否隐藏" width="100" >
         <template slot-scope="scope">
           <el-tag
             :type="!scope.row.IsHide  ? 'success' : 'danger'"
@@ -48,7 +49,7 @@
           >{{!scope.row.IsHide ? "否":"是"}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="IskeepAlive" label="keepAlive" width="100" sortable>
+      <el-table-column prop="IskeepAlive" label="keepAlive" width="100" >
         <template slot-scope="scope">
           <el-tag
             :type="!scope.row.IskeepAlive  ? 'success' : 'danger'"
@@ -145,7 +146,14 @@
             v-model="editForm.PidArr"
             :options="options"
             filterable
-            change-on-select
+            :key="isResouceShow"
+            :props="{ checkStrictly: true , expandTrigger: 'hover'}" 
+            v-if="!editLoading"
+          ></el-cascader>
+          <el-cascader
+            placeholder="加载中..."
+            style="width: 400px" 
+            v-if="editLoading"
           ></el-cascader>
         </el-form-item>
         <el-form-item prop="Mid" label="API接口" width sortable>
@@ -230,12 +238,20 @@
           <el-switch v-model="addForm.IskeepAlive"></el-switch>
         </el-form-item>
         <el-form-item prop="PidArr" label="父级菜单" width sortable>
-          <el-cascader
+         <el-cascader
+            placeholder="请选择，支持搜索功能"
             style="width: 400px"
             v-model="addForm.PidArr"
             :options="options"
             filterable
-            change-on-select
+            :key="isResouceShow"
+            :props="{ checkStrictly: true , expandTrigger: 'hover'}" 
+            v-if="!editLoading"
+          ></el-cascader>
+          <el-cascader
+            placeholder="加载中..."
+            style="width: 400px" 
+            v-if="editLoading"
           ></el-cascader>
         </el-form-item>
 
@@ -344,7 +360,7 @@ export default {
         IsButton: false,
         IsHide: false,
         IskeepAlive: false
-      }
+      },isResouceShow:0
     };
   },
   methods: {
@@ -460,23 +476,25 @@ export default {
         return;
       }
       let that = this;
-      that.editLoading = true;
-
-      this.editFormVisible = true;
-      this.editForm = {};
-
-      this.options = [];
+      
+      that.options = []; 
+      
+      this.editForm = {};  
+	    that.editLoading = true;
+      that.editFormVisible = true;      
       let para = { pid: row.Id };
-      getPermissionTree(para).then(res => {
+      getPermissionTree(para).then(res => {  
+        ++that.isResouceShow;
         this.options.push(res.data.response);
         that.editForm = Object.assign({}, row);
-        that.editLoading = false;
+         that.editLoading = false; 
       });
     },
     //显示新增界面
     handleAdd() {
       this.options = [];
       this.addFormVisible = true;
+      this.addLoading = true;
       this.addForm = {
         CreateBy: "",
         CreateId: "",
@@ -494,7 +512,10 @@ export default {
 
       let para = { pid: 0 };
       getPermissionTree(para).then(res => {
+        ++this.isResouceShow;
         this.options.push(res.data.response);
+         this.addLoading = false;
+         
       });
     },
     //编辑
@@ -534,6 +555,7 @@ export default {
                   type: "success"
                 });
                 this.$refs["editForm"].resetFields();
+                this.$refs.table.setCurrentRow();
                 this.editFormVisible = false;
                 this.getPermissions();
               } else {
@@ -592,6 +614,7 @@ export default {
                   type: "success"
                 });
                 this.$refs["addForm"].resetFields();
+                this.$refs.table.setCurrentRow();
                 this.addFormVisible = false;
                 this.getPermissions();
               } else {

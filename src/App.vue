@@ -121,7 +121,7 @@
         </transition>
 
         <transition v-else name="fade" mode="out-in">
-            <div class="content-az">
+            <div  >
                 <router-view></router-view>
             </div>
         </transition>
@@ -262,7 +262,7 @@
                         applicationUserManager.logout();
                     } else {
                         _this.$router.push('/login');
-                        window.location.reload()
+                        //window.location.reload()
                     }
                     
                 }).catch(() => {
