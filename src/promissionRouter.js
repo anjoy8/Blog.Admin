@@ -52,6 +52,7 @@ router.beforeEach((to, from, next) => {
             var expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
             if (storeTemp.state.token && storeTemp.state.token != "undefined") {
                 // 通过vuex state获取当前的token是否存在
+                console.log(1)
                 next();
             } else {
                 store.commit("saveToken", "");
@@ -74,7 +75,8 @@ router.beforeEach((to, from, next) => {
                 }
 
             }
-        } else {
+        } else {          
+            console.log(2)
             next();
         }
     }
@@ -108,7 +110,8 @@ router.beforeEach((to, from, next) => {
                 global.antRouter = getRouter
                 // routerGo(to, next)//执行路由跳转方法
             }
-            next()
+            // console.log(3)
+            // next()
 
         }
     }
