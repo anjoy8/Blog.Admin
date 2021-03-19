@@ -88,6 +88,13 @@
         <el-form-item label="菜单名称" prop="Name">
           <el-input v-model="editForm.Name" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="菜单类型">
+          <el-radio-group @change="clkTypeEdit" v-model="editForm.MenuType">
+            <el-radio label="目录"></el-radio>
+            <el-radio label="页面"></el-radio>
+            <el-radio label="按钮"></el-radio>
+          </el-radio-group>
+        </el-form-item>
 
         <el-form-item label="路由地址" prop="Code">
           <el-tooltip placement="top">
@@ -376,6 +383,17 @@ export default {
       } else if (this.addForm.MenuType == "按钮") {
         this.addForm.Code = " ";
         this.addForm.IsButton = true;
+      }
+    },
+    clkTypeEdit() {
+      this.editForm.IsButton = false;
+      if (this.editForm.MenuType == "页面") {
+        this.editForm.Code = "";
+      } else if (this.editForm.MenuType == "目录") {
+        this.editForm.Code = "-";
+      } else if (this.editForm.MenuType == "按钮") {
+        this.editForm.Code = " ";
+        this.editForm.IsButton = true;
       }
     },
     callFunction(item) {

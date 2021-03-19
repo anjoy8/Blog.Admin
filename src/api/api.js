@@ -336,6 +336,9 @@ export const pauseJob = params => {
 export const resumeJob = params => {
     return axios.get(`${base}/api/TasksQz/ResumeJob`, {params: params});
 };
+export const getTaskNameSpace = params => {
+    return axios.get(`${base}/api/TasksQz/GetTaskNameSpace`, {params: params});
+};
 
 // ids4
 export const getAchieveUsers_IS4 = params => {
