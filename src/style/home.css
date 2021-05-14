@@ -247,4 +247,6 @@ a{
 }
 .activeuser .el-card__body{
     padding: 0 !important;
+    height: 50px;
+    overflow: hidden;
     }

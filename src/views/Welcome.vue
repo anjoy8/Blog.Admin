@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 30px;">
     <el-row class="panel-group">
-      <el-col class="card-panel-col" style="float: left;width: calc(96% - 430px);margin: 0;">
+      <el-col class="card-panel-col" style="float: left;width: calc(100% - 430px);margin: 0;">
         <el-card class="welcome-card activeuser note">
           <div slot="header" class="clearfix">
             <span>今日活跃用户</span>
