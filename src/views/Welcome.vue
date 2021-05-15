@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 30px;">
     <el-row class="panel-group">
-      <el-col class="card-panel-col" style="float: left;width: calc(100% - 430px);margin: 0;">
+      <el-col class="card-panel-col" style="float: left;width: calc(100% - 405px);margin: 0;">
         <el-card class="welcome-card activeuser note">
           <div slot="header" class="clearfix">
             <span>今日活跃用户</span>
@@ -301,12 +301,13 @@ export default {
 <style scoped>
 .panel-group {
   margin-top: 18px;
+  margin-right: 2%;
 }
 .card-panel-col {
   margin-bottom: 32px;
   width: 115px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  margin-right: 2%;
+  margin-left: 15px;
   float: right;
 }
 
