@@ -46,15 +46,17 @@
 
                     <aside :class="collapsedClass ">
                         <el-scrollbar style="height:100%;background: #2f3e52;"  class="scrollbar-handle">
-                            <el-menu :default-active="$route.path"
+                            <el-menu 
+                                     
+                                    :default-active="$route.path"
                                      class="el-menu-vertical-demo" @open="handleopen" @close="handleclose"
                                      @select="handleselect"
-                                     unique-opened router :collapse="isCollapse"
+                                     unique-opened router :collapse="collapsed"
                                      background-color="#2f3e52"
                                      style="border-right: none;"
                                      text-color="#fff"
                                      active-text-color="#ffd04b">
-                                <sidebar v-for="(menu,index) in routes" @collaFa="collapseFa" :key="index"
+                                <sidebar v-for="(menu,index) in routes" :key="index"
                                          :item="menu"/>
                             </el-menu>
 
@@ -139,12 +141,8 @@
                 </el-tag>
 
             </div>
-        </el-dialog>
-
-        <div class="v-modal " @click="closeZModalShadow" v-show="NewsVisible" tabindex="0" style="z-index: 2917;"></div>
-
-
-        <div class="v-modal " @click="collapse" v-show="SidebarVisible" tabindex="0" style="z-index: 2917;"></div>
+        </el-dialog> 
+       
 
     </div>
 </template>
@@ -164,15 +162,12 @@
                 sysName: 'BlogAdmin',
                 sysNameShort: 'BD',
                 NewsVisible: false,
-                SidebarVisible: false,
                 collapsed: false,
                 zModalShadow: false,
                 collapsedClass: 'menu-expanded',
-                ispc: false,
                 sysUserName: '',
                 newsDialogCss: 'news-dialog',
                 sysUserAvatar: '',
-                isCollapse: false,
                 tagsList: [],
                 form: {
                     name: '',
@@ -210,9 +205,6 @@
             },
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
-            },
-            closeZModalShadow() {
-                this.NewsVisible = false;
             },
             toindex() {
                 this.$router.replace({
@@ -284,32 +276,13 @@
             collapse: function () {
                 this.collapsed = !this.collapsed;
 
-                if (this.ispc) {
-
-                    if (this.collapsed) {
-                        this.collapsedClass = 'menu-collapsed';
-                    } else {
-                        this.collapsedClass = 'menu-expanded';
-                    }
-                } else { // mobile
-                    if (this.collapsed) {
-                        this.SidebarVisible = true;
-                        this.collapsedClass = 'menu-collapsed-mobile';
-                    } else {
-                        this.SidebarVisible = false;
-                        this.collapsedClass = 'menu-expanded-mobile';
-                    }
-
-                    this.collapsedClass += ' mobile-ex ';
+                if (this.collapsed) {
+                    this.collapsedClass = 'menu-collapsed';
+                } else {
+                    this.collapsedClass = 'menu-expanded';
                 }
-
-                this.isCollapse = !this.isCollapse;
-
-            },
-            collapseFa: function () {
-                if (!this.ispc) {
-                    this.collapse();
-                }
+                //记录折叠状态
+                window.localStorage.collapse = this.collapsed;
             },
             showMenu(i, status) {
                 this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
@@ -394,7 +367,7 @@
             if (tags && tags.length > 0) {
                 this.tagsList = tags;
             }
-
+            
 
             var NavigationBar = JSON.parse(window.localStorage.router ? window.localStorage.router : null);
             // var NavigationBar = global.antRouter;
@@ -404,7 +377,8 @@
             }
 
             // 折叠菜单栏
-            this.collapse();
+            
+            
         },
         updated() {
             var user = JSON.parse(window.localStorage.user ? window.localStorage.user : null);
@@ -457,22 +431,20 @@
                     }
                 })
 
-            }
+            },
+            
         },
         created() {
             // 第一次进入页面时，修改tag的值
             this.setTags(this.$route);
-            this.ispc = window.screen.width > 680;
-
-            if (this.ispc) {
-                this.collapsedClass = 'menu-expanded';
-            } else {
-                this.collapsedClass = 'menu-expanded-mobile mobile-ex';
+            //读取折叠状态
+            if(window.localStorage.collapse == 'true'){
+                this.collapsed = false;
+                this.collapse();
+            }else{
                 this.collapsed = true;
                 this.collapse();
             }
-
-
         },
     }
 
@@ -620,7 +592,10 @@
 
         .content-expanded {
             max-width: 100% !important;
-            max-height: calc(100% - 60px);
+            /* max-height: calc(100% - 60px); */
+        }
+        .content-collapsed{
+            max-width: 100% !important;
         }
 
         .mobile-ex {
