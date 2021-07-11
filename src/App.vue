@@ -143,7 +143,7 @@
             </div>
         </el-dialog> 
        
-
+        <div class="v-modal " @click="collapse" v-show="SidebarVisible" tabindex="0" style="z-index: 2999;"></div>
     </div>
 </template>
 <script>
@@ -164,6 +164,7 @@
                 NewsVisible: false,
                 collapsed: false,
                 zModalShadow: false,
+                SidebarVisible: false,
                 collapsedClass: 'menu-expanded',
                 sysUserName: '',
                 newsDialogCss: 'news-dialog',
@@ -278,8 +279,12 @@
 
                 if (this.collapsed) {
                     this.collapsedClass = 'menu-collapsed';
+                    this.SidebarVisible = false;
                 } else {
                     this.collapsedClass = 'menu-expanded';
+                    if(window.screen.width < 680){
+                        this.SidebarVisible = true;
+                    }
                 }
                 //记录折叠状态
                 window.localStorage.collapse = this.collapsed;
@@ -592,12 +597,27 @@
 
         .content-expanded {
             max-width: 100% !important;
+            width: 100% !important;
             /* max-height: calc(100% - 60px); */
         }
         .content-collapsed{
             max-width: 100% !important;
+            width: 100% !important;
         }
-
+        .menu-collapsed{
+            display: none;
+        }
+        .menu-expanded{
+            position: fixed;
+            z-index: 3000;
+            height: 100vh !important;
+            width: 210px !important;
+            overflow-y:scroll !important;
+            overflow-x:scroll !important;
+        }
+        .scrollbar-handle{
+            margin-bottom: 60px;
+        }
         .mobile-ex {
             background: #fff;
             z-index: 3000;
