@@ -17,7 +17,7 @@
         <el-col :span="16" class="toolbar perms morechildren">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
-                    <span>菜单</span>
+                    <span>菜单</span> 
                     <el-button :loading="loadingSave" @click="saveAssign" style="float: right; padding: 3px 0" type="text">{{loadingSaveStr}}</el-button>
                 </div>
                 <div class="block">
@@ -35,7 +35,6 @@
                             ref="tree"
                             default-expand-all
                             :expand-on-click-node="true"
-                            :check-strictly="true"
                     >
                         <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span>{{ node.label }}<el-button @click.prevent="reverse(data.btns)" v-if="(data.btns && data.btns.length>1)" style="padding:5px 8px;margin-left:5px;" size="mini" type="plain">反选</el-button> </span>

@@ -38,7 +38,7 @@ const createRouter = () => new Router({
             path: '/',
             component: Welcome,
             name: '首页',
-            iconCls: 'fa-qq',//图标样式class
+            iconCls: 'fa-home',//图标样式class
             // hidden: true,
             meta: {
                 title: '首页',

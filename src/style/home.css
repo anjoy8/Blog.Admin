@@ -26,12 +26,10 @@ body {
 }
 
 .content-expanded{
-    max-width: calc(100% - 210px);
-    max-height: calc(100% - 60px);
+    width: calc(100% - 210px) !important;
 }
 .content-collapsed{
-    max-width: 100%;
-
+    width: calc(100% - 60px) !important;
 }
 .el-scrollbar__wrap{
     /*overflow-x: auto !important;*/
@@ -89,7 +87,7 @@ body {
 }
 
 .container .header .logo-collapse-width {
-    width: 65px;
+    width: 60px;
 }
 
 .container .header .tools {
@@ -119,7 +117,7 @@ body {
 }
 
 .container .main aside .collapsed {
-    width: 64px;
+    width: 60px; 
 }
 
 .container .main aside .collapsed .item {
@@ -137,7 +135,7 @@ body {
 
 .container .main .menu-collapsed {
     flex: 0 0 60px;
-    /*width: 60px;*/
+    width: 60px;
 }
 
 .container .main .menu-expanded {
@@ -207,18 +205,15 @@ body {
     background: #2d8cf0;
 }
 .content-az{
-    margin-right: 10px;
-    height: calc(100% - 61px);
-    overflow-y: auto;
-}
-.content-az.router-view-withly{
     border: 1px solid #f0f0f0;
     margin-top: 20px;
     margin-left: 5px;
+    margin-right: 5px;
+    height: calc(100% - 60px);
     padding: 5px;
 }
 .content-wrapper .tags{
-    padding-right: 20px;
+    /* padding-right: 20px; */
 }
 .content-az section{
     overflow: auto;
@@ -227,7 +222,7 @@ body {
 .welcome-card{
     width:100%;float:left;margin-right:10px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 680px) {
    
     .welcome-card{
         width:100%;
@@ -236,6 +231,12 @@ body {
         margin-top: calc( 50% - 150px) !important;
         max-width: 96% !important;
     }
+    /* .content-expanded{
+        width: 100% !important;
+    }
+    .content-collapsed{
+        width: 100% !important;
+    } */
 }
 
 .scrollbar-handle.el-scrollbar > :first-child {

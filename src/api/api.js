@@ -36,24 +36,17 @@ axios.interceptors.request.use(
 
 // http response 拦截器
 axios.interceptors.response.use(
-    response => {
-        return response;
+    response => { 
+        return response; 
     },
     error => {
+        let errInfo = { success: false, message: "错误" }
         // 超时请求处理
         var originalRequest = error.config;
         if(error.code == 'ECONNABORTED' && error.message.indexOf('timeout')!=-1 && !originalRequest._retry){
-
-            Vue.prototype.$message({
-                message: '请求超时！',
-                type: 'error'
-            });
-
-            originalRequest._retry = true
-            return null;
-        }
-
-        if (error.response) {
+            errInfo.message = "请求超时！"; 
+            originalRequest._retry = true 
+        }else if (error.response) {
             if (error.response.status == 401) {
                 var curTime = new Date()
                 var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
@@ -87,23 +80,36 @@ axios.interceptors.response.use(
 
             }
             // 403 无权限
-            if (error.response.status == 403) {
-                Vue.prototype.$message({
-                    message: '失败！该操作无权限',
-                    type: 'error'
-                });
-                return null;
+            else if (error.response.status == 403) {
+               errInfo.message = "失败！该操作无权限"; 
             }
             // 429 ip限流
-            if (error.response.status == 429) {
-                Vue.prototype.$message({
-                    message: '刷新次数过多，请稍事休息重试！',
-                    type: 'error'
-                });
-                return null;
-            }
+            else if (error.response.status == 429) {
+                errInfo.message = "刷新次数过多，请稍事休息重试！";
+            }else if (error.response.status == 404) {
+                // 404 不存在
+                errInfo.message = "失败！访问接口不存在";
+           }else if (error.response.status == 500) {
+               // 500 服务器异常
+               errInfo.message = "失败！服务器异常"; 
+           }else if (error.response.status == 405) {
+               // 405 请求http方法错误
+               errInfo.message = "失败！请求http方法错误";  
+           }else if (error.response.status == 415) {
+               // 415 参数没有指定Body还是Query
+               errInfo.message = "失败！参数没有指定Body还是Query";   
+           }else {
+               //其他错误参数
+                errInfo.message = '失败！请求错误' + error.response.status;    
+           }
+        }else{
+            errInfo.message = "失败！服务器断开";  
         }
-        return ""; // 返回接口返回的错误信息
+        Vue.prototype.$message({
+            message: errInfo.message,
+            type: 'error'
+        });
+        return errInfo; // 返回接口返回的错误信息
     }
 );
 
@@ -151,9 +157,8 @@ export const saveRefreshtime = params => {
         router.replace({
             path: "/login",
             query: {redirect: router.currentRoute.fullPath}
-        });
-
-        window.location.reload()
+        }); 
+        //window.location.reload()
     }
 };
 
@@ -330,6 +335,9 @@ export const pauseJob = params => {
 };
 export const resumeJob = params => {
     return axios.get(`${base}/api/TasksQz/ResumeJob`, {params: params});
+};
+export const getTaskNameSpace = params => {
+    return axios.get(`${base}/api/TasksQz/GetTaskNameSpace`, {params: params});
 };
 
 // ids4
