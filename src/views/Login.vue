@@ -513,8 +513,4 @@
         }
     }
 
-    .content-az {
-        padding: 0 !important;
-        border: none !important;
-    }
 </style>

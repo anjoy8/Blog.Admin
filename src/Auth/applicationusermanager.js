@@ -1,5 +1,6 @@
 import { UserManager } from 'oidc-client'
 
+// 使用id4更改这里1
 class ApplicationUserManager extends UserManager {
   constructor () {
     super({

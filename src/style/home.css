@@ -205,15 +205,12 @@ body {
     background: #2d8cf0;
 }
 .content-az{
-    
     border: 1px solid #f0f0f0;
     margin-top: 20px;
     margin-left: 5px;
     margin-right: 5px;
     height: calc(100% - 60px);
     padding: 5px;
-    
-    overflow-y: auto;
 }
 .content-wrapper .tags{
     /* padding-right: 20px; */
@@ -251,4 +248,6 @@ a{
 }
 .activeuser .el-card__body{
     padding: 0 !important;
+    height: 50px;
+    overflow: hidden;
     }

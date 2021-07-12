@@ -111,7 +111,8 @@
                             </div>
                         </div>
                         <transition name="fade" mode="out-in">
-                            <div class="content-az">
+                            <div class="content-az router-view-withly">
+                                <!-- 含有母版的路由页面 -->
                                 <router-view></router-view>
                             </div>
                         </transition>
@@ -123,6 +124,7 @@
         </transition>
 
         <transition v-else name="fade" mode="out-in">
+
             <div  >
                 <router-view></router-view>
             </div>
