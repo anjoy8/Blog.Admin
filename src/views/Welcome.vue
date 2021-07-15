@@ -379,7 +379,7 @@ export default {
   height: 50px;
   float: left;
   color: #fff;
-  font-size: 15px;
+  font-size: 12px;
   line-height: 50px;
   padding: 0 10px;
 }
