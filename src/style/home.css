@@ -211,6 +211,7 @@ body {
     margin-right: 5px;
     height: calc(100% - 60px);
     padding: 5px;
+    overflow-y: auto;
 }
 .content-wrapper .tags{
     /* padding-right: 20px; */
