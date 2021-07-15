@@ -5,8 +5,8 @@
       wrap-class="default-scrollbar__wrap"
       view-class="p20-scrollbar__view"
     >
-      <el-row :gutter="20">
-        <el-col :span="12" class="echarts-item">
+      <el-row :gutter="24">
+        <el-col :sm="12" :xs="24" class="echarts-item">
           <div class="content-title">周访问柱状图 Top8</div>
           <ve-histogram
             :data="histogramChartDataWeek"
@@ -14,7 +14,7 @@
             :mark-line="histogramChartMarkLine"
           ></ve-histogram>
         </el-col>
-        <el-col :span="12" class="echarts-item">
+        <el-col :sm="12" :xs="24" class="echarts-item">
           <div class="content-title">7天访问曲线图</div>
           <ve-line
             :data="lineChartData7Day"
@@ -23,7 +23,7 @@
             :mark-point="lineChartMarkPoint"
           ></ve-line>
         </el-col>
-        <el-col :span="12" class="echarts-item">
+        <el-col :sm="12" :xs="24" class="echarts-item">
           <div class="content-title">24小时访问图</div>
          <ve-line
             :data="lineChartData24Hour"
@@ -31,7 +31,7 @@
             :mark-point="lineChartMarkPoint"
           ></ve-line>
         </el-col>
-        <el-col :span="12" class="echarts-item">
+        <el-col :sm="12" :xs="24" class="echarts-item">
           <div class="content-title">环形图</div>
           <ve-ring :data="ringChartData" :settings="ringChartSettings"></ve-ring>
         </el-col>

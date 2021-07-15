@@ -31,45 +31,47 @@
           </div>
         </el-card>
       </el-col>
-      <el-col class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日活跃</div>
-            <span data-v-6723c96e class="card-acuser-num">{{
-              welcomeInitData.activeUserCount > 9
-                ? welcomeInitData.activeUserCount
-                : "0" + welcomeInitData.activeUserCount
-            }}</span>
+      <div class="statistical-cus">
+        <el-col class="card-panel-col">
+          <div class="card-panel">
+            <div class="card-panel-description">
+              <div class="card-panel-text">今日活跃</div>
+              <span data-v-6723c96e class="card-acuser-num">{{
+                welcomeInitData.activeUserCount > 9
+                  ? welcomeInitData.activeUserCount
+                  : "0" + welcomeInitData.activeUserCount
+              }}</span>
+            </div>
           </div>
-        </div>
-      </el-col>
-      <el-col class="card-panel-col">
-        <div class="card-panel">
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日新增</div>
-            <span data-v-6723c96e class="card-acuser-num">{{
-              lineChartDataIDS4.today > 9
-                ? lineChartDataIDS4.today
-                : "0" + lineChartDataIDS4.today
-            }}</span>
+        </el-col>
+        <el-col class="card-panel-col">
+          <div class="card-panel">
+            <div class="card-panel-description">
+              <div class="card-panel-text">今日新增</div>
+              <span data-v-6723c96e class="card-acuser-num">{{
+                lineChartDataIDS4.today > 9
+                  ? lineChartDataIDS4.today
+                  : "0" + lineChartDataIDS4.today
+              }}</span>
+            </div>
           </div>
-        </div>
-      </el-col>
-      <el-col class="card-panel-col">
-        <div class="card-panel extoday" @click="toLogs">
-          <div class="card-panel-description">
-            <div class="card-panel-text">今日异常</div>
-            <span data-v-6723c96e class="card-panel-num">{{
-              welcomeInitData.errorCount > 9
-                ? welcomeInitData.errorCount
-                : "0" + welcomeInitData.errorCount
-            }}</span>
+        </el-col>
+        <el-col class="card-panel-col">
+          <div class="card-panel extoday" @click="toLogs">
+            <div class="card-panel-description">
+              <div class="card-panel-text">今日异常</div>
+              <span data-v-6723c96e class="card-panel-num">{{
+                welcomeInitData.errorCount > 9
+                  ? welcomeInitData.errorCount
+                  : "0" + welcomeInitData.errorCount
+              }}</span>
+            </div>
           </div>
-        </div>
-      </el-col>
+        </el-col>
+      </div>
     </el-row>
     <el-card
-      class="welcome-card note"
+      class="welcome-card note note50"
       style="width: calc(49% - 10px); margin-right: 10px"
     >
       <div slot="header" class="clearfix">
@@ -93,7 +95,7 @@
       </div>
     </el-card>
     <el-card
-      class="welcome-card"
+      class="welcome-card note50"
       style="width: 49%; margin: 0; font-size: 14px"
     >
       <div slot="header" class="clearfix">
@@ -355,11 +357,10 @@ export default {
       }
     }
 
-    if(global.IS_IDS4)
-    {
-      getAchieveUsers_IS4({}).then(res => {
-      this.lineChartDataIDS4 = res.data.response;
-    });
+    if (global.IS_IDS4) {
+      getAchieveUsers_IS4({}).then((res) => {
+        this.lineChartDataIDS4 = res.data.response;
+      });
     }
 
     getServerInfo({}).then((res) => {
@@ -399,7 +400,7 @@ export default {
 }
 .card-panel-col {
   margin-bottom: 32px;
-  width: 115px;
+  width: 113px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   margin-left: 15px;
   float: right;
@@ -494,8 +495,11 @@ export default {
 }
 
 @media (max-width: 550px) {
-  .card-panel-description {
-    display: none;
+  .note50 {
+    width: 100% !important;
+  }
+  .statistical-cus{
+    width: 100%;
   }
 
   .card-panel-icon-wrapper {
