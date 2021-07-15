@@ -498,10 +498,14 @@ export default {
   .note50 {
     width: 100% !important;
   }
-  .statistical-cus{
+  .statistical-cus {
     width: 100%;
   }
 
+  .card-panel-col {
+    margin-bottom: 5px !important;
+    width: 100% !important;
+  }
   .card-panel-icon-wrapper {
     float: none !important;
     width: 100%;
