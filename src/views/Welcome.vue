@@ -283,7 +283,12 @@ export default {
   data() {
     return {
       listLoading: false,
-      welcomeInitData: {},
+      welcomeInitData: {
+        activeUsers: [],
+        activeUserCount: 0,
+        logs: [],
+        errorCount: 0,
+      },
       serverInfo: {},
       extend: {
         series: {
