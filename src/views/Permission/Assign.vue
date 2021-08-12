@@ -35,6 +35,7 @@
                             ref="tree"
                             default-expand-all
                             :expand-on-click-node="true"
+                            :check-strictly="true"
                     >
                         <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span>{{ node.label }}<el-button @click.prevent="reverse(data.btns)" v-if="(data.btns && data.btns.length>1)" style="padding:5px 8px;margin-left:5px;" size="mini" type="plain">反选</el-button> </span>
