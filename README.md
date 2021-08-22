@@ -56,6 +56,19 @@ npm run build
 
 
 
+## 售后服务与支持  
+
+鼓励作者，简单打赏，入微信群，随时随地解答我框架中（NetCore、Vue、DDD、IdentityServer4等）的疑难杂症。     
+注意主要是帮忙解决bug和思路，不会远程授课，但是可以适当发我代码，我帮忙调试，       
+打赏的时候，备注自己的微信号，我拉你进群，两天内没回应，QQ私聊我（3143422472）；   
+
+[赞赏列表](http://apk.neters.club/.doc/Contribution/)  
+
+ 
+<img src="http://apk.neters.club/laozhangisphigood.jpg" alt="赞赏码" width="300" >
+[图片若加载不出来，点这里](http://apk.neters.club/laozhangisphigood.jpg)
+
+
 *****************************************************
 ### 三大平台同步直播
 
