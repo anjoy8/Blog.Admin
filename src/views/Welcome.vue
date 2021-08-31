@@ -21,7 +21,7 @@
               :style="getBck(index)"
             >
               <el-badge
-                :value="item.count > 99 ? '99+' : item.count"
+                :value="item.count > 9999 ? '9999+' : item.count"
                 class="item"
                 :type="getTypeName(item.count)"
               >
