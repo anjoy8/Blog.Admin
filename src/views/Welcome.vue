@@ -25,7 +25,7 @@
                 class="item"
                 :type="getTypeName(item.count)"
               >
-                <label>{{ item.user }}</label>
+                <label class="acc-user">{{ item.user }}</label>
               </el-badge>
             </div>
           </div>
@@ -388,6 +388,12 @@ export default {
   font-size: 12px;
   line-height: 50px;
   padding: 0 10px;
+}
+.bg-blue-sub-item .acc-user {
+  max-width: 115px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .note .text {
   font-size: 14px;
