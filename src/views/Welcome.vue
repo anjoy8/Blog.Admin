@@ -25,7 +25,7 @@
                 class="item"
                 :type="getTypeName(item.count)"
               >
-                <label class="acc-user">{{ item.user }}</label>
+                <label :title="item.user" class="acc-user">{{ item.user }}</label>
               </el-badge>
             </div>
           </div>
