@@ -77,7 +77,7 @@
       >
         <el-card class="welcome-card activeuser note">
           <div slot="header" class="clearfix">
-            <span>本月活跃用户</span>
+            <span>本月活跃用户<span style="color: #ccc;font-size: 14px;">（使用任务调度，1分钟统计一次）</span></span>
           </div>
 
           <div
