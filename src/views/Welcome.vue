@@ -455,7 +455,7 @@ export default {
   margin-right: 2%;
 }
 .card-panel-col {
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
   width: 113px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   margin-left: 15px;
