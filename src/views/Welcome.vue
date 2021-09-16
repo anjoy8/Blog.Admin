@@ -70,6 +70,38 @@
         </el-col>
       </div>
     </el-row>
+    <el-row class="panel-group">
+      <el-col
+        class="card-panel-col"
+        style="float: left; width: 100%; margin: 0"
+      >
+        <el-card class="welcome-card activeuser note">
+          <div slot="header" class="clearfix">
+            <span>本月活跃用户</span>
+          </div>
+
+          <div
+            class="bg-color-sub"
+            style="background: rgb(236, 245, 255) none repeat scroll 0% 0%"
+          >
+            <div
+              v-for="(item, index) in welcomeInitData.activeCount"
+              :key="item.user + index"
+              class="bg-blue-sub-item-m"
+              :style="getBck(index)"
+            >
+              <el-badge
+                :value="item.count > 9999 ? '9999+' : item.count"
+                class="item"
+                :type="getTypeName(item.count)"
+              >
+                <label :title="item.user" class="acc-user">{{ item.user }}</label>
+              </el-badge>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-card
       class="welcome-card note note50"
       style="width: calc(49% - 10px); margin-right: 10px"
@@ -395,6 +427,19 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.bg-blue-sub-item-m {
+  height: 50px;
+  float: left;
+  color: #fff;
+  font-size: 12px;
+  line-height: 50px;
+  padding: 0 10px;
+}
+.bg-blue-sub-item-m .acc-user {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .note .text {
   font-size: 14px;
 }
@@ -406,7 +451,7 @@ export default {
 
 <style scoped>
 .panel-group {
-  margin-top: 18px;
+  margin-bottom: 18px;
   margin-right: 2%;
 }
 .card-panel-col {
@@ -502,6 +547,9 @@ export default {
   color: #40c9c6;
 }
 .bg-blue-sub-item /deep/ .el-badge__content.is-fixed {
+  top: 5px !important;
+}
+.bg-blue-sub-item-m /deep/ .el-badge__content.is-fixed {
   top: 5px !important;
 }
 

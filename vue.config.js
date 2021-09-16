@@ -36,11 +36,11 @@ module.exports = {
     https: false,
     hotOnly: false, // https:{type:Boolean}
     // proxy: null, // 设置代理
-    // proxy: 'http://123.206.33.109:8081',          // 配置跨域处理,只有一个代理
+    // proxy: 'http://123.206.33.109:9291',          // 配置跨域处理,只有一个代理
     proxy: {
       // 配置多个代理
       "/api": {
-        target: "http://localhost:8081",//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
+        target: "http://localhost:9291",//这里改成你自己的后端api端口地址，记得每次修改，都需要重新build
         //target: "http://localhost:58427",
         //target: "http://api.douban.com",
         ws: true,
@@ -51,7 +51,7 @@ module.exports = {
         }
       },
       "/images": {
-        target: "http://localhost:8081",
+        target: "http://localhost:9291",
         ws: true,
         changeOrigin: true
       },
