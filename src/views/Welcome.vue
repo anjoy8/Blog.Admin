@@ -88,10 +88,11 @@
               v-for="(item, index) in welcomeInitData.activeCount"
               :key="item.user + index"
               class="bg-blue-sub-item-m"
+              :class="item.count > 9999 ? 'amazing':''"
               :style="getBck(index)"
             >
               <el-badge
-                :value="item.count > 9999 ? '9999+' : item.count"
+                :value="item.count > 999999 ? '999999+' : item.count"
                 class="item"
                 :type="getTypeName(item.count)"
               >
@@ -412,6 +413,9 @@ export default {
 </script>
 
 <style scoped>
+.amazing /deep/ .el-badge__content{
+  background-color: purple !important;
+}
 .bg-blue-sub-item {
   max-width: 120px !important;
   height: 50px;
