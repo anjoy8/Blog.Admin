@@ -366,8 +366,8 @@ export default {
       return "";
     },
     getBck(index) {
-      return `background: rgb(${43 + index * 20}, ${
-        148 + index * 10
+      return `background: rgb(${43 + index * 14}, ${
+        148 + index * 7
       }, 255) none repeat scroll 0% 0%;`;
     },
     toLogs() {
