@@ -344,3 +344,63 @@ export const getTaskNameSpace = params => {
 export const getAchieveUsers_IS4 = params => {
     return axios.get(`${base}/is4api/GetAchieveUsers`, {params: params});
 };
+
+
+//微信公众号
+export const getWeChatAccount = params => {
+    return axios.get(`${base}/api/WeChatConfig/get`, { params: params });
+};
+export const removeWeChatAccount = params => {
+    return axios.delete(`${base}/api/WeChatConfig/delete`, { params: params });
+};
+export const batchDeleteChatAccount = params => {
+    return axios.delete(`${base}/api/WeChatConfig/BatchDelete`, { params: params });
+};
+export const addWeChatAccount = params => {
+    return axios.post(`${base}/api/WeChatConfig/post`, params);
+};
+export const updateWeChatAccount = params => {
+    return axios.put(`${base}/api/WeChatConfig/put`, params);
+};
+export const getWeChatTemplate = params => {
+    return axios.get(`${base}/api/WeChat/GetTemplate`, { params: params });//获取模板
+};
+export const refreshWeChatToken = params => {
+    return axios.get(`${base}/api/WeChat/RefreshToken`, { params: params });//更新Token
+};
+export const getWeChatMenu = params => {
+    return axios.get(`${base}/api/WeChat/GetMenu`, { params: params });//获取微信菜单
+};
+export const updateWeChatMenu = params => {
+    return axios.put(`${base}/api/WeChat/updateMenu`, params);//更新微信菜单
+};
+export const getWeChatCompany = params => {
+    return axios.get(`${base}/api/WeChatCompany/get`, { params: params });
+};
+export const removeWeChatCompany = params => {
+    return axios.delete(`${base}/api/WeChatCompany/delete`, { params: params });
+};
+export const batchDeleteWeChatCompany = params => {
+    return axios.delete(`${base}/api/WeChatCompany/BatchDelete`, { params: params });
+};
+export const addWeWeChatCompany = params => {
+    return axios.post(`${base}/api/WeChatCompany/post`, params);
+};
+export const updateWeChatCompany = params => {
+    return axios.put(`${base}/api/WeChatCompany/put`, params);
+};
+export const getWeChatPushLog = params => {
+    return axios.get(`${base}/api/WeChatPushLog/get`, { params: params });
+}; 
+export const getWeChatSubUser = params => {
+    return axios.get(`${base}/api/WeChat/GetSubUsers`, { params: params });
+};
+export const getWeChatBindUser = params => {
+    return axios.get(`${base}/api/WeChatSub/get`, { params: params });
+};
+export const pushTestMsg = params => {
+    return axios.post(`${base}/api/WeChat/PushTxtMsg`, params);
+};
+export const pushCardMsg = params => {
+    return axios.post(`${base}/api/WeChat/PushCardMsg`, params);
+};
