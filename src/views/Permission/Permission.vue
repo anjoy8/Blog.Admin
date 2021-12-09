@@ -429,7 +429,7 @@ export default {
     getPermissions() {
       let para = {
         page: this.page,
-        key: this.filters.Name
+        key: this.filters.name
       };
       this.listLoading = true;
 

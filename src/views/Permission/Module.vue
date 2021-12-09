@@ -179,7 +179,7 @@
             getModules() {
                 let para = {
                     page: this.page,
-                    key: this.filters.LinkUrl
+                    key: this.filters.name
                 };
                 this.listLoading = true;
 
