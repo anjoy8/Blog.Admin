@@ -404,3 +404,24 @@ export const pushTestMsg = params => {
 export const pushCardMsg = params => {
     return axios.post(`${base}/api/WeChat/PushCardMsg`, params);
 };
+
+// 部门模块管理
+export const getDepartmentListPage = params => {
+    return axios.get(`${base}/api/department/get`, {params: params});
+};
+export const getDepartmentTreeTable = params => {
+    return axios.get(`${base}/api/department/getTreeTable`, {params: params});
+};
+
+export const removeDepartment = params => {
+    return axios.delete(`${base}/api/department/delete`, {params: params});
+};
+export const editDepartment = params => {
+    return axios.put(`${base}/api/department/put`, params);
+};
+export const addDepartment = params => {
+    return axios.post(`${base}/api/department/post`, params);
+};
+export const getDepartmentTree = params => {
+    return axios.get(`${base}/api/department/getDepartmentTree`, {params: params});
+};

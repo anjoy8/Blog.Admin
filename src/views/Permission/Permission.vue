@@ -104,7 +104,7 @@
               <br />如果是外链，请带上协议，比如 https://www.baidu.com
               <br />
             </div>
-            <el-input v-model="editForm.Code" auto-complete="off"></el-input>
+            <el-input v-model="editForm.Code" :disabled="editCodeDisabled" auto-complete="off"></el-input>
           </el-tooltip>
         </el-form-item>
         <el-form-item label="描述" prop="Description">
@@ -212,7 +212,7 @@
               <br />如果是外链，请带上协议，比如 https://www.baidu.com
               <br />
             </div>
-            <el-input v-model="addForm.Code" auto-complete="off"></el-input>
+            <el-input v-model="addForm.Code" :disabled="addCodeDisabled" auto-complete="off"></el-input>
           </el-tooltip>
 
         </el-form-item>
@@ -347,6 +347,8 @@ export default {
 
       addFormVisible: false, //新增界面是否显示
       addLoading: false,
+      addCodeDisabled: false,
+      editCodeDisabled: false,
       addFormRules: {
         Name: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
         Code: [{ required: true, message: "请输入路由地址", trigger: "blur" }]
@@ -376,24 +378,30 @@ export default {
     },
     clkType() {
       this.addForm.IsButton = false;
+      this.addCodeDisabled = false;
       if (this.addForm.MenuType == "页面") {
         this.addForm.Code = "";
       } else if (this.addForm.MenuType == "目录") {
         this.addForm.Code = "-";
+        this.addCodeDisabled = true;
       } else if (this.addForm.MenuType == "按钮") {
         this.addForm.Code = " ";
         this.addForm.IsButton = true;
+        this.addCodeDisabled = true;
       }
     },
     clkTypeEdit() {
       this.editForm.IsButton = false;
+      this.editCodeDisabled = false;
       if (this.editForm.MenuType == "页面") {
         this.editForm.Code = "";
       } else if (this.editForm.MenuType == "目录") {
         this.editForm.Code = "-";
+        this.editCodeDisabled = true;
       } else if (this.editForm.MenuType == "按钮") {
         this.editForm.Code = " ";
         this.editForm.IsButton = true;
+        this.editCodeDisabled = true;
       }
     },
     callFunction(item) {
@@ -499,7 +507,8 @@ export default {
       
       this.editForm = {};  
 	    that.editLoading = true;
-      that.editFormVisible = true;      
+      that.editFormVisible = true;    
+      that.editCodeDisabled = false;  
       let para = { pid: row.Id };
       getPermissionTree(para).then(res => {  
         ++that.isResouceShow;
@@ -512,6 +521,7 @@ export default {
     handleAdd() {
       this.options = [];
       this.addFormVisible = true;
+      this.addCodeDisabled = false;  
       this.addLoading = true;
       this.addForm = {
         CreateBy: "",
@@ -660,7 +670,7 @@ export default {
   mounted() {
     this.getPermissions();
 
-    getModuleListPage().then(res => {
+    getModuleListPage({ page: -1 }).then(res => {
       this.modules = res.data.response.data;
     });
 
