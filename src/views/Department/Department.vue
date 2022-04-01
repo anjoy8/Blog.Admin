@@ -19,11 +19,11 @@
       ref="table"
     >
       <el-table-column type="selection" width="50"></el-table-column>
-      <el-table-column type="index" width="80"></el-table-column>
+      <el-table-column type="Id" label="Id" width="80"></el-table-column>
       <el-table-column prop="Name" label="部门" width="200"></el-table-column>
       <el-table-column
         prop="CodeRelationship"
-        label="关系"
+        label="上级关系"
         width
       ></el-table-column>
       <el-table-column prop="Leader" label="负责人" width></el-table-column>
@@ -89,7 +89,7 @@
         <el-form-item label="部门名称" prop="Name">
           <el-input v-model="editForm.Name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="关系" prop="CodeRelationship">
+        <el-form-item label="上级关系" prop="CodeRelationship">
           <el-tooltip placement="top">
             <div slot="content">以','号结尾，方便下属部门统一查询</div>
             <el-input
@@ -157,7 +157,7 @@
         <el-form-item label="部门名称" prop="Name">
           <el-input v-model="addForm.Name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="关系" prop="CodeRelationship">
+        <el-form-item label="上级关系" prop="CodeRelationship">
           <el-tooltip placement="top">
             <div slot="content">以','号结尾，方便下属部门统一查询</div>
             <el-input
@@ -276,7 +276,7 @@ export default {
         CodeRelationship: "",
         Leader: "",
         Enabled: true,
-        Status: false,
+        Status: true,
       },
       isResouceShow: 0,
     };
@@ -294,12 +294,18 @@ export default {
     formatCreateTime: function (row, column) {
       return !row.CreateTime || row.CreateTime == ""
         ? ""
-        : util.formatDate.format(new Date(row.CreateTime), "yyyy-MM-dd hh:mm:ss");
+        : util.formatDate.format(
+            new Date(row.CreateTime),
+            "yyyy-MM-dd hh:mm:ss"
+          );
     },
     formatModifyTime: function (row, column) {
       return !row.ModifyTime || row.ModifyTime == ""
         ? ""
-        : util.formatDate.format(new Date(row.ModifyTime), "yyyy-MM-dd hh:mm:ss");
+        : util.formatDate.format(
+            new Date(row.ModifyTime),
+            "yyyy-MM-dd hh:mm:ss"
+          );
     },
     handleCurrentChange(val) {
       this.page = val;
