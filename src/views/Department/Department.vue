@@ -112,7 +112,13 @@
         <el-form-item label="是否有效" prop="Status" width sortable>
           <el-switch v-model="editForm.Status"></el-switch>
         </el-form-item>
-        <el-form-item prop="PidArr" label="父级部门" width sortable>
+        <el-form-item
+          prop="PidArr"
+          v-if="options && options.length > 0"
+          label="父级部门"
+          width
+          sortable
+        >
           <el-cascader
             placeholder="请选择，支持搜索功能"
             style="width: 400px"
@@ -176,7 +182,13 @@
         <el-form-item label="是否有效" prop="Status" width sortable>
           <el-switch v-model="addForm.Status"></el-switch>
         </el-form-item>
-        <el-form-item prop="PidArr" label="父级部门" width sortable>
+        <el-form-item
+          prop="PidArr"
+          v-if="options && options.length > 0"
+          label="父级部门"
+          width
+          sortable
+        >
           <el-cascader
             placeholder="请选择，支持搜索功能"
             style="width: 400px"
