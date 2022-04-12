@@ -6,11 +6,14 @@
     <!--列表-->
     <el-table
       :data="users"
-      highlight-current-row
       v-loading="listLoading"
-      @current-change="selectCurrentRow"
+      @select="dialogCheck"
+      @row-click="selectCurrentRow"
+      ref="table"
       style="width: 100%"
+      class="custom-tbl"
     >
+      <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column type="index" width="80"></el-table-column>
       <el-table-column
         prop="Name"
@@ -70,12 +73,6 @@
 
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-button
-        type="danger"
-        @click="batchRemove"
-        :disabled="this.sels.length === 0"
-        >批量删除</el-button
-      >
       <el-pagination
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
@@ -99,7 +96,11 @@
         ref="editForm"
       >
         <el-form-item label="角色名" prop="Name">
-          <el-input disabled v-model="editForm.Name" auto-complete="off"></el-input>
+          <el-input
+            disabled
+            v-model="editForm.Name"
+            auto-complete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="权限范围" prop="AuthorityScope">
           <el-select
@@ -329,8 +330,22 @@ export default {
       }
       console.log(data, checked, indeterminate);
     },
+    dialogCheck(selection, row) {
+      this.currentRow = null;
+      this.$refs.table.clearSelection();
+      if (selection.length === 0) {
+        return;
+      }
+      if (row) {
+        this.selectCurrentRow(row);
+      }
+    },
     selectCurrentRow(val) {
-      this.currentRow = val;
+      if (val) {
+        this.currentRow = val;
+        this.$refs.table.clearSelection();
+        this.$refs.table.toggleRowSelection(val, true);
+      }
     },
     callFunction(item) {
       this.filters = {
@@ -372,7 +387,7 @@ export default {
       let row = this.currentRow;
       if (!row) {
         this.$message({
-          message: "请选择要编辑的一行数据！",
+          message: "请选择要删除的一行数据！",
           type: "error",
         });
 
@@ -560,16 +575,6 @@ export default {
         }
       });
     },
-    selsChange: function (sels) {
-      this.sels = sels;
-    },
-    //批量删除
-    batchRemove: function () {
-      this.$message({
-        message: "该功能未开放",
-        type: "warning",
-      });
-    },
     getButtonList2(routers) {
       let _this = this;
       routers.forEach((element) => {
@@ -599,4 +604,7 @@ export default {
 </script>
 
 <style scoped>
+.custom-tbl /deep/ .has-gutter .el-checkbox {
+  display: none;
+}
 </style>
