@@ -19,8 +19,8 @@
       ref="table"
     >
       <el-table-column type="selection" width="50"></el-table-column>
-      <el-table-column prop="Id" label="Id" width="80"></el-table-column>
       <el-table-column prop="Name" label="部门" width="200"></el-table-column>
+      <el-table-column prop="Id" label="Id" width="80"></el-table-column>
       <el-table-column
         prop="CodeRelationship"
         label="上级关系"
