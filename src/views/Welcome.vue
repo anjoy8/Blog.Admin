@@ -363,7 +363,7 @@ export default {
       if (count < 10) {
         return "primary";
       }
-      return "";
+      return "danger";
     },
     getBck(index) {
       return `background: rgb(${43 + index * 14}, ${

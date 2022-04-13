@@ -284,7 +284,13 @@
         <el-form-item prop="IskeepAlive" label="keepAlive" width sortable>
           <el-switch v-model="addForm.IskeepAlive"></el-switch>
         </el-form-item>
-        <el-form-item prop="PidArr" label="父级菜单" width sortable>
+        <el-form-item
+          prop="PidArr"
+          v-if="options && options.length > 0"
+          label="父级菜单"
+          width
+          sortable
+        >
           <el-cascader
             placeholder="请选择，支持搜索功能"
             style="width: 400px"
