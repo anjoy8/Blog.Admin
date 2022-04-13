@@ -707,6 +707,7 @@ export default {
                   type: "success",
                 });
                 this.$refs["addForm"].resetFields();
+                this.options = [];
                 this.$refs.table.setCurrentRow();
                 this.addFormVisible = false;
                 this.getPermissions();
