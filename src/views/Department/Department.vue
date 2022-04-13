@@ -488,6 +488,7 @@ export default {
                   type: "success",
                 });
                 this.$refs["editForm"].resetFields();
+                this.options = [];
                 this.$refs.table.setCurrentRow();
                 this.editFormVisible = false;
                 this.handleQuery();
@@ -551,6 +552,7 @@ export default {
                   type: "success",
                 });
                 this.$refs["addForm"].resetFields();
+                this.options = [];
                 this.$refs.table.setCurrentRow();
                 this.addFormVisible = false;
                 this.handleQuery();
