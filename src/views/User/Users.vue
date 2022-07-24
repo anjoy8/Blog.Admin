@@ -4,15 +4,8 @@
     <toolbar :buttonList="buttonList" @callFunction="callFunction"></toolbar>
 
     <!--列表-->
-    <el-table
-      :data="users"
-      v-loading="listLoading"
-      @select="dialogCheck"
-      @row-click="selectCurrentRow"
-      ref="table"
-      class="custom-tbl"
-      style="width: 100%"
-    >
+    <el-table :data="users" v-loading="listLoading" @select="dialogCheck" @row-click="selectCurrentRow" ref="table"
+      class="custom-tbl" style="width: 100%">
       <el-table-column type="selection" width="50"> </el-table-column>
       <el-table-column type="index" width="80"> </el-table-column>
       <el-table-column prop="uRealName" label="昵称" width="" sortable>
@@ -22,34 +15,23 @@
       <el-table-column prop="RoleNames" label="角色" width="" sortable>
         <template slot-scope="scope">
           <el-tag v-for="item in scope.row.RoleNames" :key="item.Id">{{
-            item
+              item
           }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="DepartmentName" label="所属部门" width="" sortable>
       </el-table-column>
-      <el-table-column
-        prop="sex"
-        label="性别"
-        width=""
-        :formatter="formatSex"
-        sortable
-      >
+      <el-table-column prop="sex" label="性别" width="" :formatter="formatSex" sortable>
       </el-table-column>
-      <el-table-column
-        prop="birth"
-        label="生日"
-        :formatter="formatBirth"
-        width=""
-        sortable
-      >
+      <el-table-column prop="Position" label="职位" width=""  sortable>
+      </el-table-column>
+      <el-table-column prop="birth" label="生日" :formatter="formatBirth" width="" sortable>
       </el-table-column>
       <el-table-column prop="uStatus" label="状态" width="" sortable>
         <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.uStatus == 0 ? 'success' : 'danger'"
-            disable-transitions
-            >{{ scope.row.uStatus == 0 ? "正常" : "禁用" }}
+          <el-tag :type="scope.row.uStatus == 0 ? 'success' : 'danger'" disable-transitions>{{ scope.row.uStatus == 0 ?
+              "正常" : "禁用"
+          }}
           </el-tag>
         </template>
       </el-table-column>
@@ -63,37 +45,19 @@
 
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-pagination
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-        :page-size="50"
-        :total="total"
-        style="float: right"
-      >
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="50" :total="total"
+        style="float: right">
       </el-pagination>
     </el-col>
 
     <!--编辑界面-->
-    <el-dialog
-      title="编辑"
-      :visible.sync="editFormVisible"
-      v-model="editFormVisible"
-      :close-on-click-modal="false"
-    >
-      <el-form
-        :model="editForm"
-        label-width="80px"
-        :rules="editFormRules"
-        ref="editForm"
-      >
+    <el-dialog title="编辑" :visible.sync="editFormVisible" v-model="editFormVisible" :close-on-click-modal="false">
+      <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
         <el-form-item label="昵称" prop="uRealName">
           <el-input v-model="editForm.uRealName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="登录名" prop="uLoginName">
-          <el-input
-            v-model="editForm.uLoginName"
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="editForm.uLoginName" auto-complete="off"></el-input>
         </el-form-item>
         <!--<el-form-item label="密码" prop="uLoginPWD">-->
         <!--<el-input v-model="editForm.uLoginPWD" show-password  auto-complete="off"></el-input>-->
@@ -102,29 +66,17 @@
         <el-form-item label="角色" prop="RIDs">
           <el-select multiple v-model="editForm.RIDs" placeholder="请选择角色">
             <el-option :key="0" :label="'未选择角色'" :value="0"></el-option>
-            <el-option
-              v-for="item in roles"
-              :key="item.Id"
-              :label="item.Name"
-              :value="item.Id"
-            ></el-option>
+            <el-option v-for="item in roles" :key="item.Id" :label="item.Name" :value="item.Id"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item
-          label="所属部门"
-          v-if="options && options.length > 0"
-          prop="Dids"
-        >
-          <el-cascader
-            placeholder="请选择，支持搜索功能"
-            style="width: 100%"
-            v-model="editForm.Dids"
-            :options="options"
-            filterable
-            :key="isResouceShow"
-            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
-          ></el-cascader>
+        <el-form-item label="所属部门" v-if="options && options.length > 0" prop="Dids">
+          <el-cascader placeholder="请选择，支持搜索功能" style="width: 100%" v-model="editForm.Dids" :options="options"
+            filterable :key="isResouceShow" :props="{ multiple: true, checkStrictly: true, expandTrigger: 'hover' }">
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="职位" prop="Position">
+          <el-input v-model="editForm.Position" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="性别">
           <el-radio-group v-model="editForm.sex">
@@ -133,18 +85,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input-number
-            v-model="editForm.age"
-            :min="0"
-            :max="200"
-          ></el-input-number>
+          <el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
         </el-form-item>
         <el-form-item label="生日">
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            v-model="editForm.birth"
-          ></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
         </el-form-item>
         <el-form-item label="地址">
           <el-input type="textarea" v-model="editForm.addr"></el-input>
@@ -152,28 +96,13 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="editFormVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click.native="editSubmit"
-          :loading="editLoading"
-          >提交</el-button
-        >
+        <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
 
     <!--新增界面-->
-    <el-dialog
-      title="新增"
-      :visible.sync="addFormVisible"
-      v-model="addFormVisible"
-      :close-on-click-modal="false"
-    >
-      <el-form
-        :model="addForm"
-        label-width="80px"
-        :rules="addFormRules"
-        ref="addForm"
-      >
+    <el-dialog title="新增" :visible.sync="addFormVisible" v-model="addFormVisible" :close-on-click-modal="false">
+      <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
         <el-form-item label="昵称" prop="uRealName">
           <el-input v-model="addForm.uRealName" auto-complete="off"></el-input>
         </el-form-item>
@@ -181,26 +110,20 @@
           <el-input v-model="addForm.uLoginName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="uLoginPWD">
-          <el-input
-            v-model="addForm.uLoginPWD"
-            show-password
-            auto-complete="off"
-          ></el-input>
+          <el-input v-model="addForm.uLoginPWD" show-password auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item
-          label="所属部门"
-          v-if="options && options.length > 0"
-          prop="Dids"
-        >
-          <el-cascader
-            placeholder="请选择，支持搜索功能"
-            style="width: 100%"
-            v-model="addForm.Dids"
-            :options="options"
-            filterable
-            :key="isResouceShow"
-            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
-          ></el-cascader>
+        <el-form-item label="角色" prop="RIDs">
+          <el-select multiple v-model="addForm.RIDs" placeholder="请选择角色">
+            <el-option :key="0" :label="'未选择角色'" :value="0"></el-option>
+            <el-option v-for="item in roles" :key="item.Id" :label="item.Name" :value="item.Id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属部门" v-if="options && options.length > 0" prop="Dids">
+          <el-cascader placeholder="请选择，支持搜索功能" style="width: 100%" v-model="addForm.Dids" :options="options" filterable
+            :key="isResouceShow" :props="{ multiple: true, checkStrictly: true, expandTrigger: 'hover' }"></el-cascader>
+        </el-form-item>
+        <el-form-item label="职位" prop="Position">
+          <el-input v-model="addForm.Position" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="性别">
           <el-radio-group v-model="addForm.sex">
@@ -209,18 +132,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="年龄">
-          <el-input-number
-            v-model="addForm.age"
-            :min="0"
-            :max="200"
-          ></el-input-number>
+          <el-input-number v-model="addForm.age" :min="0" :max="200"></el-input-number>
         </el-form-item>
         <el-form-item label="生日">
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            v-model="addForm.birth"
-          ></el-date-picker>
+          <el-date-picker type="date" placeholder="选择日期" v-model="addForm.birth"></el-date-picker>
         </el-form-item>
         <el-form-item label="地址">
           <el-input type="textarea" v-model="addForm.addr"></el-input>
@@ -228,12 +143,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="addFormVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click.native="addSubmit"
-          :loading="addLoading"
-          >提交</el-button
-        >
+        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
   </section>
@@ -286,6 +196,7 @@ export default {
         id: 0,
         uID: 0,
         RIDs: 0,
+        Position: "",
         uLoginName: "",
         uRealName: "",
         name: "",
@@ -313,6 +224,7 @@ export default {
         name: "",
         uLoginName: "",
         uRealName: "",
+        Position: "",
         uLoginPWD: "",
         sex: -1,
         age: 0,
@@ -417,7 +329,7 @@ export default {
             this.getUsers();
           });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     //显示编辑界面
     handleEdit() {
@@ -452,6 +364,7 @@ export default {
         uLoginName: "",
         uRealName: "",
         uLoginPWD: "",
+        Position: "",
         name: "",
         sex: -1,
         age: 0,
@@ -481,7 +394,16 @@ export default {
                 ? util.formatDate.format(new Date(), "yyyy-MM-dd")
                 : util.formatDate.format(new Date(para.birth), "yyyy-MM-dd");
 
-            para.DepartmentId = para.Dids.pop();
+            let departmentId = '';
+            para.Dids.forEach((e, i) => {
+              departmentId += e.pop();
+              if (i < e.length - 1) {
+                departmentId += ',';
+              }
+
+            });
+            para.DepartmentId = departmentId;
+
             editUser(para).then((res) => {
               if (util.isEmt.format(res)) {
                 this.editLoading = false;
@@ -521,7 +443,15 @@ export default {
                 ? util.formatDate.format(new Date(), "yyyy-MM-dd")
                 : util.formatDate.format(new Date(para.birth), "yyyy-MM-dd");
 
-            para.DepartmentId = para.Dids.pop();
+            let departmentId = '';
+            para.Dids.forEach((e, i) => {
+              departmentId += e.pop();
+              if (i < e.length - 1) {
+                departmentId += ',';
+              }
+
+            });
+            para.DepartmentId = departmentId;
             addUser(para).then((res) => {
               if (util.isEmt.format(res)) {
                 this.addLoading = false;

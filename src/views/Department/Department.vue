@@ -4,171 +4,85 @@
     <toolbar :buttonList="buttonList" @callFunction="callFunction"></toolbar>
 
     <!--列表-->
-    <el-table
-      :data="users"
-      v-loading="listLoading"
-      @select="dialogCheck"
-      @row-click="selectCurrentRow"
-      row-key="Id"
-      border
-      lazy
-      :load="load"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      class="custom-tbl"
-      style="width: 100%"
-      ref="table"
-    >
+    <el-table :data="users" v-loading="listLoading" @select="dialogCheck" @row-click="selectCurrentRow" row-key="Id"
+      border lazy :load="load" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" class="custom-tbl"
+      style="width: 100%" ref="table">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column prop="Name" label="部门" width="200"></el-table-column>
-      <el-table-column prop="Id" label="Id" width="80"></el-table-column>
-      <el-table-column
-        prop="CodeRelationship"
-        label="上级关系"
-        width
-      ></el-table-column>
-      <el-table-column prop="Leader" label="负责人" width></el-table-column>
+      <el-table-column prop="CodeRelationship" label="上级关系" width></el-table-column>
+      <el-table-column prop="leaderLb" label="负责人" width></el-table-column>
       <el-table-column prop="OrderSort" label="Sort" width></el-table-column>
       <el-table-column prop="Status" label="是否有效" width="100">
         <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.Status ? 'success' : 'danger'"
-            disable-transitions
-            >{{ !scope.row.Status ? "否" : "是" }}</el-tag
-          >
+          <el-tag :type="scope.row.Status ? 'success' : 'danger'" disable-transitions>{{ !scope.row.Status ? "否" : "是"
+          }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column
-        prop="CreateTime"
-        label="创建时间"
-        :formatter="formatCreateTime"
-        width="250"
-        sortable
-      >
+      <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="250" sortable>
       </el-table-column>
-      <el-table-column
-        prop="ModifyTime"
-        label="更新时间"
-        :formatter="formatModifyTime"
-        width="250"
-        sortable
-      >
+      <el-table-column prop="ModifyTime" label="更新时间" :formatter="formatModifyTime" width="250" sortable>
       </el-table-column>
     </el-table>
 
     <!--工具条-->
     <el-col :span="24" class="toolbar">
-      <el-pagination
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-        :page-size="50"
-        :total="total"
-        style="float: right"
-      ></el-pagination>
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="50" :total="total"
+        style="float: right"></el-pagination>
     </el-col>
 
     <!--编辑界面-->
-    <el-dialog
-      title="编辑"
-      :visible.sync="editFormVisible"
-      v-model="editFormVisible"
-      :close-on-click-modal="false"
-    >
-      <el-form
-        :model="editForm"
-        label-width="80px"
-        :rules="editFormRules"
-        ref="editForm"
-      >
+    <el-dialog title="编辑" :visible.sync="editFormVisible" v-model="editFormVisible" :close-on-click-modal="false">
+      <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
         <el-form-item label="部门名称" prop="Name">
           <el-input v-model="editForm.Name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="上级关系" prop="CodeRelationship">
           <el-tooltip placement="top">
             <div slot="content">以','号结尾，方便下属部门统一查询</div>
-            <el-input
-              v-model="editForm.CodeRelationship"
-              disabled
-              auto-complete="off"
-            ></el-input>
+            <el-input v-model="editForm.CodeRelationship" disabled auto-complete="off"></el-input>
           </el-tooltip>
         </el-form-item>
         <el-form-item label="负责人" prop="Leader">
-          <el-input v-model="editForm.Leader" auto-complete="off"></el-input>
+          <el-select v-model="editForm.Leader" placeholder="请选择负责人">
+            <el-option v-for="item in leaders" :key="item.uID" :label="item.uRealName" :value="item.uID"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="排序" prop="OrderSort">
-          <el-input
-            type="number"
-            v-model="editForm.OrderSort"
-            auto-complete="off"
-          ></el-input>
+          <el-input type="number" v-model="editForm.OrderSort" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="是否有效" prop="Status" width sortable>
           <el-switch v-model="editForm.Status"></el-switch>
         </el-form-item>
-        <el-form-item
-          prop="PidArr"
-          v-if="options && options.length > 0"
-          label="父级部门"
-          width
-          sortable
-        >
-          <el-cascader
-            placeholder="请选择，支持搜索功能"
-            style="width: 400px"
-            v-model="editForm.PidArr"
-            :options="options"
-            filterable
-            :key="isResouceShow"
-            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
-            v-if="!editLoading"
-          ></el-cascader>
-          <el-cascader
-            placeholder="加载中..."
-            style="width: 400px"
-            v-if="editLoading"
-          ></el-cascader>
+        <el-form-item prop="PidArr" v-if="options && options.length > 0" label="父级部门" width sortable>
+          <el-cascader placeholder="请选择，支持搜索功能" style="width: 400px" v-model="editForm.PidArr" :options="options"
+            filterable :key="isResouceShow" :props="{ checkStrictly: true, expandTrigger: 'hover' }"
+            v-if="!editLoading"></el-cascader>
+          <el-cascader placeholder="加载中..." style="width: 400px" v-if="editLoading"></el-cascader>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="editFormVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click.native="editSubmit"
-          :loading="editLoading"
-          >提交</el-button
-        >
+        <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
 
     <!--新增界面-->
-    <el-dialog
-      title="新增"
-      :visible.sync="addFormVisible"
-      v-model="addFormVisible"
-      :close-on-click-modal="false"
-    >
-      <el-form
-        :model="addForm"
-        label-width="80px"
-        :rules="addFormRules"
-        ref="addForm"
-      >
+    <el-dialog title="新增" :visible.sync="addFormVisible" v-model="addFormVisible" :close-on-click-modal="false">
+      <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
         <el-form-item label="部门名称" prop="Name">
           <el-input v-model="addForm.Name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="上级关系" prop="CodeRelationship">
           <el-tooltip placement="top">
             <div slot="content">以','号结尾，方便下属部门统一查询</div>
-            <el-input
-              v-model="addForm.CodeRelationship"
-              disabled
-              auto-complete="off"
-            ></el-input>
+            <el-input v-model="addForm.CodeRelationship" disabled auto-complete="off"></el-input>
           </el-tooltip>
         </el-form-item>
         <el-form-item label="负责人" prop="Leader">
-          <el-input v-model="addForm.Leader" auto-complete="off"></el-input>
+          <el-select v-model="addForm.Leader" placeholder="请选择负责人">
+            <el-option v-for="item in leaders" :key="item.uID" :label="item.uRealName" :value="item.uID"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="排序" prop="OrderSort">
           <el-input v-model="addForm.OrderSort" auto-complete="off"></el-input>
@@ -176,38 +90,16 @@
         <el-form-item label="是否有效" prop="Status" width sortable>
           <el-switch v-model="addForm.Status"></el-switch>
         </el-form-item>
-        <el-form-item
-          prop="PidArr"
-          v-if="options && options.length > 0"
-          label="父级部门"
-          width
-          sortable
-        >
-          <el-cascader
-            placeholder="请选择，支持搜索功能"
-            style="width: 400px"
-            v-model="addForm.PidArr"
-            :options="options"
-            filterable
-            :key="isResouceShow"
-            :props="{ checkStrictly: true, expandTrigger: 'hover' }"
-            v-if="!editLoading"
-          ></el-cascader>
-          <el-cascader
-            placeholder="加载中..."
-            style="width: 400px"
-            v-if="editLoading"
-          ></el-cascader>
+        <el-form-item prop="PidArr" v-if="options && options.length > 0" label="父级部门" width sortable>
+          <el-cascader placeholder="请选择，支持搜索功能" style="width: 400px" v-model="addForm.PidArr" :options="options"
+            filterable :key="isResouceShow" :props="{ checkStrictly: true, expandTrigger: 'hover' }"
+            v-if="!editLoading"></el-cascader>
+          <el-cascader placeholder="加载中..." style="width: 400px" v-if="editLoading"></el-cascader>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="addFormVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click.native="addSubmit"
-          :loading="addLoading"
-          >提交</el-button
-        >
+        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
   </section>
@@ -219,6 +111,7 @@ import {
   getDepartmentTreeTable,
   removeDepartment,
   editDepartment,
+  getUserListPage,
   addDepartment,
   getDepartmentTree,
 } from "../../api/api";
@@ -236,6 +129,7 @@ export default {
         Name: "",
       },
       users: [],
+      leaders: [],
       modules: [], //接口api列表
       statusList: [
         { Name: "激活", value: true },
@@ -315,34 +209,57 @@ export default {
       return !row.CreateTime || row.CreateTime == ""
         ? ""
         : util.formatDate.format(
-            new Date(row.CreateTime),
-            "yyyy-MM-dd hh:mm:ss"
-          );
+          new Date(row.CreateTime),
+          "yyyy-MM-dd hh:mm:ss"
+        );
     },
     formatModifyTime: function (row, column) {
       return !row.ModifyTime || row.ModifyTime == ""
         ? ""
         : util.formatDate.format(
-            new Date(row.ModifyTime),
-            "yyyy-MM-dd hh:mm:ss"
-          );
+          new Date(row.ModifyTime),
+          "yyyy-MM-dd hh:mm:ss"
+        );
     },
     handleCurrentChange(val) {
       this.page = val;
       this.handleQuery();
     },
     load(tree, treeNode, resolve) {
+      let that = this;
       let para = {
         page: this.page,
         f: tree.Id,
         key: this.filters.Name,
       };
       getDepartmentTreeTable(para).then((res) => {
+         res.data.response.forEach(item => {
+          item.leaderLb = that.filterData(that.leaders, item.Leader);
+
+        });
         resolve(res.data.response);
       });
     },
     //获取用户列表
+    getUsers() {
+      getUserListPage({ intPageSize: 99999 }).then((res) => {
+        this.leaders = res.data.response.data;
+        this.leaders.forEach(e => {
+          e.uRealName = e.Position ? `${e.uRealName}（${e.Position}）` : e.uRealName;
+        });
+        this.handleQuery();
+      });
+    },
+    filterData(list, val) {
+      if (list && val) {
+        return (list.filter(x => x.uID == val))[0] ? (list.filter(x => x.uID == val))[0].uRealName : '--';
+      }
+
+      return '';
+    },
+    //获取用户列表
     handleQuery() {
+      let that = this;
       let para = {
         page: this.page,
         key: this.filters.name,
@@ -352,6 +269,11 @@ export default {
       //NProgress.start();
       getDepartmentTreeTable(para).then((res) => {
         this.users = res.data.response;
+
+        this.users.forEach(item => {
+          item.leaderLb = that.filterData(that.leaders, item.Leader);
+
+        });
         this.listLoading = false;
         //NProgress.done();
       });
@@ -396,7 +318,7 @@ export default {
             this.handleQuery();
           });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     //显示编辑界面
     handleEdit() {
@@ -569,7 +491,9 @@ export default {
     },
   },
   mounted() {
-    this.handleQuery();
+    this.getUsers();
+
+
 
     let routers = window.localStorage.router
       ? JSON.parse(window.localStorage.router)

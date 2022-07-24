@@ -15,7 +15,7 @@
     >
       <el-table-column type="selection" width="50"> </el-table-column>
       <el-table-column type="index" width="80"> </el-table-column>
-      <el-table-column prop="bID" label="ID" width="100" sortable>
+      <el-table-column prop="Id" label="ID" width="100" sortable>
       </el-table-column>
       <el-table-column prop="btitle" label="标题" width="" sortable>
       </el-table-column>
@@ -262,7 +262,7 @@ export default {
         .then(() => {
           this.listLoading = true;
           //NProgress.start();
-          let para = { id: row.bID };
+          let para = { id: row.Id };
           removeBlog(para).then((res) => {
             if (util.isEmt.format(res)) {
               this.listLoading = false;
@@ -300,8 +300,8 @@ export default {
       }
       // this.editFormVisible = true;
       // this.editForm = Object.assign({}, row);
-      console.log(row.bID);
-      this.$router.replace(`/Blog/Detail/${row.bID}`);
+      console.log(row.Id);
+      this.$router.replace(`/Blog/Detail/${row.Id}`);
 
       // this.$message({
       //     message: "功能正在陆续开发中...",

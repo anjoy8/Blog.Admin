@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /dist
+/ui
 
 # local env files
 .env.local
@@ -20,3 +21,4 @@ yarn-error.log*
 *.sln
 *.sw*
 .doc/contents/.vuepress/dist/*
+ui.zip
