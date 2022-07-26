@@ -9,19 +9,26 @@
       style="width: 100%" ref="table">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column prop="Name" label="部门" width="200"></el-table-column>
-      <el-table-column prop="CodeRelationship" label="上级关系" width></el-table-column>
-      <el-table-column prop="leaderLb" label="负责人" width></el-table-column>
-      <el-table-column prop="OrderSort" label="Sort" width></el-table-column>
-      <el-table-column prop="Status" label="是否有效" width="100">
+      <el-table-column prop="CodeRelationship" label="上级关系图" width>
+        <template slot-scope="scope">
+          <span v-if="scope.row.CodeRelationship">
+            <span v-for="item in scope.row.CodeRelationship.split(',')">
+              <el-tag v-if="item"> {{ item }} -></el-tag>
+            </span>
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="leaderLb" label="负责人" width="200"></el-table-column>
+      <el-table-column prop="Status" label="是否有效" width="80">
         <template slot-scope="scope">
           <el-tag :type="scope.row.Status ? 'success' : 'danger'" disable-transitions>{{ !scope.row.Status ? "否" : "是"
           }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="250" sortable>
+      <el-table-column prop="CreateTime" label="创建时间" :formatter="formatCreateTime" width="110" sortable>
       </el-table-column>
-      <el-table-column prop="ModifyTime" label="更新时间" :formatter="formatModifyTime" width="250" sortable>
+      <el-table-column prop="ModifyTime" label="更新时间" :formatter="formatModifyTime" width="110" sortable>
       </el-table-column>
     </el-table>
 
@@ -233,7 +240,7 @@ export default {
         key: this.filters.Name,
       };
       getDepartmentTreeTable(para).then((res) => {
-         res.data.response.forEach(item => {
+        res.data.response.forEach(item => {
           item.leaderLb = that.filterData(that.leaders, item.Leader);
 
         });
