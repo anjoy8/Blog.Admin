@@ -20,6 +20,7 @@
             <div style="margin-bottom: 20px;" class="count-test">
                 <el-radio-group @change="loginAccount" v-model="account3">
                     <el-radio-button label="王五"></el-radio-button>
+                    <el-radio-button label="张三"></el-radio-button>
                     <el-radio-button label="张飞"></el-radio-button>
                     <el-radio-button label="超级管理员"></el-radio-button>
                 </el-radio-group>
@@ -82,6 +83,9 @@ export default {
             } else if (this.account3 == "张飞") {
                 this.ruleForm2.account = "xitong";
                 this.ruleForm2.checkPass = "xitong";
+            } else if (this.account3 == "张三") {
+                this.ruleForm2.account = "zhangsan";
+                this.ruleForm2.checkPass = "zhangsan";
             } else {
                 this.ruleForm2.account = "blogadmin";
                 this.ruleForm2.checkPass = "blogadmin";
