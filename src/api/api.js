@@ -82,6 +82,9 @@ axios.interceptors.response.use(
             // 403 无权限
             else if (error.response.status == 403) {
                errInfo.message = "失败！该操作无权限"; 
+               if (error.response.msg = 'USER_DOWN') {
+                ToLogin();
+               }
             }
             // 429 ip限流
             else if (error.response.status == 429) {
@@ -424,4 +427,13 @@ export const addDepartment = params => {
 };
 export const getDepartmentTree = params => {
     return axios.get(`${base}/api/department/getDepartmentTree`, {params: params});
+};
+export const GetOnlineUsers = params => {
+    return axios.get(`${base}/api/user/GetOnlineUsers`, {params: params});
+};
+export const ForcedDownline = params => {
+    return axios.get(`${base}/api/user/ForcedDownline`, {params: params});
+};
+export const Add2Black = params => {
+    return axios.get(`${base}/api/user/Add2Black`, {params: params});
 };

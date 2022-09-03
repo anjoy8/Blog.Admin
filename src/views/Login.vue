@@ -26,15 +26,15 @@
                 </el-radio-group>
             </div>
             <el-form-item style="width:100%;">
+<!-- 
+                <el-button :loading="loginingMock" style="width:100%;" @click.native.prevent="handleSubmitMock">Mock登录
+                </el-button> -->
+            </el-form-item>
+            <el-form-item style="width:100%;">
                 <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">
                     {{ loginStr }}
                 </el-button>
 
-            </el-form-item>
-            <el-form-item style="width:100%;">
-
-                <el-button :loading="loginingMock" style="width:100%;" @click.native.prevent="handleSubmitMock">Mock登录
-                </el-button>
             </el-form-item>
         </el-form>
     </div>
