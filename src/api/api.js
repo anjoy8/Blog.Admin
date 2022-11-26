@@ -77,7 +77,7 @@ axios.interceptors.response.use(
                     // 返回 401，并且不知用户操作活跃期内 清除token信息并跳转到登录页面
                     ToLogin()
                 }
-
+                errInfo.message = "失败！验证失效，请重新登录"; 
             }
             // 403 无权限
             else if (error.response.status == 403) {
@@ -425,3 +425,4 @@ export const addDepartment = params => {
 export const getDepartmentTree = params => {
     return axios.get(`${base}/api/department/getDepartmentTree`, {params: params});
 };
+
