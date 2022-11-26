@@ -339,6 +339,43 @@
         >
       </div>
     </el-dialog>
+
+    <!--同步界面-->
+    <el-dialog
+      title="菜单接口同步"
+      :visible.sync="syncFormVisible"
+      v-model="syncFormVisible"
+    >
+      <el-table
+        :data="syncoptions"
+        row-key="Name"
+        border
+        style="width: 100%"
+        ref="table1"
+      >
+        <el-table-column type="index" width="70"></el-table-column>
+        <el-table-column prop="Name" label="菜单名" width></el-table-column>
+        <el-table-column prop="MName" label="API接口" ></el-table-column>
+        <el-table-column prop="IsButton" label="是否按钮" width="90">
+          <template slot-scope="scope">
+            <el-tag
+              :type="!scope.row.IsButton ? 'success' : 'danger'"
+              disable-transitions
+              >{{ !scope.row.IsButton ? "否" : "是" }}</el-tag
+            >
+          </template>
+        </el-table-column>
+        <el-table-column prop="Pid" label="父Id"  width="90"></el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="syncFormVisible = false">取消</el-button>
+        <el-button
+          type="primary"
+          @click.native="handleSync(true)"
+          >确定同步</el-button
+        >
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -352,6 +389,7 @@ import {
   addPermission,
   getPermissionTree,
   getModuleListPage,
+  migratePermissionTable
 } from "../../api/api";
 import { getButtonList } from "../../promissionRouter";
 import Toolbar from "../../components/Toolbar";
@@ -360,6 +398,7 @@ export default {
   components: { Toolbar },
   data() {
     return {
+      syncoptions: [],
       buttonList: [],
       currentRow: null,
       options: [],
@@ -406,6 +445,7 @@ export default {
       addLoading: false,
       addCodeDisabled: false,
       editCodeDisabled: false,
+      syncFormVisible: false,
       addFormRules: {
         Name: [{ required: true, message: "请输入菜单名称", trigger: "blur" }],
         Code: [{ required: true, message: "请输入路由地址", trigger: "blur" }],
@@ -587,6 +627,39 @@ export default {
         this.options.push(res.data.response);
         that.editForm = Object.assign({}, row);
         that.editLoading = false;
+      });
+    },
+    //显示同步界面
+    handleSync(isAction = false) {
+      let row = this.currentRow;
+      var pid = row && row.Id;
+      if (!(pid > 0)) {
+        this.$message({
+          message: "请选择要同步的父级页面！",
+          type: "error",
+        });
+
+        return;
+      }
+
+      var controllerName = row && row.MName && row.MName.split('/')[2] || '';
+      if (!controllerName) {
+        this.$message({
+          message: "要同步的接口控制器名不能为空！",
+          type: "error",
+        });
+
+        return;
+      }
+
+      let that = this;
+
+      that.syncoptions = [];
+
+      that.syncFormVisible = true;
+      let para = { controllerName, pid, isAction };
+      migratePermissionTable(para).then((res) => {
+        that.syncoptions = res.data.response;
       });
     },
     //显示新增界面

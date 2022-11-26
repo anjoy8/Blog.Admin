@@ -228,6 +228,9 @@ export const getPermissionListPage = params => {
 export const getPermissionTreeTable = params => {
     return axios.get(`${base}/api/permission/GetTreeTable`, {params: params});
 };
+export const migratePermissionTable = params => {
+    return axios.get(`${base}/api/permission/MigratePermission`, {params: params});
+};
 export const removePermission = params => {
     return axios.delete(`${base}/api/permission/delete`, {params: params});
 };
