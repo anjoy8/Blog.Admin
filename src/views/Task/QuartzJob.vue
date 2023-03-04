@@ -927,6 +927,11 @@ export default {
   },
   mounted() {
     this.getTasks();
+    var m = (new Date()).getMonth() + 1;
+    m = m <= 9 ? ('0' + m) : m;
+    var d = (new Date()).getDay();
+    d = d <= 9 ? ('0' + d) : d;
+    this.runTimeStart = (new Date()).getFullYear() + '-' + m + '-' + d;
     let routers = window.localStorage.router
       ? JSON.parse(window.localStorage.router)
       : [];
