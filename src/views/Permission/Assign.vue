@@ -163,7 +163,6 @@
                     _this.loadingSaveStr='保存';
                     this.$refs.tree.setCheckedKeys(res.data.response.permissionids);
                     this.assignBtns = res.data.response.assignbtns;
-
                 });
             },
             operate(id) {
@@ -174,7 +173,6 @@
                 this.getPermissionIds(id);
             },
             saveAssign() {
-
                 let _this=this;
                 this.loadingSave=true;
                 this.loadingSaveStr='保存中...';
@@ -183,6 +181,8 @@
                 let pids = this.$refs.tree.getCheckedKeys();
                 try {
                     if (this.assignBtns.length > 0) {
+                        let btns = this.assignBtns;
+                        console.log(btns)
                         for (let i = 0; i < this.assignBtns.length; i++) {
                             // let assginbtn = this.assignBtns[i].split("_")[1];
                             let assginbtn = this.assignBtns[i];
@@ -190,15 +190,7 @@
                                 pids.push(assginbtn);
                             }
                         }
-                    } else {
-                        this.loadingSaveStr = "保存";
-                        this.loadingSave = false;
-                        this.$message({
-                            message: "参数错误",
-                            type: "error",
-                        });
-                        return false;
-                    }
+                    } 
                 } catch (e) {
                     this.$message({
                         message: "操作异常",
@@ -210,7 +202,7 @@
                 console.log(pids);
               
                 let para = {pids: pids, rid: this.roleid}
-                if (para.rid > 0 && para.pids.length > 0) {
+                if (para.rid > 0) {
                     addRolePermission(para).then((res) => {
 
                         _this.loadingSave=false;
@@ -245,7 +237,7 @@
                     this.loadingSaveStr='保存';
                     this.loadingSave=false;
                     this.$message({
-                        message: "参数错误",
+                        message: "你请选要操作的角色",
                         type: 'error'
                     });
                 }
