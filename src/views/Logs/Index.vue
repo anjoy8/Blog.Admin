@@ -134,11 +134,9 @@
             let thisVue = this;
 
             thisVue.connection = new signalR.HubConnectionBuilder()
-                .withUrl(`${BaseApiUrl}/api2/chatHub`)
+                .withUrl(`${BaseApiUrl}/api2/chatHub`, {accessTokenFactory: () => window.localStorage.Token})
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
-
-
 
             thisVue.connection.on('ReceiveMessage', function (user, message) {
                 thisVue.messages.push({user, message});
