@@ -13,7 +13,7 @@ import LoginCallbackView from "../views/LoginCallbackView";
 Vue.use(Router)
 
 const createRouter = () => new Router({
-    mode: 'history',
+    mode: 'hash',
     base: process.env.BASE_URL,
     routes: [
         {

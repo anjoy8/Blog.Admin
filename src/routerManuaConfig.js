@@ -35,7 +35,7 @@ Vue.use(Router)
  * 这是手动注册的方式，弃用
  */
 const router = new Router({
-    mode: 'history',
+    mode: 'hash',
     base: process.env.BASE_URL,
     routes: [
         {
