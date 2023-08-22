@@ -1,7 +1,14 @@
 ﻿
 <img src="https://github.com/anjoy8/Blog.Admin/blob/master/src/assets/logoall.png" width="350"  />
 
-      
+
+      注意npm使用的是14版本，高版本可能有问题
+      C:\Users\laozh>npm -v
+      6.14.10
+      C:\Users\laozh>node -v
+      v14.15.4
+
+
       
       
 一个基于 Vue.js 的后台管理系统项目，目前是1.0版本，主要是权限管理系统，以后会增加更多功能，持续开发中...。
