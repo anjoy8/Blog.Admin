@@ -505,14 +505,14 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getTasks();
+      this.handleQuery();
     },
     handleLogCurrentChange(val) {
       this.taskLog.page = val;
       this.handleLog(true);
     },
     //获取用户列表
-    getTasks() {
+    handleQuery() {
       let _this = this;
       let para = {
         page: this.page,
@@ -605,7 +605,7 @@ export default {
                   this.$message.success(res.data.msg);
                   this.$refs["editForm"].resetFields();
                   this.editFormVisible = false;
-                  this.getTasks();
+                  this.handleQuery();
                 } else {
                   this.$message.error(res.data.msg);
                 }
@@ -639,7 +639,7 @@ export default {
                   this.$message.success(res.data.msg);
                   this.$refs["editForm"].resetFields();
                   this.editFormVisible = false;
-                  this.getTasks();
+                  this.handleQuery();
                 } else {
                   this.$message.error(res.data.msg);
                 }
@@ -688,7 +688,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -730,7 +730,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -772,7 +772,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -813,7 +813,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -855,7 +855,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -897,7 +897,7 @@ export default {
               });
             }
 
-            this.getTasks();
+            this.handleQuery();
           });
         })
         .catch(() => { });
@@ -926,7 +926,7 @@ export default {
     },
   },
   mounted() {
-    this.getTasks();
+    this.handleQuery();
     var m = (new Date()).getMonth() + 1;
     m = m <= 9 ? ('0' + m) : m;
     var d = (new Date()).getDay();

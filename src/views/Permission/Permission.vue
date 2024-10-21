@@ -533,7 +533,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getPermissions();
+      this.handleQuery();
     },
     load(tree, treeNode, resolve) {
       let para = {
@@ -546,7 +546,7 @@ export default {
       });
     },
     //获取用户列表
-    getPermissions() {
+    handleQuery() {
       let para = {
         page: this.page,
         key: this.filters.name,
@@ -597,7 +597,7 @@ export default {
               });
             }
 
-            this.getPermissions();
+            this.handleQuery();
           });
         })
         .catch(() => {});
@@ -729,7 +729,7 @@ export default {
                 this.$refs["editForm"].resetFields();
                 this.$refs.table.setCurrentRow();
                 this.editFormVisible = false;
-                this.getPermissions();
+                this.handleQuery();
               } else {
                 this.$message({
                   message: res.data.msg,
@@ -789,7 +789,7 @@ export default {
                 this.options = [];
                 this.$refs.table.setCurrentRow();
                 this.addFormVisible = false;
-                this.getPermissions();
+                this.handleQuery();
               } else {
                 this.$message({
                   message: res.data.msg,
@@ -803,7 +803,7 @@ export default {
     },
   },
   mounted() {
-    this.getPermissions();
+    this.handleQuery();
 
     getModuleListPage({ page: -1 }).then((res) => {
       this.modules = res.data.response.data;

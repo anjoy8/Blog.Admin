@@ -87,10 +87,10 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getRoles();
+                this.handleQuery();
             },
             //获取用户列表
-            getRoles() {
+            handleQuery() {
                 let thisvue=this;
                 let para = {
                     page: this.page,
@@ -150,7 +150,7 @@
             })
         },
         mounted() {
-            this.getRoles();
+            this.handleQuery();
 
             //  this.t =  setTimeout(() => {
             //      this.getLogs();

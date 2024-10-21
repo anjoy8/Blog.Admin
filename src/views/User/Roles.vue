@@ -364,10 +364,10 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getRoles();
+      this.handleQuery();
     },
     //获取用户列表
-    getRoles() {
+    handleQuery() {
       let _this = this;
       let para = {
         page: this.page,
@@ -419,7 +419,7 @@ export default {
               });
             }
 
-            this.getRoles();
+            this.handleQuery();
           });
         })
         .catch(() => {});
@@ -503,7 +503,7 @@ export default {
                 });
                 this.$refs["editForm"].resetFields();
                 this.editFormVisible = false;
-                this.getRoles();
+                this.handleQuery();
               } else {
                 this.$message({
                   message: res.data.msg,
@@ -563,7 +563,7 @@ export default {
                 });
                 this.$refs["addForm"].resetFields();
                 this.addFormVisible = false;
-                this.getRoles();
+                this.handleQuery();
               } else {
                 this.$message({
                   message: res.data.msg,
@@ -589,7 +589,7 @@ export default {
     },
   },
   mounted() {
-    this.getRoles();
+    this.handleQuery();
 
     let routers = window.localStorage.router
       ? JSON.parse(window.localStorage.router)

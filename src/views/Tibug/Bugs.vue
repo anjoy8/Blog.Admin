@@ -161,10 +161,10 @@
             },
             handleCurrentChange(val) {
                 this.page = val;
-                this.getBugs();
+                this.handleQuery();
             },
             //获取用户列表
-            getBugs() {
+            handleQuery() {
                 let para = {
                     page: this.page,
                     key: this.filters.LinkUrl
@@ -218,7 +218,7 @@
                             });
                         }
 
-                        this.getBugs();
+                        this.handleQuery();
                     });
                 }).catch(() => {
 
@@ -274,7 +274,7 @@
                                     });
                                     this.$refs['editForm'].resetFields();
                                     this.editFormVisible = false;
-                                    this.getBugs();
+                                    this.handleQuery();
                                 } else {
                                     this.$message({
                                         message: res.data.msg,
@@ -330,7 +330,7 @@
                                     });
                                     this.$refs['addForm'].resetFields();
                                     this.addFormVisible = false;
-                                    this.getBugs();
+                                    this.handleQuery();
                                 }
                                 else {
                                     this.$message({
@@ -358,7 +358,7 @@
             }
         },
         mounted() {
-            this.getBugs();
+            this.handleQuery();
 
             let routers = window.localStorage.router
             ? JSON.parse(window.localStorage.router)

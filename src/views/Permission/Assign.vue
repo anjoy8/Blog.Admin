@@ -5,7 +5,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>权限</span>
-                    <el-button @click="getRoles" style="float: right; padding: 3px 0" type="text">刷新</el-button>
+                    <el-button @click="handleQuery" style="float: right; padding: 3px 0" type="text">刷新</el-button>
                 </div>
                 <div v-for="o in roles" :key="o.Id" @click="operate(o.Id)" :class="o.Id==roleid ? 'active':''"
                      class="text item role-item">
@@ -134,7 +134,7 @@
                 return (!row.CreateTime || row.CreateTime == '') ? '' : util.formatDate.format(new Date(row.CreateTime), 'yyyy-MM-dd');
             },
             //获取角色列表
-            getRoles() {
+            handleQuery() {
                 getRoleListPage().then((res) => {
                     this.roles = res.data.response.data;
                     this.getPermissions();
@@ -344,7 +344,7 @@
         mounted() {
             this.loadingSave=true;
             this.loadingSaveStr='加载中...';
-            this.getRoles();
+            this.handleQuery();
 
             // this.getPermissions();
         }
