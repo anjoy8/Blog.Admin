@@ -1,4 +1,9 @@
-﻿
+vue3.0版本，请看这个项目  
+https://github.com/anjoy8/bcvp.vue3.git
+
+-----------------------------------
+
+ 
 <img src="https://github.com/anjoy8/Blog.Admin/blob/master/src/assets/logoall.png" width="350"  />
 
 
